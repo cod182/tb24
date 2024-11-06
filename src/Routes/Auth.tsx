@@ -8,10 +8,6 @@ const Auth = () => {
 
 	// Functions
 
-	const handleSubmit = ({ username, email, password, image }: { username: string, email?: string, password: string, image?: File }) => {
-		console.log(username, email, password, image);
-	}
-
 
 	return (
 		<div className='w-full h-[100dvh] flex flex-col items-center justify-center relative'>
@@ -23,7 +19,7 @@ const Auth = () => {
 
 			{/* container */}
 			<div className='w-full h-full m-12 z-[1]'>
-				<AuthForm isRegistering={isRegistering} setIsRegistering={setIsRegistering} handleSubmit={handleSubmit} />
+				<AuthForm isRegistering={isRegistering} setIsRegistering={setIsRegistering} />
 			</div>
 
 		</div >

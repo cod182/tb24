@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useContext, useState } from 'react'
+
+import { ID } from 'appwrite';
+import { UserContext } from '../../context/userAuthContext';
+import { account } from '../../lib/appwrite.js';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
 	isRegistering: boolean;
 	setIsRegistering: (state: boolean) => void;
-	handleSubmit: ({ username, email, password, image }: { username: string, email?: string, password: string, image?: File }) => void;
 }
-const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
+const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 	// STATES
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
@@ -15,7 +20,36 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 	const [image, setImage] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+	const navigate = useNavigate();
+
+	const context = useContext(UserContext);
+
+
+	if (!context) {
+		throw new Error('LoginPage must be used within a UserProvider');
+	}
+
+	const { setUser } = context;
+
+
+
 	// Functions
+
+	const login = async (email: string, password: string) => {
+		try {
+			const response = await account.createEmailPasswordSession(email, password);
+			if (response) {
+				setUser(await account.get());
+				navigate('/dashboard');
+			}
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (err: any) {
+			setError(err.message);
+		}
+
+	}
+
+
 	// Function to check if passwords match
 	const checkPasswordsMatch = (): boolean => {
 		if (password !== confirmPassword) {
@@ -29,7 +63,16 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 		return true;
 	};
 
-	const handleRegister = (e: React.FormEvent) => {
+	const checkPasswordLength = () => {
+		if (password.length >= 8) {
+			return true
+		} else {
+			return false
+		}
+	}
+
+
+	const handleRegister = async (e: React.FormEvent) => {
 		e.preventDefault();
 
 		// Check if username, email, and image are provided
@@ -39,7 +82,6 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 			if (!email) missingField.push('Email');
 			if (!image) missingField.push('Image');
 			if (!password) missingField.push('Password');
-
 			// Set the error to inform the user which field is missing
 			setError(`${missingField.join(', ')} is required.`);
 
@@ -49,10 +91,28 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 
 			return false;
 		}
+
+		if (!checkPasswordLength()) {
+			setError('Password must be at least 8 characters long');
+			setTimeout(() => {
+				setError('');
+			}, 1500);
+			return false
+		}
+
 		if (!checkPasswordsMatch()) {
 			return;
 		}
-		handleSubmit({ username, email, password, image });
+		try {
+			const response = await account.create(ID.unique(), email, password, username, image);
+			if (response) {
+				login(email, password)
+
+			}
+		} catch (err: any) {
+			setError(err.message);
+		}
+
 	};
 
 
@@ -87,10 +147,13 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 		e.preventDefault();
 
 		// Check if username, email, and image are provided
-		if (!username || !password) {
+		if (!email || !password) {
 			const missingField: string[] = [];
-			if (!username) missingField.push('Username');
+			if (!email) missingField.push('Email');
 			if (!password) missingField.push('Password');
+
+			// Set the error to inform the user which field is missing
+			setError(`${missingField.join(', ')} is required.`);
 
 			// Set the error to inform the user which field is missing
 			setError(`${missingField.join(', ')} is required.`);
@@ -101,7 +164,18 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 
 			return false;
 		}
-		handleSubmit({ username, password });
+
+		if (!checkPasswordLength()) {
+			setError('Password must be at least 8 characters long');
+			setTimeout(() => {
+				setError('');
+			}, 1500);
+			return false
+		}
+
+		login(email, password)
+
+
 	};
 
 	return (
@@ -152,15 +226,15 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 				) : (
 					<>
 						<div className='flex flex-wrap flex-row items-center justify-around w-full gap-4 px-6 sm:px-24'>
-							<input type="text" name="username" id="username" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
+							<input type="email" name="email" id="email" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
 							<input type="password" name="password" id="password" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
 						</div>
 					</>
 				)}
 				<div className='flex flex-col items-center justify-center gap-2 w-full h-fit'>
 
-					<div className='w-fit min-h-[20px]'>
-						<p className="text-red-500 font-xl font-bold">{error}</p>
+					<div className='w-full h-fit min-h-[20px]'>
+						<p className="text-center text-red-500 font-xl font-bold">{error}</p>
 					</div>
 					<button type="submit" className='bg-yellow-300/80 px-4 py-4 my-2 rounded-full text-3xl w-full sm:w-[300px] transition-all duration-200 ease hover:bg-yellow-300/100'>{isRegistering ? 'Register' : 'Login'}</button>
 
