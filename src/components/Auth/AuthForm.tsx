@@ -1,40 +1,160 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 type Props = {
 	isRegistering: boolean;
 	setIsRegistering: (state: boolean) => void;
-	handleSubmit: (formData: HTMLFormElement) => void;
+	handleSubmit: ({ username, email, password, image }: { username: string, email?: string, password: string, image?: File }) => void;
 }
-const AuthForm = ({ isRegistering, setIsRegistering, handlleSubmit }: Props) => {
+const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
+	// STATES
+	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [error, setError] = useState<string>('');
+	const [image, setImage] = useState<File | null>(null);
+	const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+	// Functions
+	// Function to check if passwords match
+	const checkPasswordsMatch = (): boolean => {
+		if (password !== confirmPassword) {
+			setError('Passwords do not match');
+			setTimeout(() => {
+				setError('');
+			}, 1500)
+			return false;
+		}
+		setError('');
+		return true;
+	};
+
+	const handleRegister = (e: React.FormEvent) => {
+		e.preventDefault();
+
+
+		// Check if username, email, and image are provided
+		if (!username || !email || !image || !password) {
+			const missingField: string[] = [];
+			if (!username) missingField.push('Username');
+			if (!email) missingField.push('Email');
+			if (!image) missingField.push('Image');
+			if (!password) missingField.push('Password');
+
+			// Set the error to inform the user which field is missing
+			setError(`${missingField.join(', ')} is required.`);
+
+			setTimeout(() => {
+				setError('');
+			}, 1500);
+
+			return false;
+		}
+
+		if (!checkPasswordsMatch()) {
+			return;
+		}
+
+		handleSubmit({ username, email, password, image });
+	};
+
+
+
+	// Handle file input change
+	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			// Check if the file is an image
+			if (file.type.startsWith('image/')) {
+				setImage(file);
+				const reader = new FileReader();
+				reader.onloadend = () => {
+					if (reader.result) {
+						setImagePreview(reader.result as string);
+					}
+				};
+				reader.readAsDataURL(file);
+			} else {
+				setError('Please upload a valid image');
+			}
+		}
+	};
+
+	// Reset image on clicking the preview
+	const handleRemoveImage = () => {
+		setImage(null);
+		setImagePreview(null);
+	};
+
+	const handleLogin = () => { };
+
 	return (
 		<div className='w-full h-full flex flex-col '>
-			<form className='flex flex-col items-center justify-between gap-2 h-full w-full ' onSubmit={handlleSubmit}>
+			<form className='flex flex-col items-center justify-around sm:justify-between h-full w-full' onSubmit={isRegistering ? handleRegister : handleLogin}>
 				{isRegistering ? (
 					<>
 						<div className='flex flex-wrap flex-row items-center justify-around w-full gap-4 px-6 sm:px-24'>
-							<input type="text" required name="username" id="username" className='bg-white/0 border-b-2 border-white text-white placeholder-white text:2xl sm:text-3xl w-full sm:w-fit ' placeholder='Username' />
-							<input type="email" required name="email" id="email" className='bg-white/0 border-b-2 border-white text-white placeholder-white text:2xl sm:text-3xl w-full sm:w-fit ' placeholder='Email' />
+							<input type="text" name="username" id="username" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
+							<input type="email" name="email" id="email" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Email' onChange={(e) => setEmail(e.target.value)}
+							/>
 						</div>
 
 						<div className='flex flex-wrap flex-row items-center justify-around w-full gap-4 px-6 sm:px-24'>
-							<input type="password" required name="password" id="password" className='bg-white/0 border-b-2 border-white text-white placeholder-white text:2xl sm:text-3xl w-full sm:w-fit ' placeholder='Password' />
-							<input type="password" required name="password-confirm" id="password-confirm" className='bg-white/0 border-b-2 border-white text-white placeholder-white text:2xl sm:text-3xl w-full sm:w-fit ' placeholder='Confirm Passwor' />
+							<input type="password" name="password" id="password" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+							<input type="password" name="password-confirm" id="password-confirm" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Confirm Password' onChange={(e) => setConfirmPassword(e.target.value)} />
+						</div>
+
+						{/* Image upload */}
+						<div className='flex flex-wrap flex-row items-center justify-around w-full gap-4 px-6 sm:px-24 relative'>
+							<label htmlFor="image" className="mt-4 h-[200px] w-full sm:max-w-[300px] sm:min-w-[300px] flex flex-col items-center justify-center">
+								<input
+									type="file"
+									id="image"
+									accept="image/*"
+									onChange={handleImageChange}
+									className="hidden"
+
+								/>
+								{/* Custom Styled Button */}
+								<div className="relative w-full sm:min-w-[300px] h-[200px] p-4 border-2 flex flex-col items-center justify-center border-yellow-300 transition-all duration-200 ease bg-gray-400/70 text-center  rounded-lg cursor-pointer hover:bg-gray-400/90 group">
+									{imagePreview ? (
+										// If an image is uploaded, show it as a preview over the button
+										<img
+											src={imagePreview}
+											alt="Image preview"
+											className="absolute top-0 left-0 w-full h-full object-contain rounded-lg cursor-pointer"
+											onClick={handleRemoveImage}
+										/>
+									) : (
+										// If no image, show "Add Image" text
+										<span className='text-white font-semibold'>Add Picture</span>
+									)}
+								</div>
+							</label>
 						</div>
 					</>
 				) : (
 					<>
 						<div className='flex flex-wrap flex-row items-center justify-around w-full gap-4 px-6 sm:px-24'>
-							<input type="text" required name="username" id="username" className='bg-white/0 border-b-2 border-white text-white placeholder-white text:2xl sm:text-3xl w-full sm:w-fit ' placeholder='Username' />
-							<input type="password" required name="password" id="password" className='bg-white/0 border-b-2 border-white text-white placeholder-white text:2xl sm:text-3xl w-full sm:w-fit ' placeholder='Password' />
+							<input type="text" name="username" id="username" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
+							<input type="password" name="password" id="password" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
 						</div>
 					</>
 				)}
-				<button type="submit" className='bg-yellow-300 px-4 py-4 my-2 rounded-full text-3xl w-full sm:w-[300px]'>{isRegistering ? 'Register' : 'Login'}</button>
+				<div className='flex flex-col items-center justify-center gap-2 w-full h-fit'>
+
+					<div className='w-fit min-h-[20px]'>
+						<p className="text-red-500 font-xl font-bold">{error}</p>
+					</div>
+					<button type="submit" className='bg-yellow-300/80 px-4 py-4 my-2 rounded-full text-3xl w-full sm:w-[300px] transition-all duration-200 ease hover:bg-yellow-300/100'>{isRegistering ? 'Register' : 'Login'}</button>
+
+				</div>
+
 			</form>
 
-			<div className='w-full my-2 flex flex-col items-center justify-center'>
-				<p className='text-4xl text-white'>
-					{isRegistering ? 'Already have an account?' : 'New to the challenge?'} <span className='text-yellow-300 cursor-pointer' onClick={() => setIsRegistering(!isRegistering)}>{isRegistering ? 'Login' : 'Register'}</span>
+			<div className='w-full flex flex-col items-center justify-center'>
+				<p className='text-xl sm:text-4xl text-center text-white'>
+					{isRegistering ? 'Already have an account?' : 'New to the challenge?'} <span className='text-yellow-300/80 cursor-pointer transition-all duration-200 ease hover:text-yellow-300/100' onClick={() => setIsRegistering(!isRegistering)}>{isRegistering ? 'Login' : 'Register'}</span>
 				</p>
 			</div>
 

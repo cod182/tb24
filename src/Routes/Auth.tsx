@@ -8,8 +8,8 @@ const Auth = () => {
 
 	// Functions
 
-	const handleSubmit = () => {
-
+	const handleSubmit = ({ username, email, password, image }: { username: string, email?: string, password: string, image?: File }) => {
+		console.log(username, email, password, image);
 	}
 
 
