@@ -32,7 +32,6 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 	const handleRegister = (e: React.FormEvent) => {
 		e.preventDefault();
 
-
 		// Check if username, email, and image are provided
 		if (!username || !email || !image || !password) {
 			const missingField: string[] = [];
@@ -50,11 +49,9 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 
 			return false;
 		}
-
 		if (!checkPasswordsMatch()) {
 			return;
 		}
-
 		handleSubmit({ username, email, password, image });
 	};
 
@@ -86,7 +83,26 @@ const AuthForm = ({ isRegistering, setIsRegistering, handleSubmit }: Props) => {
 		setImagePreview(null);
 	};
 
-	const handleLogin = () => { };
+	const handleLogin = (e: React.FormEvent) => {
+		e.preventDefault();
+
+		// Check if username, email, and image are provided
+		if (!username || !password) {
+			const missingField: string[] = [];
+			if (!username) missingField.push('Username');
+			if (!password) missingField.push('Password');
+
+			// Set the error to inform the user which field is missing
+			setError(`${missingField.join(', ')} is required.`);
+
+			setTimeout(() => {
+				setError('');
+			}, 1500);
+
+			return false;
+		}
+		handleSubmit({ username, password });
+	};
 
 	return (
 		<div className='w-full h-full flex flex-col '>
