@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 import { ID } from 'appwrite';
 import { account } from '../../lib/appwrite.js';
+import { login } from '../../lib/auth.js';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -26,9 +27,9 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 
 	// Functions
 
-	const login = async (email: string, password: string) => {
+	const handleOnLogin = async (email: string, password: string) => {
 		try {
-			await account.createEmailPasswordSession(email, password);
+			await login(email, password)
 			sessionStorage.setItem('user', JSON.stringify(await account.get()));
 			navigate('/dashboard');
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -95,7 +96,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 		try {
 			const response = await account.create(ID.unique(), email, password, username, image);
 			if (response) {
-				login(email, password)
+				handleOnLogin(email, password)
 
 			}
 		} catch (err: any) {
@@ -162,7 +163,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 			return false
 		}
 
-		login(email, password)
+		handleOnLogin(email, password)
 
 
 	};
@@ -225,7 +226,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 					<div className='w-full h-fit min-h-[20px]'>
 						<p className="text-center text-red-500 font-xl font-bold">{error}</p>
 					</div>
-					<button type="submit" className='bg-yellow-300/80 px-4 py-4 my-2 rounded-full text-3xl w-full sm:w-[300px] transition-all duration-200 ease hover:bg-yellow-300/100'>{isRegistering ? 'Register' : 'Login'}</button>
+					<button type="submit" className='bg-yellow-300/90 px-4 py-4 my-2 rounded-full text-3xl w-full sm:w-[300px] transition-all duration-200 ease hover:bg-yellow-300'>{isRegistering ? 'Register' : 'Login'}</button>
 
 				</div>
 
@@ -233,7 +234,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 
 			<div className='w-full flex flex-col items-center justify-center'>
 				<p className='text-xl sm:text-4xl text-center text-white'>
-					{isRegistering ? 'Already have an account?' : 'New to the challenge?'} <span className='text-yellow-300/80 cursor-pointer transition-all duration-200 ease hover:text-yellow-300/100' onClick={() => setIsRegistering(!isRegistering)}>{isRegistering ? 'Login' : 'Register'}</span>
+					{isRegistering ? 'Already have an account?' : 'New to the challenge?'} <span className='text-yellow-300/90 cursor-pointer transition-all duration-200 ease hover:text-yellow-300' onClick={() => setIsRegistering(!isRegistering)}>{isRegistering ? 'Login' : 'Register'}</span>
 				</p>
 			</div>
 

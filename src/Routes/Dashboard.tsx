@@ -1,8 +1,21 @@
-import React from 'react'
+
 
 const Dashboard = () => {
+
+
+	console.log(sessionStorage.user);
 	return (
-		<div>Dashboard</div>
+		<div>
+			<button
+				type="button"
+				onClick={async () => {
+					sessionStorage.removeItem('user');
+
+				}}
+			>
+				Logout
+			</button>
+		</div>
 	)
 }
 
