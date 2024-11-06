@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 
 import { ID } from 'appwrite';
-import { UserContext } from '../../context/userAuthContext';
 import { account } from '../../lib/appwrite.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,14 +21,6 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 
 	const navigate = useNavigate();
 
-	const context = useContext(UserContext);
-
-
-	if (!context) {
-		throw new Error('LoginPage must be used within a UserProvider');
-	}
-
-	const { setUser } = context;
 
 
 
@@ -37,11 +28,9 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 
 	const login = async (email: string, password: string) => {
 		try {
-			const response = await account.createEmailPasswordSession(email, password);
-			if (response) {
-				setUser(await account.get());
-				navigate('/dashboard');
-			}
+			await account.createEmailPasswordSession(email, password);
+			sessionStorage.setItem('user', JSON.stringify(await account.get()));
+			navigate('/dashboard');
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			setError(err.message);
