@@ -30,7 +30,7 @@ export const createNewUser = async (email, password, username, image) => {
 
 		await login(email, password);
 
-		const [imageUrl] = await uploadFile(image, "image")
+		const imageUrl = await uploadFile(image, "image")
 
 		const newUser = await databases.createDocument(
 			import.meta.env.VITE_APPWRITE_DATABASE_ID,
@@ -104,7 +104,6 @@ export const getFilePreview = async (fileId, type) => {
 		}
 
 		if (!fileUrl) throw Error;
-
 		return fileUrl;
 
 	} catch (error) {

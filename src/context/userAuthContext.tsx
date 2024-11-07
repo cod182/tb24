@@ -15,6 +15,7 @@ interface GlobalContextType {
 	setUser: React.Dispatch<React.SetStateAction<User | null>>;
 	isLoggedIn: boolean;
 	setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+	loading: boolean;
 }
 
 const globalContext = createContext<GlobalContextType>({
@@ -22,6 +23,7 @@ const globalContext = createContext<GlobalContextType>({
 	setUser: () => { },
 	isLoggedIn: false,
 	setIsLoggedIn: () => { },
+	loading: true,
 });
 
 export const useGlobalContext = () => useContext(globalContext);
@@ -33,8 +35,14 @@ const UserContext = ({ children }: { children: ReactNode }) => {
 	});
 
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-		return localStorage.getItem('isLoggedIn') === 'true';
+		const storedLoggedIn = localStorage.getItem('isLoggedIn');
+		return storedLoggedIn === 'true' ? true : false;
 	});
+
+	const [loading, setLoading] = useState(true);
+
+	console.log(isLoggedIn);
+	console.log(user);
 
 	useEffect(() => {
 		if (isLoggedIn) {
@@ -42,9 +50,11 @@ const UserContext = ({ children }: { children: ReactNode }) => {
 				.then((res) => {
 					setUser(res ? res : null);
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => console.log(error))
+				.finally(() => setLoading(false));
 		} else {
 			setUser(null);
+			setLoading(false);
 		}
 	}, [isLoggedIn]);
 
@@ -55,7 +65,7 @@ const UserContext = ({ children }: { children: ReactNode }) => {
 	}, [user, isLoggedIn]);
 
 	return (
-		<globalContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn }}>
+		<globalContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn, loading }}>
 			{children}
 		</globalContext.Provider>
 	);

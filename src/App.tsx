@@ -1,24 +1,27 @@
-import { Auth, Dashboard } from './Routes/'
-import { Route, Routes } from 'react-router-dom'
+import { Auth, Dashboard } from './Routes/';
+import { Route, Routes } from 'react-router-dom';
 
-import ProtectedRoute from './components/Auth/ProtectedRoute'
-import UnprotectedRoute from './components/Auth/UnprotectedRoute'
+import ProtectedRoute from './components/Auth/ProtectedRoute';
 
 function App() {
-
-
   return (
     <div className='w-[100vw] h-[100dvh] bg-blue-200'>
       <Routes>
+        {/* Public route */}
+        <Route path="/" element={<Auth />} />
 
-        <Route path="/" element={<UnprotectedRoute><Auth /></UnprotectedRoute>} />
-
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-
-
+        {/* Protected routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

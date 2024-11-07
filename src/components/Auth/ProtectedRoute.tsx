@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom';
+import React from 'react';
 import { useGlobalContext } from '../../context/userAuthContext';
 
 interface ProtectedRouteProps {
@@ -6,14 +7,13 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-	const { user } = useGlobalContext();
+	const { isLoggedIn, loading } = useGlobalContext();
 
-	// Redirect to login if the user is not logged in
-	if (!user || user.id === 0) {
-		return <Navigate to="/" />;
-	}
+	// Show loading indicator while checking auth status
+	if (loading) return <div className='w-full h-full flex items-center justify-center animate-ping'>Loading...</div>;
 
-	return children;
+	// Redirect to "/" if the user is not logged in
+	return isLoggedIn ? children : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;

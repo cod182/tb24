@@ -36,8 +36,10 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 			const result = await getCurrentUser();
 
 			setUser(result);
-			setIsLoggedIn(true)
-			navigate('/dashboard');
+			if (result) {
+				setIsLoggedIn(true)
+				navigate('/dashboard');
+			}
 
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
@@ -108,13 +110,19 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 			const result = createNewUser(email, password, username, image)
 
 			setUser(result);
-			setIsLoggedIn(true)
-			navigate('/dashboard');
+			if (result) {
+				setIsLoggedIn(true)
+				navigate('/dashboard');
+			}
 
 		} catch (error: any) {
 			setError(error.message)
+			setTimeout(() => {
+				setError('');
+			}, 1500);
 		} finally {
 			setLoading(false);
+			setError('');
 		}
 	};
 
