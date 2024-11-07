@@ -2,13 +2,13 @@ import { useEffect, useState } from "react"
 
 import { BiWorld } from "react-icons/bi";
 import DashboardCard from "./DashboardCard"
-import { GiGlobeRing } from "react-icons/gi";
 
 const DashboardPanel = () => {
 
 	const [location, setLocation] = useState<{ latitude: number, longitude: number }>();
 	const [locationLoading, setLocationLoading] = useState(false)
 	const [error, setError] = useState<string>();
+	const [weatherData, setWeatherData] = useState({})
 
 	useEffect(() => {
 		const getCurrentLocation = () => {
@@ -19,7 +19,7 @@ const DashboardPanel = () => {
 						const { latitude, longitude } = position.coords;
 
 						setLocation({ latitude, longitude });
-						setLocationLoading(location != null && true);
+						setLocationLoading(position.coords && false);
 					},
 					(err) => {
 						setLocationLoading(false);
@@ -34,9 +34,29 @@ const DashboardPanel = () => {
 		};
 
 		getCurrentLocation();
+
 	}, []);
+
+	useEffect(() => {
+		const fetchCurrentWeather = async () => {
+			try {
+				const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location?.latitude}&lon=${location?.longitude}&appid=${import.meta.env.VITE_OPENWEATHER_API}&units=metric`);
+
+				const data = await res.json();
+
+				setWeatherData(data)
+			} catch (error) {
+				throw new Error(error)
+			}
+		}
+
+
+		fetchCurrentWeather()
+
+	}, [location])
+	console.log('weather', weatherData)
+
 	console.log(location)
-	console.log(error)
 
 
 	return (
