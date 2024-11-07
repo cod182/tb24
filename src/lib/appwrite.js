@@ -1,21 +1,28 @@
 import { Account, Client, Databases, ID, Query, Storage } from 'appwrite';
 
 const client = new Client();
-const databases = new Databases(client);
-const storage = new Storage(client);
-
 client
 	.setEndpoint('https://cloud.appwrite.io/v1')
 	.setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID);
 
+const databases = new Databases(client);
+const storage = new Storage(client);
 export const account = new Account(client);
-
 export { ID } from 'appwrite';
 
 export const login = async (email, password) => {
 	try {
 		const session = await account.createEmailPasswordSession(email, password);
 
+		return session;
+	} catch (error) {
+		throw new Error(error);
+	}
+}
+
+export const signOut = async () => {
+	try {
+		const session = await account.deleteSession('current');
 		return session;
 	} catch (error) {
 		throw new Error(error);
@@ -42,7 +49,7 @@ export const createNewUser = async (email, password, username, image) => {
 			image: imageUrl
 		});
 
-		console.log(newUser)
+
 		return newUser;
 	} catch (err) {
 		throw new Error(err.message)

@@ -6,7 +6,7 @@ import { BsNewspaper } from 'react-icons/bs';
 import { GoTasklist } from 'react-icons/go';
 import { MdShowChart } from "react-icons/md";
 import { PiSoccerBall } from 'react-icons/pi';
-import { account } from '../../lib/appwrite.js';
+import { signOut } from '../../lib/appwrite.js';
 import { useGlobalContext } from '../../context/userAuthContext';
 import { useNavigate } from 'react-router-dom'
 
@@ -23,6 +23,15 @@ const DropdownNav = () => {
 		{ title: 'Photos', link: '/photos', icon: <BiPhotoAlbum /> },
 		{ title: 'Tasks', link: '/tasks', icon: <GoTasklist /> },
 	];
+
+	// FUnctions
+
+	const logout = async () => {
+		await signOut();
+		setUser(null);
+		setIsLoggedIn(false);
+		navigate('/');
+	}
 
 	const { isLoggedIn, setIsLoggedIn, setUser } = useGlobalContext();
 	return (
@@ -75,12 +84,7 @@ const DropdownNav = () => {
 						<button
 							className='block px-4 py-2 transition-all ease duration-200 text-gray-700 hover:bg-gray-100 w-full text-start'
 							type="button"
-							onClick={async () => {
-								await account.deleteSessions();
-								setUser(null);
-								setIsLoggedIn(false);
-								navigate('/');
-							}}
+							onClick={logout}
 						>
 							<p className='w-full flex flex-row justify-start items-center gap-2'>
 								<span>
