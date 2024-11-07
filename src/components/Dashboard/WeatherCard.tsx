@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { BiWorld } from 'react-icons/bi';
 import DashboardCard from './DashboardCard';
+import { getWeatherIcon } from '../../utils/functions';
 
 type WeatherDataProps = {
 	base: string;
@@ -54,8 +55,7 @@ const WeatherCard = () => {
 	const [locationLoading, setLocationLoading] = useState(false)
 	const [error, setError] = useState<string>();
 	const [weatherData, setWeatherData] = useState<WeatherDataProps>()
-
-
+	const [weatherIcon, setWeatherIcon] = useState<string | undefined>()
 
 	// USE EFFECTS
 	useEffect(() => {
@@ -92,22 +92,22 @@ const WeatherCard = () => {
 			try {
 				const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location?.latitude}&lon=${location?.longitude}&appid=${import.meta.env.VITE_OPENWEATHER_API}&units=metric`);
 				const data = await res.json();
-				console.log(res)
 				if (!res.ok) setError(data.message);
 
 				setWeatherData(data)
+				const icon = getWeatherIcon(data.weather[0].main)
+
+				setWeatherIcon(icon);
 			} catch (error: unknown) {
 				setError((error as Error)?.message)
 			}
 		}
-
-
-		fetchCurrentWeather()
+		if (location?.latitude && location?.longitude) fetchCurrentWeather()
 
 	}, [location])
-	console.log('weather', weatherData)
 
-	console.log(location)
+
+
 	return (
 		<DashboardCard title='Weather'>
 			{error ? <p>{error}</p> : locationLoading ? (
@@ -118,17 +118,17 @@ const WeatherCard = () => {
 					</p>
 				</div>
 			) : (
-				<div className='flex flex-col items-center justify-center h-full'>
+				<div className='flex flex-col items-center justify-center h-full w-full'>
 
-					<div className='flex flex-row items-center justify-center gap-2'>
+					<div className='flex flex-row items-center justify-between gap-2 w-full mb-4'>
 						{/* Icon */}
-						<div className='w-50'>
-							{weatherData && weatherData.weather[0].icon && <img src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} alt="weather" className='w-[200px] h-[200px]' />}
+						<div className='w-[50%] h-auto flex flex-col items-center'>
+							<img src={weatherIcon ? weatherIcon : weatherData && `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`} alt="" className='w-full h-full max-w-[140px]' />
 						</div>
 
 						{/* Temp */}
-						<div className='w-50'>
-							<p className='text-3xl'>
+						<div className='flex flex-col items-center justify-center w-[50%]'>
+							<p className='text-5xl'>
 								{weatherData && weatherData.main.temp.toFixed(0)}°C
 							</p>
 

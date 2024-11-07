@@ -1,7 +1,7 @@
 import { DashboardPanel, Nav } from '../components/index.js';
 
 import bgImage from '../assets/media/images/dash-bg.webp';
-import getGreeting from '../utils/functions.js';
+import { getGreeting } from '../utils/functions.js';
 import { useGlobalContext } from '../context/userAuthContext';
 
 const Dashboard = () => {

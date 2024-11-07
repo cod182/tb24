@@ -10,7 +10,7 @@ const DashboardCard = ({ title, children, link }: Props) => {
 	return (
 		<Wrapper
 			href={link}
-			className={`h-[300px] w-[400px] flex flex-col justify-start items-centerborder-2 border-yellow-300 bg-gray-300/60 overflow-hidden rounded-lg mx-auto ${link ? 'transition-all duration-200 ease hover:scale-105' : ''
+			className={`h-[280px] w-[400px] flex flex-col justify-start items-center border-2 border-yellow-300 bg-gray-300/60 overflow-hidden rounded-lg mx-auto ${link ? 'transition-all duration-200 ease hover:scale-105' : ''
 				}`}
 			{...(link && { target: '_blank', rel: 'noopener noreferrer' })}
 		>
