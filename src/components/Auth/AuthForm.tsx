@@ -23,7 +23,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 	const navigate = useNavigate();
 
 
-	const { setUser } = useGlobalContext();
+	const { setUser, setIsLoggedIn } = useGlobalContext();
 
 
 
@@ -34,11 +34,11 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 		try {
 			await login(email, password);
 			const result = await getCurrentUser();
-			console.log(result)
-			if (result) {
-				setUser(result);
-				navigate('/dashboard');
-			}
+
+			setUser(result);
+			setIsLoggedIn(true)
+			navigate('/dashboard');
+
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			setError(err.message);
@@ -106,8 +106,9 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 
 		try {
 			const result = createNewUser(email, password, username, image)
-			setUser(result);
 
+			setUser(result);
+			setIsLoggedIn(true)
 			navigate('/dashboard');
 
 		} catch (error: any) {

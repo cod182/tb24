@@ -26,7 +26,6 @@ export const login = async (email, password) => {
 export const createNewUser = async (email, password, username, image) => {
 	try {
 		const newAccount = await account.create(ID.unique(), email, password, username);
-
 		if (!newAccount) throw Error;
 
 		await login(email, password);
@@ -77,12 +76,6 @@ export const getCurrentUser = async () => {
 export const uploadFile = async (file, type) => {
 
 	if (!file) return;
-	const asset = {
-		name: `${file.type}_${file.fileSize}`,
-		type: file.mimeType,
-		size: file.fileSize,
-		uri: file.uri
-	}
 
 	try {
 		const uploadedFile = await storage.createFile(

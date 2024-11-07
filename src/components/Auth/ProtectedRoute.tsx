@@ -8,7 +8,6 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 	const { user } = useGlobalContext();
 
-	console.log(user)
 	// Redirect to login if the user is not logged in
 	if (!user || user.id === 0) {
 		return <Navigate to="/" />;
