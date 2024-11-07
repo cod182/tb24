@@ -5,7 +5,7 @@ import { getCurrentUser } from '../lib/appwrite';
 interface User {
 	// Define the properties of the User type here
 	id: number;
-	name: string;
+	username: string;
 	email: string;
 	// Add any other properties
 }
