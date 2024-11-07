@@ -5,7 +5,7 @@ import ProtectedRoute from './components/Auth/ProtectedRoute';
 
 function App() {
   return (
-    <div className='w-[100vw] h-[100dvh] bg-blue-200'>
+    <div className='w-[100vw] h-[100dvh]'>
       <Routes>
         {/* Public route */}
         <Route path="/" element={<Auth />} />
