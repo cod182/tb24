@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { createNewUser, login } from '../../lib/appwrite.js';
 
-import { UserContext } from '../../context/userAuthContext.js';
 import { getCurrentUser } from '../../lib/appwrite.js';
+import { useGlobalContext } from '../../context/userAuthContext';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -23,8 +23,8 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 	const navigate = useNavigate();
 
 
-	const context = useContext(UserContext)
-	const { user, setUser } = context;
+	const { setUser } = useGlobalContext();
+
 
 
 	// Functions
@@ -34,8 +34,11 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 		try {
 			await login(email, password);
 			const result = await getCurrentUser();
-			setUser(result);
-			navigate('/dashboard');
+			console.log(result)
+			if (result) {
+				setUser(result);
+				navigate('/dashboard');
+			}
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			setError(err.message);
@@ -104,7 +107,6 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 		try {
 			const result = createNewUser(email, password, username, image)
 			setUser(result);
-			setUser(true)
 
 			navigate('/dashboard');
 

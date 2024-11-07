@@ -1,7 +1,8 @@
-import { Account, Client, Databases, ID, Query } from 'appwrite';
+import { Account, Client, Databases, ID, Query, Storage } from 'appwrite';
 
-export const client = new Client();
+const client = new Client();
 const databases = new Databases(client);
+const storage = new Storage(client);
 
 client
 	.setEndpoint('https://cloud.appwrite.io/v1')
@@ -85,9 +86,9 @@ export const uploadFile = async (file, type) => {
 
 	try {
 		const uploadedFile = await storage.createFile(
-			storageId,
+			import.meta.env.VITE_APPWRITE_USER_IMAGE_STORAGE_ID,
 			ID.unique(),
-			asset
+			file
 		)
 
 
@@ -96,5 +97,24 @@ export const uploadFile = async (file, type) => {
 
 	} catch (error) {
 		throw new Error(error)
+	}
+}
+
+export const getFilePreview = async (fileId, type) => {
+	let fileUrl
+
+	try {
+		if (type === 'image') {
+			fileUrl = storage.getFileView(import.meta.env.VITE_APPWRITE_USER_IMAGE_STORAGE_ID, fileId, 2000, 2000, 'top', 100)
+		} else {
+			throw new Error('Invalid file Type')
+		}
+
+		if (!fileUrl) throw Error;
+
+		return fileUrl;
+
+	} catch (error) {
+		throw new Error(error);
 	}
 }

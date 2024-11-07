@@ -1,27 +1,43 @@
-import React, { ReactNode, createContext, useState } from 'react';
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
-type UserProps = {
+import { getCurrentUser } from '../lib/appwrite'
+
+interface User {
+	// Define the properties of the User type here
 	id: number;
-	username: string;
+	name: string;
 	email: string;
-	image: string;
+	// Add any other properties
 }
 
-
-interface UserContextType {
-	user: UserProps | null;
-	setUser: React.Dispatch<React.SetStateAction<UserProps | null>>;
+interface GlobalContextType {
+	user: User | null;
+	setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-export const UserContext = createContext<UserContextType | undefined>(undefined);
+const globalContext = createContext<GlobalContextType>({
+	user: null,
+	setUser: () => { },  // Updated placeholder function
+});
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-	// Initial state for the user is `null` (unauthenticated)
-	const [user, setUser] = useState<UserProps | null>(null);
+export const useGlobalContext = () => useContext(globalContext);
+
+const UserContext = ({ children }: { children: ReactNode }) => {
+	const [user, setUser] = useState<User | null>(null);
+
+	useEffect(() => {
+		getCurrentUser()
+			.then((res) => {
+				setUser(res ? res : null);
+			})
+			.catch((error) => console.log(error));
+	}, []);
 
 	return (
-		<UserContext.Provider value={{ user, setUser }}>
+		<globalContext.Provider value={{ user, setUser }}>
 			{children}
-		</UserContext.Provider>
+		</globalContext.Provider>
 	);
 };
+
+export default UserContext;
