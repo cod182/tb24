@@ -1,16 +1,15 @@
-
+import { account } from '../lib/appwrite.js';
 
 const Dashboard = () => {
-
-
-	console.log(sessionStorage.user);
 	return (
 		<div>
 			<button
 				type="button"
 				onClick={async () => {
-					sessionStorage.removeItem('user');
-
+					// sessionStorage.removeItem('user');
+					// await account.deleteSessions();
+					const result = await account.listSessions();
+					console.log(result);
 				}}
 			>
 				Logout

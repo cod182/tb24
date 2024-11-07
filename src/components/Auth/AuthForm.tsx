@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { createNewUser, login } from '../../lib/appwrite.js';
 
-import { ID } from 'appwrite';
-import { account } from '../../lib/appwrite.js';
-import { login } from '../../lib/auth.js';
+import { UserContext } from '../../context/userAuthContext.js';
+import { getCurrentUser } from '../../lib/appwrite.js';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -19,24 +19,29 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 	const [error, setError] = useState<string>('');
 	const [image, setImage] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
 
+	const context = useContext(UserContext)
+	const { user, setUser } = context;
 
 
 	// Functions
 
 	const handleOnLogin = async (email: string, password: string) => {
+		setLoading(true);
 		try {
-			await login(email, password)
-			sessionStorage.setItem('user', JSON.stringify(await account.get()));
+			await login(email, password);
+			const result = await getCurrentUser();
+			setUser(result);
 			navigate('/dashboard');
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			setError(err.message);
+		} finally {
+			setLoading(false);
 		}
-
 	}
 
 
@@ -64,7 +69,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 
 	const handleRegister = async (e: React.FormEvent) => {
 		e.preventDefault();
-
+		setLoading(true);
 		// Check if username, email, and image are provided
 		if (!username || !email || !image || !password) {
 			const missingField: string[] = [];
@@ -74,6 +79,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 			if (!password) missingField.push('Password');
 			// Set the error to inform the user which field is missing
 			setError(`${missingField.join(', ')} is required.`);
+			setLoading(false);
 
 			setTimeout(() => {
 				setError('');
@@ -88,21 +94,25 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 				setError('');
 			}, 1500);
 			return false
+
 		}
 
 		if (!checkPasswordsMatch()) {
 			return;
 		}
+
 		try {
-			const response = await account.create(ID.unique(), email, password, username, image);
-			if (response) {
-				handleOnLogin(email, password)
+			const result = createNewUser(email, password, username, image)
+			setUser(result);
+			setUser(true)
 
-			}
-		} catch (err: any) {
-			setError(err.message);
+			navigate('/dashboard');
+
+		} catch (error: any) {
+			setError(error.message)
+		} finally {
+			setLoading(false);
 		}
-
 	};
 
 
@@ -224,7 +234,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 				<div className='flex flex-col items-center justify-center gap-2 w-full h-fit'>
 
 					<div className='w-full h-fit min-h-[20px]'>
-						<p className="text-center text-red-500 font-xl font-bold">{error}</p>
+						<p className="text-center text-red-500 font-xl font-bold">{error}{loading && 'Loading...'}</p>
 					</div>
 					<button type="submit" className='bg-yellow-300/90 px-4 py-4 my-2 rounded-full text-3xl w-full sm:w-[300px] transition-all duration-200 ease hover:bg-yellow-300'>{isRegistering ? 'Register' : 'Login'}</button>
 
