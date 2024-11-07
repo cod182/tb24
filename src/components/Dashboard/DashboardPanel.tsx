@@ -36,11 +36,6 @@ const DashboardPanel = () => {
 				<p className='text-2xl'>Body</p>
 			</DashboardCard>
 
-
-
-
-
-
 		</div >
 	)
 }
