@@ -1,3 +1,4 @@
+import ClothesCard from "./ClothesCard";
 import DashboardCard from "./DashboardCard"
 import NewsCard from "./NewsCard";
 import WeatherCard from "./WeatherCard";
@@ -31,10 +32,7 @@ const DashboardPanel = () => {
 				<p className='text-2xl'>Body</p>
 			</DashboardCard>
 
-			<DashboardCard title='Clothes'>
-				<p className='text-3xl'>Headline</p>
-				<p className='text-2xl'>Body</p>
-			</DashboardCard>
+			<ClothesCard />
 
 		</div >
 	)

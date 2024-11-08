@@ -1,5 +1,5 @@
 import { BiArrowBack, BiError, BiWorld } from 'react-icons/bi';
-import { Loader, Nav, NewsArticle } from '../components';
+import { Loader, NewsArticle } from '../components';
 import { useEffect, useState } from 'react';
 
 import { FeedItem } from '../../types/custom';

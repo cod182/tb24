@@ -86,3 +86,19 @@ export const formatDate = (dateString: string) => {
 	// Replace the day with the suffixed version
 	return formattedDate.replace(`${day}`, `${day}${suffix}`);
 };
+
+
+export const fetchJsonData = async (url: string) => {
+	try {
+		const res = await fetch(url);
+
+		const data = await res.json();
+
+		if (!res.ok) throw new Error(data.message);
+
+		return data;
+
+	} catch (error: unknown) {
+		throw new Error(String(error))
+	}
+}

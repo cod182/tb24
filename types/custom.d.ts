@@ -5,3 +5,9 @@ export type FeedItem = {
 	pubDate: string;
 	media: string;
 }
+
+export type ClothesItem = {
+	id: number;
+	date: string;
+	clothe: string;
+}
