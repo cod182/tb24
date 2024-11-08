@@ -117,3 +117,12 @@ export const getFilePreview = async (fileId, type) => {
 		throw new Error(error);
 	}
 }
+
+export const getUserPhotos = async (userId) => {
+	try {
+		const userPhotos = await databases.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION, [Query.equal('users', userId)])
+		return userPhotos.documents;
+	} catch (error) {
+		throw new Error(error);
+	}
+}

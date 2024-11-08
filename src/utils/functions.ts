@@ -102,3 +102,4 @@ export const fetchJsonData = async (url: string) => {
 		throw new Error(String(error))
 	}
 }
+

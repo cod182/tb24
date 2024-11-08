@@ -11,7 +11,7 @@ const Auth = () => {
 
 	// Functions
 	const { isLoggedIn } = useGlobalContext();
-	if (isLoggedIn) return <Navigate to="/Dashboard" replace />;
+	if (isLoggedIn) return <Navigate to="/dashboard" replace />;
 
 	return (
 		<div className='w-full h-[100dvh] flex flex-col items-center justify-center relative'>
