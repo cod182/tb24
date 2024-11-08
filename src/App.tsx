@@ -1,6 +1,7 @@
 import { Auth, Dashboard } from './Routes/';
 import { Route, Routes } from 'react-router-dom';
 
+import LatestNewsArticle from './Routes/LatestNewsArticle';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         {/* Public route */}
         <Route path="/" element={<Auth />} />
+        <Route path="/latestnews" element={<LatestNewsArticle />} />
 
         {/* Protected routes */}
         <Route
