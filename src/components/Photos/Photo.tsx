@@ -29,7 +29,6 @@ const Photo = ({ photo }: Props) => {
 			try {
 				// Calls the fucntion to delete from appwrite storage and collection
 				const response = await deleteImage(photo.imageId, photo.$id);
-				console.log(response)
 				getPhotos();
 				if (photos) {
 					// Saving from making another API call, just updating the locall state when deleting from db
@@ -45,7 +44,7 @@ const Photo = ({ photo }: Props) => {
 
 				setTimeout(() => {
 					setError('');
-				}, 4000)
+				}, 2000)
 
 			}
 			setCheckDelete(false);

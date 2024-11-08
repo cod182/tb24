@@ -46,39 +46,36 @@ const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEven
 				</div>
 			</div>
 
-			<form onSubmit={handleSubmit} className="w-full h-full p-2">
-				<div className='flex flex-wrap flex-col items-center justify-center w-full gap-2 relative h-full'>
-					<label htmlFor="image" className="h-[100px] w-full flex flex-col items-center justify-center gap-2">
-						<input
-							type="file"
-							id="image"
-							accept="image/*"
-							onChange={handleImageChange}
-							className="hidden"
+			<form onSubmit={handleSubmit} className="w-full h-full grow flex flex-col items-center justify-center p-2 gap-2">
+				<label htmlFor="image" className="h-[100px] w-full flex flex-col items-center justify-center gap-2">
+					<input
+						type="file"
+						id="image"
+						accept="image/*"
+						onChange={handleImageChange}
+						className="hidden"
 
-						/>
-						{/* Custom Styled Button */}
-						<div className={`aspect-square w-[100px] h-[100px] relative p-4 border-2 flex flex-col items-center justify-center border-yellow-300 transition-all duration-200 ease bg-gray-400/70 text-center  rounded-lg cursor-pointer hover:bg-gray-400/90 group`}>
-							{imagePreview ? (
-								// If an image is uploaded, show it as a preview over the button
-								<img
-									src={imagePreview}
-									alt="Image preview"
-									className="absolute top-0 left-0 w-full h-full object-contain rounded-lg cursor-pointer"
-									onClick={handleRemoveImage}
-								/>
-							) : (
-								// If no image, show "Add Image" text
-								<>
-									<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
-								</>
+					/>
+					{/* Custom Styled Button */}
+					<div className={`aspect-square w-[100px] h-[100px] relative p-4 border-2 flex flex-col items-center justify-center border-yellow-300 transition-all duration-200 ease bg-gray-400/70 text-center  rounded-lg cursor-pointer hover:bg-gray-400/90 group`}>
+						{imagePreview ? (
+							// If an image is uploaded, show it as a preview over the button
+							<img
+								src={imagePreview}
+								alt="Image preview"
+								className="absolute top-0 left-0 w-full h-full object-contain rounded-lg cursor-pointer"
+								onClick={handleRemoveImage}
+							/>
+						) : (
+							// If no image, show "Add Image" text
+							<>
+								<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
+							</>
 
-							)}
-						</div>
-					</label>
-					<button disabled={!imagePreview} className={`w-full h-fit py-2 px-4 text-center text-black font-semibold rounded-lg z-[4] ${imagePreview ? 'bg-yellow-300/70 hover:bg-yellow-400/90 text-black' : 'bg-gray-300 text-gray-600'}`}>{imagePreview ? 'Upload Image' : 'Click To Add'}</button>
-				</div>
-
+						)}
+					</div>
+				</label>
+				<button disabled={!imagePreview} className={`w-full h-fit py-2 px-4 text-center text-black font-semibold rounded-lg z-[4] ${imagePreview ? 'bg-yellow-300/70 hover:bg-yellow-400/90 text-black' : 'bg-gray-300 text-gray-600'}`}>{imagePreview ? 'Upload Image' : 'Click To Add'}</button>
 			</form>
 		</div>
 	)

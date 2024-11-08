@@ -1,22 +1,19 @@
 import { AddImagePopUp, Loader, Photo } from '../components';
 import { BiArrowBack, BiError, BiPhotoAlbum } from 'react-icons/bi';
-import React, { useEffect, useState } from 'react'
 
 import { Navigate } from 'react-router-dom';
 // import { PhotoProps } from '../../types/custom';
 import bgImage from '../assets/media/images/dash-bg.webp';
+import { useEffect } from 'react'
 // import { getUserPhotos } from "../lib/appwrite";
 import { useGlobalContext } from '../context/userAuthContext';
 import { usePhotoContext } from '../context/usePhotoContext';
 
 const Photos = () => {
 	const { user } = useGlobalContext();
-	const { photos, setPhotos, getPhotos, loading } = usePhotoContext();
+	const { photos, getPhotos, loading, error } = usePhotoContext();
 
-	// STATES
-	// const [photos, setPhotos] = useState<PhotoProps[]>()
-	// const [loading, setLoading] = useState(true)
-	const [error, setError] = useState<string>();
+
 
 	// USE EFFECTS
 	useEffect(() => {
@@ -25,25 +22,7 @@ const Photos = () => {
 		getPhotos();
 	}, [user]);
 
-	// FUNCTIONS
 
-	// const getPhotos = async () => {
-	// 	setLoading(true);
-	// 	try {
-	// 		if (user) {
-	// 			const response = await getUserPhotos(user.$id);
-	// 			const data = await response;
-	// 			setPhotos(data);
-	// 			setLoading(false);
-	// 		} else {
-	// 			console.error('User is not logged in');
-	// 		}
-	// 	} catch (error) {
-	// 		setError('Error Fetching Photos');
-	// 		setLoading(false);
-	// 		console.error('Failed to fetch photos:', error);
-	// 	}
-	// }
 
 
 

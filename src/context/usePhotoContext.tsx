@@ -20,6 +20,7 @@ type GlobalContextType = {
 	setPhotos: React.Dispatch<React.SetStateAction<PhotoProps[] | null>>;
 	getPhotos: () => Promise<void>;
 	loading: boolean;
+	error: string;
 };
 
 const globalPhotoContext = createContext<GlobalContextType>({
@@ -27,6 +28,7 @@ const globalPhotoContext = createContext<GlobalContextType>({
 	setPhotos: () => { },
 	getPhotos: async () => { },
 	loading: false,
+	error: '',
 });
 
 export const usePhotoContext = () => useContext(globalPhotoContext);
@@ -34,6 +36,7 @@ export const usePhotoContext = () => useContext(globalPhotoContext);
 const PhotoContext = ({ children }: { children: ReactNode }) => {
 	const [photos, setPhotos] = useState<PhotoProps[] | null>(null);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('')
 
 	const [user] = useState<UserType | null>(() => {
 		const storedUser = localStorage.getItem('user');
@@ -48,7 +51,7 @@ const PhotoContext = ({ children }: { children: ReactNode }) => {
 				const res = await getUserPhotos(user.$id);
 				setPhotos(res);
 			} catch (error) {
-				console.error(error);
+				setError(error as string)
 			} finally {
 				setLoading(false);
 			}
@@ -62,7 +65,7 @@ const PhotoContext = ({ children }: { children: ReactNode }) => {
 	}, [user]);
 
 	return (
-		<globalPhotoContext.Provider value={{ photos, setPhotos, getPhotos, loading }}>
+		<globalPhotoContext.Provider value={{ photos, setPhotos, getPhotos, loading, error }}>
 			{children}
 		</globalPhotoContext.Provider>
 	);

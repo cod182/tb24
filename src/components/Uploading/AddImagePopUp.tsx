@@ -24,7 +24,6 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 		setLoading(true)
 		try {
 			const response = await uploadUserImage(image, userId)
-			console.log(response)
 			if (response) {
 				getPhotos();
 				setLoading(false);
@@ -50,7 +49,7 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 			<div className={`${popUpState ? 'h-[100%] py-2 pt-9' : 'h-[0%] py-0 pt-0'} p-x-2 overflow-hidden flex w-full absolute top-0 bg-gray-200/80 rounded-lg transition-all duration-200 ease flex-col items-center justify-center z-[2]`} >
 
 				{/* Close Button */}
-				<button className='absolute top-2 right-2 bg-yellow-300/70 hover:bg-yellow-400/90 hover:text-white p-2 rounded-full transition-all duration-200 ease' > <CgClose /></button>
+				<button className='absolute top-2 right-2 bg-yellow-300/70 hover:bg-yellow-400/90 hover:text-white p-2 rounded-full transition-all duration-200 ease' onClick={() => setPopUpState(false)}> <CgClose /></button>
 
 				<AddImage handleSubmit={handleAddImage} setImage={setImage} />
 

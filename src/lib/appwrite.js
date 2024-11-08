@@ -75,7 +75,7 @@ export const getCurrentUser = async () => {
 		return currentUser.documents[0];
 
 	} catch (error) {
-		console.log(error);
+		throw new Error(error);
 
 	}
 }
@@ -142,7 +142,6 @@ export const uploadUserImage = async (file, userId) => {
 		imageUrl: fileUrl,
 		imageId: fileId
 	});
-	console.log(newImageUpload)
 	return newImageUpload;
 }
 

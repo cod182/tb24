@@ -1,43 +1,19 @@
 import { BiError, BiPhotoAlbum } from "react-icons/bi";
-import { useEffect, useState } from "react";
 
 import { AddImagePopUp } from '../index';
 import DashboardCard from './DashboardCard'
 import Loader from "../Loader";
-import { getUserPhotos } from "../../lib/appwrite";
+import { useEffect } from "react";
 import { useGlobalContext } from '../../context/userAuthContext';
-
-type PhotosItem = {
-	imageUrl: string
-}
+import { usePhotoContext } from '../../context/usePhotoContext';
 
 const PhotosCard = () => {
 	const { user } = useGlobalContext();
+	const { photos, getPhotos, loading, error } = usePhotoContext();
 
-	// STATES
-	const [photos, setPhotos] = useState<PhotosItem[]>()
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState<string>();
 
 	// USE EFFECTS
 	useEffect(() => {
-		const getPhotos = async () => {
-			setLoading(true);
-			try {
-				if (user) {
-					const response = await getUserPhotos(user.$id);
-					const data = await response;
-					setPhotos(data);
-					setLoading(false);
-				} else {
-					console.error('User is not logged in');
-				}
-			} catch (error) {
-				setError('Error Fetching Photos');
-				setLoading(false);
-				console.error('Failed to fetch photos:', error);
-			}
-		}
 
 		getPhotos();
 	}, [user]);
@@ -68,7 +44,9 @@ const PhotosCard = () => {
 							))}
 						</div>
 					) : (
-						<AddImagePopUp userId={user ? user.$id : ''} />
+						<div className="h-[200px]">
+							<AddImagePopUp userId={user ? user.$id : ''} />
+						</div>
 					)
 				}
 

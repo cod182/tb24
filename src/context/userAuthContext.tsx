@@ -46,9 +46,6 @@ const UserContext = ({ children }: { children: ReactNode }) => {
 
 	const [loading, setLoading] = useState(true);
 
-	console.log(isLoggedIn);
-	console.log(user);
-
 	useEffect(() => {
 		if (isLoggedIn) {
 			getCurrentUser()

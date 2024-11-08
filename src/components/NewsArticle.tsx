@@ -7,7 +7,6 @@ type Props = {
 
 
 const NewsArticle = ({ article }: Props) => {
-	console.log(article);
 	return (
 		<article className="max-w-2xl mx-auto p-4 flex-col items-start justify-start w-full h-full">
 
