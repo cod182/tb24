@@ -6,10 +6,12 @@ import { FcAddImage } from 'react-icons/fc'
 import Loader from '../Loader';
 import { uploadUserImage } from '../../lib/appwrite'
 import { useNavigate } from 'react-router-dom';
+import { usePhotoContext } from '../../context/usePhotoContext';
 import { useState } from 'react';
 
 const AddImagePopUp = ({ userId }: { userId: string }) => {
 	const navigate = useNavigate();
+	const { getPhotos } = usePhotoContext();
 
 	// STATES
 	const [popUpState, setPopUpState] = useState(false);
@@ -24,6 +26,7 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 			const response = await uploadUserImage(image, userId)
 			console.log(response)
 			if (response) {
+				getPhotos();
 				setLoading(false);
 				setPopUpState(false);
 				setImage(null);
@@ -44,7 +47,7 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 		<div className="relative flex flex-col items-center justify-center gap-2 h-full w-full">
 
 			{/* PopUp Modal */}
-			<div className={`${popUpState ? 'h-[100%] py-2 pt-9' : 'h-[0%] py-0 pt-0'} p-x-2 overflow-hidden flex w-full absolute top-0 bg-gray-200/80 rounded-lg transition-all duration-200 ease flex-col items-center justify-center z-[2]`} onMouseLeave={() => setPopUpState(false)}>
+			<div className={`${popUpState ? 'h-[100%] py-2 pt-9' : 'h-[0%] py-0 pt-0'} p-x-2 overflow-hidden flex w-full absolute top-0 bg-gray-200/80 rounded-lg transition-all duration-200 ease flex-col items-center justify-center z-[2]`} >
 
 				{/* Close Button */}
 				<button className='absolute top-2 right-2 bg-yellow-300/70 hover:bg-yellow-400/90 hover:text-white p-2 rounded-full transition-all duration-200 ease' > <CgClose /></button>
