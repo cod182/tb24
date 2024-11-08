@@ -40,7 +40,7 @@ const DropdownNav = () => {
 				className=" w-full h-full bg-gray-400/70 p-0 m-0t text-white rounded-md border-yellow-300/80 border-2  hover:bg-gray-500/90 focus:outline-none transition-al duration-200 ease"
 				onClick={toggleDropdown}
 			>
-				<MdShowChart className='text-yellow-300 w-[70px] h-[45px] sm:w-[130px] sm:h-[85px] md:w-[230px] md:h-[155px] p-0 m-0' />
+				<MdShowChart className={`${isOpen ? 'text-blue-300' : 'text-yellow-300'} transition-all duration-200 ease w-[70px] h-[45px] sm:w-[130px] sm:h-[85px] md:w-[230px] md:h-[155px] p-0 m-0`} />
 
 			</button>
 
