@@ -3,4 +3,5 @@ export type FeedItem = {
 	link: string;
 	description: string;
 	pubDate: string;
+	media: string;
 }

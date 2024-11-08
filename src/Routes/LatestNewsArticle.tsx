@@ -37,17 +37,14 @@ const LatestNewsArticle = () => {
 	}, []);
 
 
-
-	// if (error) return (<Error />)
-
 	return (
-		<div className='w-full min-h-[100dvh] relativ flex flex-col items-center justify-center'>
+		<div className='w-full min-h-[100dvh] relative p-4 sm:p-24'>
 			{/* background */}
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
 
 			{error ? (
 				<Loader title='Error!' subText={error} icon={BiError} />
-			) : !loading ? (
+			) : loading ? (
 				<div className='w-full h-full flex flex-col items-center justify-center'>
 					<Loader title='Loading Latest News!' subText='Please wait...' icon={BiWorld} />
 				</div>

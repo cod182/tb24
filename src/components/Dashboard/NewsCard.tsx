@@ -1,7 +1,8 @@
+import { BiError, BiWorld } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 
-import { BiWorld } from 'react-icons/bi';
 import DashboardCard from './DashboardCard'
+import Loader from '../Loader';
 import { fetchBBCRSSFeed } from '../../utils/functions';
 
 type FeedItem = {
@@ -46,14 +47,11 @@ const NewsCard = () => {
 		<DashboardCard title='News' link='/latestnews'>
 			<div className='flex flex-col items-center justify-center gap-2 w-full h-full'>
 				{error ?
-					(<p>{error}</p>)
+					(
+						<Loader title='Error!' subText={error} icon={BiError} />
+					)
 					: loading ? (
-						<div className="w-full h-full flex flex-col items-center justify-center">
-							<BiWorld className="animate-spin w-[50px] h-[50px]" />
-							<p>
-								Loading...
-							</p>
-						</div>
+						<Loader title='Loading News' subText='Please wait...' icon={BiWorld} />
 					) : (
 						<>
 							<p className='text-3xl text-center'>{feedItems[0].title.length > 25

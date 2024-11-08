@@ -1,7 +1,7 @@
 import { IconType } from "react-icons";
 import React from "react";
 
-const Loader = ({ title, subText, icon }: { title: string; subText: string; icon?: IconType | string; }) => {
+const Loader = ({ title, subText, icon }: { title: string; subText?: string; icon?: IconType | string; }) => {
 	return (
 		<div className='w-full h-full flex flex-col items-center justify-center gap-2 text-center'>
 			{icon && (
@@ -13,7 +13,9 @@ const Loader = ({ title, subText, icon }: { title: string; subText: string; icon
 			)}
 			<div className="flex flex-col items-center justify-center">
 				<h1 className='text-3xl sm:text-2xl'>{title}</h1>
-				<p className='text-xl sm:text-lg'>{subText}</p>
+				{subText && (
+					<p className='text-xl sm:text-lg'>{subText}</p>
+				)}
 			</div>
 		</div>
 	);
