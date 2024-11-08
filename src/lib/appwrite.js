@@ -1,21 +1,28 @@
 import { Account, Client, Databases, ID, Query, Storage } from 'appwrite';
 
 const client = new Client();
-const databases = new Databases(client);
-const storage = new Storage(client);
-
 client
 	.setEndpoint('https://cloud.appwrite.io/v1')
 	.setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID);
 
+const databases = new Databases(client);
+const storage = new Storage(client);
 export const account = new Account(client);
-
 export { ID } from 'appwrite';
 
 export const login = async (email, password) => {
 	try {
 		const session = await account.createEmailPasswordSession(email, password);
 
+		return session;
+	} catch (error) {
+		throw new Error(error);
+	}
+}
+
+export const signOut = async () => {
+	try {
+		const session = await account.deleteSession('current');
 		return session;
 	} catch (error) {
 		throw new Error(error);
@@ -30,7 +37,7 @@ export const createNewUser = async (email, password, username, image) => {
 
 		await login(email, password);
 
-		const imageUrl = await uploadFile(image, "image")
+		const { fileUrl } = await uploadFile(image, "image")
 
 		const newUser = await databases.createDocument(
 			import.meta.env.VITE_APPWRITE_DATABASE_ID,
@@ -39,10 +46,10 @@ export const createNewUser = async (email, password, username, image) => {
 			accountId: newAccount.$id,
 			email: email,
 			username: username,
-			image: imageUrl
+			image: fileUrl
 		});
 
-		console.log(newUser)
+
 		return newUser;
 	} catch (err) {
 		throw new Error(err.message)
@@ -68,7 +75,7 @@ export const getCurrentUser = async () => {
 		return currentUser.documents[0];
 
 	} catch (error) {
-		console.log(error);
+		throw new Error(error);
 
 	}
 }
@@ -86,7 +93,10 @@ export const uploadFile = async (file, type) => {
 
 
 		const fileUrl = await getFilePreview(uploadedFile.$id, type)
-		return fileUrl;
+
+		const object = { fileUrl: fileUrl, fileId: uploadedFile.$id };
+
+		return object;
 
 	} catch (error) {
 		throw new Error(error)
@@ -110,3 +120,46 @@ export const getFilePreview = async (fileId, type) => {
 		throw new Error(error);
 	}
 }
+
+export const getUserPhotos = async (userId) => {
+	try {
+		const userPhotos = await databases.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION, [Query.equal('ownerId', userId)])
+		return userPhotos.documents;
+	} catch (error) {
+		throw new Error(error);
+	}
+}
+
+
+export const uploadUserImage = async (file, userId) => {
+	const { fileUrl, fileId } = await uploadFile(file, "image")
+
+	const newImageUpload = await databases.createDocument(
+		import.meta.env.VITE_APPWRITE_DATABASE_ID,
+		import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION,
+		ID.unique(), {
+		ownerId: userId,
+		imageUrl: fileUrl,
+		imageId: fileId
+	});
+	return newImageUpload;
+}
+
+
+export const deleteImage = async (imageId, documentId) => {
+	try {
+		// Deleting from storage bucket
+		const sr = await storage.deleteFile(import.meta.env.VITE_APPWRITE_USER_IMAGE_STORAGE_ID, imageId);
+		// Deleting from collection
+		const dbd = await databases.deleteDocument(
+			import.meta.env.VITE_APPWRITE_DATABASE_ID,
+			import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION,
+			documentId
+		);
+		return { bucket: sr, collection: dbd }
+
+	} catch (error) {
+		console.error(`Error deleting image with ID ${imageId}:`, error);
+		throw new Error(`Failed to delete image with ID ${imageId}`);
+	}
+};

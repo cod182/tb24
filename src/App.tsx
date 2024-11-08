@@ -1,14 +1,18 @@
 import { Auth, Dashboard } from './Routes/';
 import { Route, Routes } from 'react-router-dom';
 
+import LatestNewsArticle from './Routes/LatestNewsArticle';
+import Photos from './Routes/Photos';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 
 function App() {
   return (
-    <div className='w-[100vw] h-[100dvh] bg-blue-200'>
+    <div className='w-[100vw] h-[100dvh]'>
       <Routes>
         {/* Public route */}
         <Route path="/" element={<Auth />} />
+
+        <Route path="/latestnews" element={<LatestNewsArticle />} />
 
         {/* Protected routes */}
         <Route
@@ -16,6 +20,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/photos"
+          element={
+            <ProtectedRoute>
+              <Photos />
             </ProtectedRoute>
           }
         />

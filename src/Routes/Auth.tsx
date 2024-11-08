@@ -1,5 +1,7 @@
 import { AuthForm } from '../components';
+import { Navigate } from 'react-router-dom';
 import bbImage from '../assets/media/images/auth-bg.webp';
+import { useGlobalContext } from '../context/userAuthContext';
 import { useState } from 'react';
 
 const Auth = () => {
@@ -8,7 +10,8 @@ const Auth = () => {
 	const [isRegistering, setIsRegistering] = useState(false);
 
 	// Functions
-
+	const { isLoggedIn } = useGlobalContext();
+	if (isLoggedIn) return <Navigate to="/dashboard" replace />;
 
 	return (
 		<div className='w-full h-[100dvh] flex flex-col items-center justify-center relative'>

@@ -20,23 +20,22 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 	const [image, setImage] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
+
 	const navigate = useNavigate();
 
-
 	const { setUser, setIsLoggedIn } = useGlobalContext();
-
-
 
 	// Functions
 
 	const handleOnLogin = async (email: string, password: string) => {
 		setLoading(true);
+		setError('');
 		try {
 			await login(email, password);
 			const result = await getCurrentUser();
 
-			setUser(result);
 			if (result) {
+				setUser(result);
 				setIsLoggedIn(true)
 				navigate('/dashboard');
 			}
@@ -44,6 +43,9 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			setError(err.message);
+			setTimeout(() => {
+				setError('');
+			}, 1500)
 		} finally {
 			setLoading(false);
 		}

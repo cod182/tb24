@@ -2,12 +2,17 @@ import React, { ReactNode, createContext, useContext, useEffect, useState } from
 
 import { getCurrentUser } from '../lib/appwrite';
 
-interface User {
+type User = {
 	// Define the properties of the User type here
-	id: number;
-	name: string;
+	$collectionId: string;
+	$createdAt: string;
+	$databaseId: string;
+	$id: string;
+	$updatedAt: string;
+	accountId: string;
 	email: string;
-	// Add any other properties
+	image: string;
+	username: string;
 }
 
 interface GlobalContextType {
@@ -41,9 +46,6 @@ const UserContext = ({ children }: { children: ReactNode }) => {
 
 	const [loading, setLoading] = useState(true);
 
-	console.log(isLoggedIn);
-	console.log(user);
-
 	useEffect(() => {
 		if (isLoggedIn) {
 			getCurrentUser()
@@ -72,3 +74,4 @@ const UserContext = ({ children }: { children: ReactNode }) => {
 };
 
 export default UserContext;
+
