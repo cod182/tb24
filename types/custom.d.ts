@@ -11,3 +11,10 @@ export type ClothesItem = {
 	date: string;
 	clothe: string;
 }
+
+export type PhotoProps = {
+	$id: string;
+	ownerId: string;
+	imageUrl: string;
+	imageId: string;
+}

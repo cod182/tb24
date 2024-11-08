@@ -37,7 +37,7 @@ export const createNewUser = async (email, password, username, image) => {
 
 		await login(email, password);
 
-		const imageUrl = await uploadFile(image, "image")
+		const { fileUrl } = await uploadFile(image, "image")
 
 		const newUser = await databases.createDocument(
 			import.meta.env.VITE_APPWRITE_DATABASE_ID,
@@ -46,7 +46,7 @@ export const createNewUser = async (email, password, username, image) => {
 			accountId: newAccount.$id,
 			email: email,
 			username: username,
-			image: imageUrl
+			image: fileUrl
 		});
 
 
@@ -93,7 +93,10 @@ export const uploadFile = async (file, type) => {
 
 
 		const fileUrl = await getFilePreview(uploadedFile.$id, type)
-		return fileUrl;
+
+		const object = { fileUrl: fileUrl, fileId: uploadedFile.$id };
+
+		return object;
 
 	} catch (error) {
 		throw new Error(error)
@@ -129,15 +132,34 @@ export const getUserPhotos = async (userId) => {
 
 
 export const uploadUserImage = async (file, userId) => {
-	const imageUrl = await uploadFile(file, "image")
+	const { fileUrl, fileId } = await uploadFile(file, "image")
 
 	const newImageUpload = await databases.createDocument(
 		import.meta.env.VITE_APPWRITE_DATABASE_ID,
 		import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION,
 		ID.unique(), {
 		ownerId: userId,
-		imageUrl: imageUrl
+		imageUrl: fileUrl,
+		imageId: fileId
 	});
-
+	console.log(newImageUpload)
 	return newImageUpload;
 }
+
+
+export const deleteImage = async (imageId, documentId) => {
+	try {
+		// Deleting from storage bucket
+		storage.deleteFile(import.meta.env.VITE_APPWRITE_USER_IMAGE_STORAGE_ID, imageId);
+		// Deleting from collection
+		databases.deleteDocument(
+			import.meta.env.VITE_APPWRITE_DATABASE_ID,
+			import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION,
+			documentId
+		);
+
+	} catch (error) {
+		console.error(`Error deleting image with ID ${imageId}:`, error);
+		throw new Error(`Failed to delete image with ID ${imageId}`);
+	}
+};

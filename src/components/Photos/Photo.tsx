@@ -1,17 +1,16 @@
-import { GiCancel, GiTick, GiTicket } from 'react-icons/gi';
-import React, { useState } from 'react'
-import { TiCancel, TiTick } from 'react-icons/ti';
-
 import { BiTrash } from 'react-icons/bi';
 import { IoClose } from 'react-icons/io5';
+import { TiTick } from 'react-icons/ti';
+import { useState } from 'react'
 
 type Props = {
 	photo: {
 		$id: string;
 		ownerId: string;
 		imageUrl: string;
+		imageId: string
 	};
-	deleteImage: (id: string) => void
+	deleteImage: (imageId: string, documentId: string) => void
 }
 
 const Photo = ({ photo, deleteImage }: Props) => {
@@ -22,8 +21,7 @@ const Photo = ({ photo, deleteImage }: Props) => {
 	const handleDeleteImage = () => {
 
 		if (checkDelete) {
-			// deleteImage(photo.$id)
-			console.log('Delete the image')
+			deleteImage(photo.imageId, photo.$id);
 			setCheckDelete(false);
 
 		} else {
