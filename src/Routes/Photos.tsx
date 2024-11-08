@@ -59,7 +59,7 @@ const Photos = () => {
 					</div>
 					<div className='w-full h-full p-2 flex flex-row items-center justify-center gap-2'>
 
-						<PhotoAlbum photos={photos} />
+						<PhotoAlbum photos={photos} deleteImage={() => { }} />
 						<div>
 							<AddImagePopUp userId={user.$id} />
 						</div>
