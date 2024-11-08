@@ -1,8 +1,8 @@
 import { BiError, BiPhotoAlbum } from "react-icons/bi";
 import { useEffect, useState } from "react";
 
+import { AddImagePopUp } from '../index';
 import DashboardCard from './DashboardCard'
-import { FcAddImage } from "react-icons/fc";
 import Loader from "../Loader";
 import { getUserPhotos } from "../../lib/appwrite";
 import { useGlobalContext } from '../../context/userAuthContext';
@@ -14,12 +14,12 @@ type PhotosItem = {
 const PhotosCard = () => {
 	const { user } = useGlobalContext();
 
-
+	// STATES
 	const [photos, setPhotos] = useState<PhotosItem[]>()
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<string>();
 
-
+	// USE EFFECTS
 	useEffect(() => {
 		const getPhotos = async () => {
 			setLoading(true);
@@ -43,11 +43,9 @@ const PhotosCard = () => {
 	}, [user]);
 
 
-
-
 	return (
-		<DashboardCard title='Photos' link='photos'>
-			<div className='w-full h-full group '>
+		<DashboardCard title='Photos' link={photos && photos.length > 0 ? '/photos' : undefined}>
+			<div className='w-full h-full '>
 				{error ?
 					(
 						<Loader title='Error!' subText={error} icon={BiError} />
@@ -70,10 +68,7 @@ const PhotosCard = () => {
 							))}
 						</div>
 					) : (
-						<div className="flex flex-col items-center justify-center gap-2 h-full w-full">
-							<p className="text-3xl group-hover:text-yellow-300 transition-all duration-200 ease">Add Photos</p>
-							<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
-						</div>
+						<AddImagePopUp userId={user ? user.$id : ''} />
 					)
 				}
 
