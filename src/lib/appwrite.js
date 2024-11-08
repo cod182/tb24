@@ -120,9 +120,24 @@ export const getFilePreview = async (fileId, type) => {
 
 export const getUserPhotos = async (userId) => {
 	try {
-		const userPhotos = await databases.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION, [Query.equal('users', userId)])
+		const userPhotos = await databases.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION, [Query.equal('ownerId', userId)])
 		return userPhotos.documents;
 	} catch (error) {
 		throw new Error(error);
 	}
+}
+
+
+export const uploadUserImage = async (file, userId) => {
+	const imageUrl = await uploadFile(file, "image")
+
+	const newImageUpload = await databases.createDocument(
+		import.meta.env.VITE_APPWRITE_DATABASE_ID,
+		import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION,
+		ID.unique(), {
+		ownerId: userId,
+		imageUrl: imageUrl
+	});
+
+	return newImageUpload;
 }

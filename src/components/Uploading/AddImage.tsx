@@ -1,6 +1,7 @@
+import { FcAddImage } from "react-icons/fc";
 import { useState } from "react";
 
-const AddImage = ({ handleSubmit }: { handleSubmit: (e: React.FormEvent) => void }) => {
+const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEvent) => void; setImage: React.Dispatch<React.SetStateAction<File | null>> }) => {
 
 	const [imagePreview, setImagePreview] = useState<string | null>();
 	const [error, setError] = useState<string>('');
@@ -16,6 +17,7 @@ const AddImage = ({ handleSubmit }: { handleSubmit: (e: React.FormEvent) => void
 				reader.onloadend = () => {
 					if (reader.result) {
 						setImagePreview(reader.result as string);
+						setImage(file);
 					}
 				};
 				reader.readAsDataURL(file);
@@ -27,10 +29,11 @@ const AddImage = ({ handleSubmit }: { handleSubmit: (e: React.FormEvent) => void
 
 	const handleRemoveImage = () => {
 		setImagePreview(null);
+		setImage(null);
 	};
 
 	return (
-		<div className="w-full h-fit relative">
+		<div className="w-full h-full relative">
 			<div className={`absolute flex flex-col items-center justify-center w-full top z-[3] transition-all duration-200 ease  ${error ? 'max-h-[300px] overflow-scroll' : 'max-h-[0px] overflow-hidden'}`}>
 				<div className=" bg-red-500/90 w-fit rounded-full px-4 py-2">
 					<p className="text-black font-xl">
@@ -40,8 +43,8 @@ const AddImage = ({ handleSubmit }: { handleSubmit: (e: React.FormEvent) => void
 			</div>
 
 			<form onSubmit={handleSubmit} className="w-full h-fit p-2">
-				<div className='flex flex-wrap flex-row items-start justify-center w-full gap-2  relative h-full'>
-					<label htmlFor="image" className="h-full max-h-[100px] w-full flex flex-col items-center justify-center gap-2">
+				<div className='flex flex-wrap flex-col items-center justify-center w-full gap-2 relative h-full'>
+					<label htmlFor="image" className="h-[100px] w-full flex flex-col items-center justify-center gap-2">
 						<input
 							type="file"
 							id="image"
@@ -62,11 +65,14 @@ const AddImage = ({ handleSubmit }: { handleSubmit: (e: React.FormEvent) => void
 								/>
 							) : (
 								// If no image, show "Add Image" text
-								<span className='text-white font-semibold select-none'>Add Picture</span>
+								<>
+									<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
+								</>
+
 							)}
 						</div>
 					</label>
-					<button className="w-full h-fit py-2 px-4 bg-yellow-300/70 hover:bg-yellow-400/90 text-black font-semibold rounded-lg">Upload</button>
+					<button disabled={!imagePreview} className={`w-full h-fit py-2 px-4  text-black font-semibold rounded-lg ${imagePreview ? 'bg-yellow-300/70 hover:bg-yellow-400/90 text-black' : 'bg-gray-300 text-gray-500'}`}>Upload</button>
 				</div>
 
 			</form>
