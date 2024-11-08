@@ -62,8 +62,13 @@ export const getWeatherIcon = (weatherType: string) => {
 
 export const fetchBBCRSSFeed = async (rssFeed: string) => {
 	try {
-		// const response = await fetch(rssFeed);
-		const response = await fetch(`${window.location.href}/.netlify/functions/fetch-rss`);
+		// Use the Netlify function as a proxy
+		const proxyUrl = process.env.NODE_ENV === 'production'
+			? `${window.location.origin}/.netlify/functions/fetch-rss` // Production (Netlify URL)
+			: `http://localhost:8888/.netlify/functions/fetch-rss`; // Local development (Netlify dev)
+
+		// const proxyUrl = `http://localhost:8888/.netlify/functions/fetch-rss`
+		const response = await fetch(proxyUrl);
 
 		if (!response.ok) {
 			throw new Error(`Error Fetching RSS Feed: ${response.statusText}`);
@@ -76,12 +81,10 @@ export const fetchBBCRSSFeed = async (rssFeed: string) => {
 		const parser = new DOMParser();
 		const xmlDoc = parser.parseFromString(text, 'application/xml');
 
-
 		const errorNode = xmlDoc.querySelector('parsererror');
 		if (errorNode) {
 			throw new Error('Invalid XML response');
 		}
-
 
 		const items = Array.from(xmlDoc.querySelectorAll('item')).map((item) => {
 			const mediaThumbnail = item.getElementsByTagName('media:thumbnail')[0];
@@ -102,6 +105,7 @@ export const fetchBBCRSSFeed = async (rssFeed: string) => {
 		throw new Error(`Error fetching RSS feed: ${String(error)}`);
 	}
 };
+
 
 
 export const formatDate = (dateString: string) => {

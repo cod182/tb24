@@ -1,7 +1,7 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
-exports.handler = async (event, context) => {
-	const rssFeedUrl = 'https://feeds.bbci.co.uk/bbc/news/rss.xml';
+export const handler = async (event, context) => {
+	const rssFeedUrl = 'https://feeds.bbci.co.uk/news/rss.xml';
 
 	try {
 		const response = await fetch(rssFeedUrl);
@@ -10,22 +10,31 @@ exports.handler = async (event, context) => {
 			return {
 				statusCode: 500,
 				body: JSON.stringify({ message: 'Error fetching RSS feed' }),
+				headers: {
+					'Access-Control-Allow-Origin': '*', // Allow requests from any origin
+					'Content-Type': 'application/json',
+				},
 			};
 		}
 
 		const data = await response.text();
+		console.log(data)
 
 		return {
 			statusCode: 200,
 			body: data,
 			headers: {
-				'Content-Type': 'application/xml', // Set correct content type for RSS
+				'Access-Control-Allow-Origin': '*', // Allow requests from any origin
+				'Content-Type': 'application/xml', // Correct content type for RSS
 			},
 		};
 	} catch (error) {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({ message: 'Failed to fetch RSS feed', error: error.message }),
+			headers: {
+				'Access-Control-Allow-Origin': '*', // Allow requests from any origin
+			},
 		};
 	}
 };
