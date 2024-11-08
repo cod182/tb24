@@ -68,7 +68,7 @@ const ClothesCard = () => {
 	useEffect(() => {
 		if (clothesData) {
 			// Process pie chart data when clothesData changes
-			const labels = clothesData.map(({ garment }) => garment);
+			const labels = clothesData.map(({ garment }) => garment.toUpperCase());
 			const count = clothesData.map(({ count }) => count);
 
 			setPieData({
