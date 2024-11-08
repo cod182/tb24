@@ -12,7 +12,6 @@ const DashboardCard = ({ title, children, link }: Props) => {
 			href={link}
 			className={`h-[280px] w-[400px] flex flex-col justify-start items-center border-2 border-yellow-300 bg-gray-300/60 overflow-hidden rounded-lg mx-auto ${link ? 'transition-all duration-200 ease hover:scale-105' : ''
 				}`}
-			{...(link && { target: '_blank', rel: 'noopener noreferrer' })}
 		>
 			<div className="w-full h-[60px] bg-yellow-300 flex items-center justify-center">
 				<p className="text-center text-black text-3xl capitalize">{title}</p>

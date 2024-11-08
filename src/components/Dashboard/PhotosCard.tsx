@@ -47,17 +47,30 @@ const PhotosCard = () => {
 
 	return (
 		<DashboardCard title='Photos' link='photos'>
-			<div className='flex flex-col items-center justify-center gap-2 w-full h-full group'>
+			<div className='w-full h-full group '>
 				{error ?
 					(
 						<Loader title='Error!' subText={error} icon={BiError} />
 					)
 					: loading ? (
 						<Loader title='Loading Photos' subText='Please wait...' icon={BiPhotoAlbum} />
-					) : photos.length > 0 ? (
-						<div></div>
+					) : photos && photos.length > 0 ? (
+						<div className="grid grid-cols-2 grid-rows-2 gap-x-6 w-fit items-center h-[229px] mx-auto">
+							{photos.map((photo, index) => (
+								<div key={index} className="relative overflow-hidden h-[90px] max-w-full  rounded-lg border-black border-2 bg-gray-300/80">
+									<img
+										src={photo.imageUrl}
+										alt={`Photo ${index + 1}`}
+										className="h-full w-full object-cover"
+									/>
+								</div>
+							))}
+							{photos.length < 4 && Array.from({ length: 4 - photos.length }).map((_, index) => (
+								<div key={index} className="relative overflow-hidden h-[90px] w-full rounded-lg border-black border-2 bg-gray-300/80" />
+							))}
+						</div>
 					) : (
-						<div className="flex flex-col items-center justify-center gap-2">
+						<div className="flex flex-col items-center justify-center gap-2 h-full w-full">
 							<p className="text-3xl group-hover:text-yellow-300 transition-all duration-200 ease">Add Photos</p>
 							<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
 						</div>
