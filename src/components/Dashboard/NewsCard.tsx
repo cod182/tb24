@@ -39,7 +39,7 @@ const NewsCard = () => {
 			}
 		};
 
-		fetchRSSFeed('https://feeds.bbci.co.uk/news/rss.xml');
+		fetchRSSFeed('bbc/news/rss.xml');
 	}, []);
 
 

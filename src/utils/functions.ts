@@ -29,19 +29,60 @@ export const getWeatherIcon = (weatherType: string) => {
 
 
 
-export const fetchBBCRSSFeed = async (rssFeed: string) => {
+// export const fetchBBCRSSFeed = async (rssFeed: string) => {
 
+// 	try {
+// 		const response = await fetch(rssFeed);
+// 		if (!response.ok) throw new Error('Error Fetching RSS Feed');
+
+// 		const text = await response.text();
+// 		const parser = new DOMParser();
+// 		const xmlDoc = parser.parseFromString(text, 'application/xml');
+
+
+// 		const items = Array.from(xmlDoc.querySelectorAll('item')).map((item) => {
+
+// 			const mediaThumbnail = item.getElementsByTagName('media:thumbnail')[0];
+
+// 			return {
+// 				title: item.querySelector('title')?.textContent || '',
+// 				link: item.querySelector('link')?.textContent || '',
+// 				description: item.querySelector('description')?.textContent || '',
+// 				pubDate: item.querySelector('pubDate')?.textContent || '',
+// 				media: mediaThumbnail ? mediaThumbnail.getAttribute('url') ?? '' : '',
+// 			};
+// 		})
+
+// 		return items;
+
+// 	} catch (error: unknown) {
+// 		throw new Error(String(error))
+// 	}
+// };
+
+export const fetchBBCRSSFeed = async (rssFeed: string) => {
 	try {
 		const response = await fetch(rssFeed);
-		if (!response.ok) throw new Error('Error Fetching RSS Feed');
 
+		if (!response.ok) {
+			throw new Error(`Error Fetching RSS Feed: ${response.statusText}`);
+		}
+
+		// Convert the response to text
 		const text = await response.text();
+
+		// Parse the response as XML
 		const parser = new DOMParser();
 		const xmlDoc = parser.parseFromString(text, 'application/xml');
 
 
-		const items = Array.from(xmlDoc.querySelectorAll('item')).map((item) => {
+		const errorNode = xmlDoc.querySelector('parsererror');
+		if (errorNode) {
+			throw new Error('Invalid XML response');
+		}
 
+
+		const items = Array.from(xmlDoc.querySelectorAll('item')).map((item) => {
 			const mediaThumbnail = item.getElementsByTagName('media:thumbnail')[0];
 
 			return {
@@ -51,12 +92,13 @@ export const fetchBBCRSSFeed = async (rssFeed: string) => {
 				pubDate: item.querySelector('pubDate')?.textContent || '',
 				media: mediaThumbnail ? mediaThumbnail.getAttribute('url') ?? '' : '',
 			};
-		})
+		});
 
 		return items;
 
 	} catch (error: unknown) {
-		throw new Error(String(error))
+		console.error(`Error fetching RSS feed from ${rssFeed}:`, error);
+		throw new Error(`Error fetching RSS feed: ${String(error)}`);
 	}
 };
 

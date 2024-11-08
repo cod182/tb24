@@ -33,7 +33,7 @@ const LatestNewsArticle = () => {
 			}
 		};
 
-		fetchRSSFeed('https://feeds.bbci.co.uk/news/rss.xml');
+		fetchRSSFeed('bbc/news/rss.xml');
 	}, []);
 
 
@@ -42,6 +42,10 @@ const LatestNewsArticle = () => {
 			{/* background */}
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
 
+			<div className='w-full'>
+				<a href="/dashboard" className='group z-[1] px-4 py-2 bg-yellow-300/80 text-black hover:bg-yellow-300/90 rounded-lg flex flex-row items-center justify-center gap-2 w-fit transition-all duration-200 ease'> <BiArrowBack className='inline group-hover:translate-x-[-5px] group-hover:font-bold transition-all duration-200 ease' /> Back</a>
+			</div>
+
 			{error ? (
 				<Loader title='Error!' subText={error} icon={BiError} />
 			) : loading ? (
@@ -49,12 +53,7 @@ const LatestNewsArticle = () => {
 					<Loader title='Loading Latest News!' subText='Please wait...' icon={BiWorld} />
 				</div>
 			) : (
-				<>
-					<div className='w-full'>
-						<a href="/dashboard" className='group z-[1] px-4 py-2 bg-yellow-300/80 text-black hover:bg-yellow-300/90 rounded-lg flex flex-row items-center justify-center gap-2 w-fit transition-all duration-200 ease'> <BiArrowBack className='inline group-hover:translate-x-[-5px] group-hover:font-bold transition-all duration-200 ease' /> Back</a>
-					</div>
-					<NewsArticle article={feedItems[0]} />
-				</>
+				<NewsArticle article={feedItems[0]} />
 			)}
 		</div>
 	)
