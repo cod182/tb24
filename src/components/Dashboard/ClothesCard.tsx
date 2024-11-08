@@ -1,31 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import {
+	ArcElement,
+	CategoryScale,
+	Chart as ChartJS,
+	Tooltip,
+} from 'chart.js';
+import { useEffect, useState } from 'react';
 
 import { BiError } from 'react-icons/bi';
 import { ClothesItem } from '../../../types/custom';
-import DashboardCard from './DashboardCard'
+import DashboardCard from './DashboardCard';
 import { GiClothesline } from 'react-icons/gi';
-import Loader from '../Loader'
+import Loader from '../Loader';
+import { Pie } from 'react-chartjs-2';
 import { fetchJsonData } from '../../utils/functions';
 
 type ClothesFrequency = {
 	count: number;
-	garment: string
-}
+	garment: string;
+};
+
+type PieDataProps = {
+	labels: string[];
+	datasets: {
+		data: number[];
+		backgroundColor: string[];
+		borderColor: string[];
+		borderWidth: number;
+	}[];
+};
+
+
+ChartJS.register(ArcElement, CategoryScale, Tooltip);
 
 const ClothesCard = () => {
 	const [clothesData, setClothesData] = useState<ClothesFrequency[]>();
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string>();
-
+	const [pieData, setPieData] = useState<PieDataProps>();
 
 	useEffect(() => {
-		/*************  ✨ Codeium Command ⭐  *************/
-		/**
-		 * Fetches the clothes data from the given RSS feed and processes it.
-		 * @param {string} RSSFeed - The URL of the RSS feed to fetch
-		 * @returns {Promise<void>}
-		 */
-		/******  708f038c-b9ba-4466-bc07-5207aa2f00c8  *******/
 		const getClothesData = async (RSSFeed: string) => {
 			setLoading(true);
 			try {
@@ -37,20 +50,15 @@ const ClothesCard = () => {
 					return;
 				}
 
-				//Gets the payload from the response
-				const clothes = response.payload
-				const clothesFrequency = getClothingWearFreq(clothes)
-
-
-				// Map the result to show which clothing was worn and how often
+				const clothes = response.payload;
+				const clothesFrequency = getClothingWearFreq(clothes);
 
 				setClothesData(clothesFrequency);
 				setLoading(false);
-
 			} catch (error) {
 				setLoading(false);
 				setError('Error Fetching Clothes Data');
-				console.error('Failed to Clothes Data:', error);
+				console.error('Failed to fetch clothes data:', error);
 			}
 		};
 
@@ -58,47 +66,55 @@ const ClothesCard = () => {
 	}, []);
 
 	useEffect(() => {
+		if (clothesData) {
+			// Process pie chart data when clothesData changes
+			const labels = clothesData.map(({ garment }) => garment);
+			const count = clothesData.map(({ count }) => count);
 
-	}, [clothesData])
+			setPieData({
+				labels: labels,
+				datasets: [
+					{
+						data: count,
+						backgroundColor: ['#d0392f', '#75D02F', '#2FC6D0', '#8A2FD0', '#3341cc', '#c7ea15'],
+						borderColor: ['#d0392f', '#75D02F', '#2FC6D0', '#8A2FD0', '#3341cc', '#c7ea15'],
+						borderWidth: 1,
+					},
+				],
+			});
+		}
+	}, [clothesData]); // This effect runs when clothesData changes
 
-	// FUNCTIONS
+	// Function to calculate the clothing frequency
 	const getClothingWearFreq = (clothes: ClothesItem[]) => {
-		// Reduce the clothes array and count the occurrences of each clothing type retuning an object {item: count}
-		const clothingCounts = clothes.reduce((acc: { [x: string]: number; }, item: ClothesItem) => {
+		const clothingCounts = clothes.reduce((acc: { [x: string]: number }, item: ClothesItem) => {
 			const garment = item.clothe;
 			acc[garment] = acc[garment] ? acc[garment] + 1 : 1;
 			return acc;
 		}, {});
 
-		// Takes the clothing count object and returns an array of objects with the format {garment: string, count: number}
-		const frequencyList = Object.entries(clothingCounts).map(([garment, count]) => ({
+		return Object.entries(clothingCounts).map(([garment, count]) => ({
 			garment,
-			count
+			count,
 		}));
-		return frequencyList
-	}
+	};
+
 
 	return (
-		<DashboardCard title='Clothes' >
+		<DashboardCard title='Clothes'>
 			<div className='flex flex-col items-center justify-center gap-2 w-full h-full'>
-				{error ?
-					(
-						<Loader title='Error!' subText={error} icon={BiError} />
-					)
-					: loading ? (
-						<Loader title='Loading Clothes Info' subText='Please wait...' icon={GiClothesline} />
-					) : (
-						<>
-							<p className='text-3xl text-center'></p>
-							<p className='text-xl text-center'></p>
+				{error ? (
+					<Loader title='Error!' subText={error} icon={BiError} />
+				) : loading ? (
+					<Loader title='Loading Clothes Info' subText='Please wait...' icon={GiClothesline} />
+				) : pieData ? (
 
-						</>
-					)
-				}
+					<Pie data={pieData} className='max-h-[200px] w-auto' />
 
+				) : null}
 			</div>
 		</DashboardCard>
-	)
-}
+	);
+};
 
-export default ClothesCard
+export default ClothesCard;
