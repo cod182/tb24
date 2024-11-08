@@ -2,6 +2,7 @@ import { Auth, Dashboard } from './Routes/';
 import { Route, Routes } from 'react-router-dom';
 
 import LatestNewsArticle from './Routes/LatestNewsArticle';
+import Photos from './Routes/Photos';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 
 function App() {
@@ -19,6 +20,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/photos"
+          element={
+            <ProtectedRoute>
+              <Photos />
             </ProtectedRoute>
           }
         />

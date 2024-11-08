@@ -103,3 +103,50 @@ export const fetchJsonData = async (url: string) => {
 	}
 }
 
+
+
+export const resizeImage = async (
+	image: File,
+	width: number,
+	height: number
+): Promise<File> => {
+	const img = new Image();
+
+	// Convert file to a url
+	img.src = URL.createObjectURL(image);
+
+	await new Promise<void>((resolve, reject) => {
+		img.onload = () => resolve();
+		img.onerror = (error) => reject(error);
+	});
+
+	// Create a canvas to resize the image
+	const canvas = document.createElement('canvas');
+	const ctx = canvas.getContext('2d');
+	if (!ctx) throw new Error("Failed to get canvas context");
+
+	canvas.width = width;
+	canvas.height = height;
+
+	// Using Canvas to create the image
+	ctx.drawImage(img, 0, 0, width, height);
+
+	// convert the cancas to a file
+	return new Promise<File>((resolve, reject) => {
+		canvas.toBlob(
+			(blob) => {
+				if (blob) {
+					// Create a new File with the same name and type as the original
+					const resizedFile = new File([blob], image.name, {
+						type: image.type || 'image/jpeg',
+						lastModified: Date.now(),
+					});
+					resolve(resizedFile);
+				} else {
+					reject(new Error("Failed to convert canvas to Blob"));
+				}
+			},
+			image.type || 'image/jpeg'
+		);
+	});
+};

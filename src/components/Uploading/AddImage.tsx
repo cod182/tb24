@@ -1,4 +1,5 @@
 import { FcAddImage } from "react-icons/fc";
+import { resizeImage } from "../../utils/functions";
 import { useState } from "react";
 
 const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEvent) => void; setImage: React.Dispatch<React.SetStateAction<File | null>> }) => {
@@ -7,20 +8,23 @@ const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEven
 	const [error, setError] = useState<string>('');
 
 	// Handle file input change
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (file) {
 			// Check if the file is an image
 			if (file.type.startsWith('image/')) {
+				const resizedFile = await resizeImage(file, 280, 280)
 
 				const reader = new FileReader();
 				reader.onloadend = () => {
 					if (reader.result) {
+
 						setImagePreview(reader.result as string);
-						setImage(file);
+						setImage(resizedFile);
 					}
 				};
-				reader.readAsDataURL(file);
+
+				reader.readAsDataURL(resizedFile);
 			} else {
 				setError('Please upload a valid image');
 			}
@@ -54,7 +58,7 @@ const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEven
 
 						/>
 						{/* Custom Styled Button */}
-						<div className={`w-full relative h-full p-4 border-2 flex flex-col items-center justify-center border-yellow-300 transition-all duration-200 ease bg-gray-400/70 text-center  rounded-lg cursor-pointer hover:bg-gray-400/90 group`}>
+						<div className={`aspect-square w-[100px] h-[100px] relative p-4 border-2 flex flex-col items-center justify-center border-yellow-300 transition-all duration-200 ease bg-gray-400/70 text-center  rounded-lg cursor-pointer hover:bg-gray-400/90 group`}>
 							{imagePreview ? (
 								// If an image is uploaded, show it as a preview over the button
 								<img

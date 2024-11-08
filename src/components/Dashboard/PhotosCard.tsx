@@ -54,7 +54,7 @@ const PhotosCard = () => {
 						<Loader title='Loading Photos' subText='Please wait...' icon={BiPhotoAlbum} />
 					) : photos && photos.length > 0 ? (
 						<div className="grid grid-cols-2 grid-rows-2 gap-x-6 w-fit items-center h-[229px] mx-auto">
-							{photos.map((photo, index) => (
+							{photos.slice(0, 4).map((photo, index) => (
 								<div key={index} className="relative overflow-hidden h-[90px] max-w-full  rounded-lg border-black border-2 bg-gray-300/80">
 									<img
 										src={photo.imageUrl}
