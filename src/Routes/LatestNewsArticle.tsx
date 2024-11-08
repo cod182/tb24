@@ -33,7 +33,7 @@ const LatestNewsArticle = () => {
 			}
 		};
 
-		fetchRSSFeed('http://feeds.bbci.co.uk/bbc/news/rss.xml');
+		fetchRSSFeed('https://feeds.bbci.co.uk/bbc/news/rss.xml');
 	}, []);
 
 
