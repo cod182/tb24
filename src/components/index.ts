@@ -1,3 +1,4 @@
+import PhotoAlbum from './PhotoAlbum';
 export { default as AuthForm } from './Auth/AuthForm';
 export { default as ProtectedRoute } from './Auth/ProtectedRoute';
 export { default as DashboardPanel } from './Dashboard/DashboardPanel';
@@ -9,3 +10,4 @@ export { default as NewsArticle } from './NewsArticle';
 export { default as Loader } from './Loader';
 export { default as AddImagePopUp } from './Uploading/AddImagePopUp'
 export { default as AddImage } from './Uploading/AddImage'
+export { default as PhotoAlbum } from './PhotoAlbum'

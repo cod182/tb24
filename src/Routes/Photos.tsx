@@ -1,5 +1,5 @@
-import { AddImagePopUp, Loader } from '../components';
-import { BiError, BiPhotoAlbum } from 'react-icons/bi';
+import { AddImagePopUp, Loader, PhotoAlbum } from '../components';
+import { BiArrowBack, BiError, BiPhotoAlbum } from 'react-icons/bi';
 import React, { useEffect, useState } from 'react'
 
 import bgImage from '../assets/media/images/dash-bg.webp';
@@ -10,7 +10,11 @@ const Photos = () => {
 	const { user } = useGlobalContext();
 
 	// STATES
-	const [photos, setPhotos] = useState<{ imageUrl: string }[]>()
+	const [photos, setPhotos] = useState<{
+		$id: string;
+		ownerId: string;
+		imageUrl: string;
+	}[]>()
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<string>();
 
@@ -41,32 +45,29 @@ const Photos = () => {
 		<div className='w-full min-h-[100dvh] relative p-4 sm:p-24'>
 			{/* background */}
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
-			{error ?
-				(
-					<Loader title='Error!' subText={error} icon={BiError} />
-				)
-				: loading ? (
-					<Loader title='Loading Photos' subText='Please wait...' icon={BiPhotoAlbum} />
-				) : photos && photos.length > 0 ? (
-					<div className="grid grid-cols-2 grid-rows-2 gap-x-6 w-fit items-center h-[229px] mx-auto">
-						{photos.map((photo, index) => (
-							<div key={index} className="relative overflow-hidden h-[90px] max-w-full  rounded-lg border-black border-2 bg-gray-300/80">
-								<img
-									src={photo.imageUrl}
-									alt={`Photo ${index + 1}`}
-									className="h-full w-full object-cover"
-								/>
-							</div>
-						))}
-						{photos.length < 4 && Array.from({ length: 4 - photos.length }).map((_, index) => (
-							<div key={index} className="relative overflow-hidden h-[90px] w-full rounded-lg border-black border-2 bg-gray-300/80" />
-						))}
-					</div>
-				) : (
-					<AddImagePopUp userId={user ? user.$id : ''} />
-				)
-			}
 
+			{error ? (
+				<Loader title='Error!' subText={error} icon={BiError} />
+			) : loading ? (
+				<div className='w-full h-full flex flex-col items-center justify-center'>
+					<Loader title='Loading Your Photos' subText='Please wait...' icon={BiPhotoAlbum} />
+				</div>
+			) : (photos && user) && photos.length > 0 ? (
+				<>
+					<div className='w-full'>
+						<a href="/dashboard" className='group z-[1] px-4 py-2 bg-yellow-300/80 text-black hover:bg-yellow-300/90 rounded-lg flex flex-row items-center justify-center gap-2 w-fit transition-all duration-200 ease'> <BiArrowBack className='inline group-hover:translate-x-[-5px] group-hover:font-bold transition-all duration-200 ease' /> Back</a>
+					</div>
+					<div className='w-full h-full p-2 flex flex-row items-center justify-center gap-2'>
+
+						<PhotoAlbum photos={photos} />
+						<div>
+							<AddImagePopUp userId={user.$id} />
+						</div>
+					</div>
+				</>
+			) : (
+				<div></div>
+			)}
 		</div>
 	)
 }
