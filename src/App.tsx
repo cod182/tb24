@@ -10,6 +10,7 @@ function App() {
       <Routes>
         {/* Public route */}
         <Route path="/" element={<Auth />} />
+
         <Route path="/latestnews" element={<LatestNewsArticle />} />
 
         {/* Protected routes */}
