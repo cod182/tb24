@@ -62,7 +62,8 @@ export const getWeatherIcon = (weatherType: string) => {
 
 export const fetchBBCRSSFeed = async (rssFeed: string) => {
 	try {
-		const response = await fetch(`${window.location.href}/.netlify/functions/fetch-rss`);
+		const response = await fetch(rssFeed);
+		// const response = await fetch(`${window.location.href}/.netlify/functions/fetch-rss`);
 
 		if (!response.ok) {
 			throw new Error(`Error Fetching RSS Feed: ${response.statusText}`);

@@ -1,5 +1,3 @@
-// netlify/functions/fetch-rss.js
-
 const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
