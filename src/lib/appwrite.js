@@ -150,13 +150,14 @@ export const uploadUserImage = async (file, userId) => {
 export const deleteImage = async (imageId, documentId) => {
 	try {
 		// Deleting from storage bucket
-		storage.deleteFile(import.meta.env.VITE_APPWRITE_USER_IMAGE_STORAGE_ID, imageId);
+		const sr = await storage.deleteFile(import.meta.env.VITE_APPWRITE_USER_IMAGE_STORAGE_ID, imageId);
 		// Deleting from collection
-		databases.deleteDocument(
+		const dbd = await databases.deleteDocument(
 			import.meta.env.VITE_APPWRITE_DATABASE_ID,
 			import.meta.env.VITE_APPWRITE_PHOTOS_COLLECTION,
 			documentId
 		);
+		return { bucket: sr, collection: dbd }
 
 	} catch (error) {
 		console.error(`Error deleting image with ID ${imageId}:`, error);

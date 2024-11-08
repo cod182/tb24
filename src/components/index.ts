@@ -10,5 +10,4 @@ export { default as NewsArticle } from './NewsArticle';
 export { default as Loader } from './Loader';
 export { default as AddImagePopUp } from './Uploading/AddImagePopUp'
 export { default as AddImage } from './Uploading/AddImage'
-export { default as PhotoAlbum } from './Photos/PhotoAlbum'
 export { default as Photo } from './Photos/Photo'

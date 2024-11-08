@@ -46,7 +46,7 @@ const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEven
 				</div>
 			</div>
 
-			<form onSubmit={handleSubmit} className="w-full h-fit p-2">
+			<form onSubmit={handleSubmit} className="w-full h-full p-2">
 				<div className='flex flex-wrap flex-col items-center justify-center w-full gap-2 relative h-full'>
 					<label htmlFor="image" className="h-[100px] w-full flex flex-col items-center justify-center gap-2">
 						<input
@@ -76,7 +76,7 @@ const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEven
 							)}
 						</div>
 					</label>
-					<button disabled={!imagePreview} className={`w-full h-fit py-2 px-4  text-black font-semibold rounded-lg ${imagePreview ? 'bg-yellow-300/70 hover:bg-yellow-400/90 text-black' : 'bg-gray-300 text-gray-500'}`}>Upload</button>
+					<button disabled={!imagePreview} className={`w-full h-fit py-2 px-4 text-center text-black font-semibold rounded-lg z-[4] ${imagePreview ? 'bg-yellow-300/70 hover:bg-yellow-400/90 text-black' : 'bg-gray-300 text-gray-600'}`}>{imagePreview ? 'Upload Image' : 'Click To Add'}</button>
 				</div>
 
 			</form>

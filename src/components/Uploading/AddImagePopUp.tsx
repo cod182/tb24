@@ -44,16 +44,16 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 		<div className="relative flex flex-col items-center justify-center gap-2 h-full w-full">
 
 			{/* PopUp Modal */}
-			<div className={`${popUpState ? 'h-[100%] py-2 pt-9' : 'h-[0%] py-0 pt-0'} p-x-2 overflow-hidden flex w-full absolute top-0 bg-gray-200/80 rounded-lg transition-all duration-200 ease flex-col items-center justify-center z-[2]`}>
+			<div className={`${popUpState ? 'h-[100%] py-2 pt-9' : 'h-[0%] py-0 pt-0'} p-x-2 overflow-hidden flex w-full absolute top-0 bg-gray-200/80 rounded-lg transition-all duration-200 ease flex-col items-center justify-center z-[2]`} onMouseLeave={() => setPopUpState(false)}>
 
 				{/* Close Button */}
-				<button className='absolute top-2 right-2 bg-yellow-300/70 hover:bg-yellow-400/90 hover:text-white p-2 rounded-full transition-all duration-200 ease' onClick={() => setPopUpState(!popUpState)}> <CgClose /></button>
+				<button className='absolute top-2 right-2 bg-yellow-300/70 hover:bg-yellow-400/90 hover:text-white p-2 rounded-full transition-all duration-200 ease' > <CgClose /></button>
 
 				<AddImage handleSubmit={handleAddImage} setImage={setImage} />
 
 			</div>
-			<div className='group flex flex-col items-center justify-center gap-2 h-full w-full cursor-pointer' onClick={() => setPopUpState(true)}>
-				<p className="text-3xl group-hover:text-yellow-300 transition-all duration-200 ease">Add Photos</p>
+			<div className='group flex flex-col items-center justify-center gap-2 h-full w-full cursor-pointer' onClick={() => setPopUpState(true)} >
+				<p className="text-3xl group-hover:text-yellow-300 transition-all duration-200 ease text-center">Add Photos</p>
 				<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
 			</div>
 		</div>
