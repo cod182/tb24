@@ -62,7 +62,14 @@ export const getWeatherIcon = (weatherType: string) => {
 
 export const fetchBBCRSSFeed = async (rssFeed: string) => {
 	try {
-		const response = await fetch(rssFeed);
+		const response = await fetch(rssFeed, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Requested-With': 'XMLHttpRequest',
+				'Access-Control-Allow-Origin': '*',
+			},
+		});
 
 		if (!response.ok) {
 			throw new Error(`Error Fetching RSS Feed: ${response.statusText}`);
