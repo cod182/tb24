@@ -179,7 +179,7 @@ export const createTask = async (task) => {
 	}
 }
 
-export const getTasks = async (usedId) => {
+export const getTasks = async (userId) => {
 	try {
 		const tasks = await databases.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, import.meta.env.VITE_APPWRITE_TASKS_COLLECTION, [Query.equal('ownerId', userId)]);
 		return tasks.documents;
