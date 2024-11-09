@@ -1,20 +1,35 @@
-
-import { TaskProps } from "../../../types/custom"
 import Checkbox from "./Checkbox"
+import TaskDescription from "./TaskDescription";
+import { TaskProps } from "../../../types/custom"
 import TaskTitle from "./TaskTitle"
 
 type Props = {
-	task: TaskProps
+	task: TaskProps;
+	titleStyles?: string;
+	checkboxStyles?: string;
+	descriptionsStyles?: string;
+	title?: boolean;
+	checkbox?: boolean;
+	description?: boolean;
 }
-const TaskLine = ({ task }: Props) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const TaskLine = ({ task, titleStyles, checkboxStyles, descriptionsStyles, title, checkbox, description }: Props) => {
 	return (
-		<div className="flex flex-row items-center justify-between w-full h-full gap-2 flex-nowrap " >
+		<div className="flex flex-row items-center justify-center w-full h-full gap-2 flex-nowrap " >
 
 			{/* Title */}
-			<TaskTitle task={task} />
+			{title && (
+				<TaskTitle task={task} />
+			)}
+
+			{description && (
+				<TaskDescription task={task} />
+			)}
 
 			{/* Checkbox */}
-			<Checkbox task={task} />
+			{checkbox && (
+				<Checkbox task={task} />
+			)}
 		</div >
 	)
 }

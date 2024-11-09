@@ -1,15 +1,14 @@
-import AddTask from './AddTask';
 import { BiError, BiTaskX } from 'react-icons/bi';
+
+import AddTask from './AddTask';
 import { CgClose } from 'react-icons/cg';
+import { GrTask } from 'react-icons/gr';
 import Loader from '../Loader';
+import { TaskProps } from '../../../types/custom';
 import { createTask } from '../../lib/appwrite'
 import { useNavigate } from 'react-router-dom';
-import { useTaskContext } from '../../context/useTaskContext';
 import { useState } from 'react';
-import { TaskProps } from '../../../types/custom';
-import { GrTask } from 'react-icons/gr';
-
-
+import { useTaskContext } from '../../context/useTaskContext';
 
 const AddTaskPopUp = ({ userId }: { userId: string }) => {
 	const navigate = useNavigate();

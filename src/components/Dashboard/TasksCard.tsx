@@ -1,12 +1,12 @@
-import DashboardCard from './DashboardCard'
-import { useTaskContext } from '../../context/useTaskContext';
-import { useEffect } from 'react';
-import Loader from '../Loader';
-import { BiError } from 'react-icons/bi';
-import { GoTasklist } from 'react-icons/go';
+import { AddTaskPopUp, TaskLine } from '../index';
 
+import { BiError } from 'react-icons/bi';
+import DashboardCard from './DashboardCard'
+import { GoTasklist } from 'react-icons/go';
+import Loader from '../Loader';
+import { useEffect } from 'react';
 import { useGlobalContext } from '../../context/userAuthContext';
-import { TaskLine, AddTaskPopUp } from '../index';
+import { useTaskContext } from '../../context/useTaskContext';
 
 const TasksCard = () => {
 	const { tasks, getAllTasks, loading, error } = useTaskContext();
@@ -33,7 +33,7 @@ const TasksCard = () => {
 								<div className="flex flex-col items-center justify-start w-full h-full gap-4 px-2 py-4">
 									{tasks.slice(0, 3).map((task) => (
 										<div key={task.$id} className="w-full ">
-											<TaskLine task={task} />
+											<TaskLine task={task} title checkbox />
 										</div>
 									))}
 								</div>

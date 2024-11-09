@@ -1,9 +1,8 @@
-
-import { MdCheckBoxOutlineBlank } from 'react-icons/md'
-import { TaskProps } from '../../../types/custom'
 import { PiCheckBold } from 'react-icons/pi'
-import { useTaskContext } from '../../context/useTaskContext';
+import { SiCodesandbox } from "react-icons/si";
+import { TaskProps } from '../../../types/custom'
 import { updateTask } from '../../lib/appwrite';
+import { useTaskContext } from '../../context/useTaskContext';
 
 type Props = {
 	task: TaskProps
@@ -22,10 +21,11 @@ const Checkbox = ({ task }: Props) => {
 	}
 
 	return (
+
 		<div className="relative flex flex-row items-center justify-center cursor-pointer" onClick={handleUpdateCompleted}>
-			<MdCheckBoxOutlineBlank className="w-auto h-[40px] aspect-square" />
+			<SiCodesandbox className="w-auto h-[40px] aspect-square text-yellow-300 bg-white overflow-hidden rounded-sm" />
 			{task.completed &&
-				<PiCheckBold className="w-auto h-[40px] aspect-square absolute left-1 bottom-1 text-yellow-300" />
+				<PiCheckBold className="w-auto h-[40px] aspect-square absolute left-1 bottom-1 text-black" />
 			}
 		</div>
 	)

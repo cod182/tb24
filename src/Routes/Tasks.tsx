@@ -1,8 +1,38 @@
-import React from 'react'
+import { BiError, BiWorld } from 'react-icons/bi';
+import { Loader, PageTitleWithNav } from '../components';
+
+import TaskLineFull from '../components/Tasks/TaskLineFull';
+import bgImage from '../assets/media/images/dash-bg.webp';
+import { useTaskContext } from '../context/useTaskContext';
 
 const Tasks = () => {
+	const { tasks, loading, error } = useTaskContext();
+
+
 	return (
-		<div>Tasks</div>
+		<div className='w-full min-h-[100dvh] relative p-4 sm:p-24'>
+			{/* background */}
+			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
+
+			<PageTitleWithNav title='Tasks' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-start' />
+
+
+			{error ? (
+				<Loader title='Error!' subText={error} icon={BiError} />
+			) : loading ? (
+				<div className='flex flex-col items-center justify-center w-full h-full'>
+					<Loader title='Loading Tasks!' subText='Please wait...' icon={BiWorld} />
+				</div>
+			) : (
+				<div className='flex flex-col items-center justify-center w-full h-full px-24 py-4 mx-auto grow'>
+					{tasks?.map((task) => (
+						<TaskLineFull task={task} key={task.$id} />
+					))}
+
+					<TaskLineFull />
+				</div>
+			)}
+		</div>
 	)
 }
 
