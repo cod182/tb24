@@ -49,17 +49,17 @@ export const handler = async (event, context) => {
 
 		return {
 			statusCode: 200,
-			body: response.data,
+			body: JSON.stringify(response.data),
 			headers: {
-				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Origin': '*', // Allows requests from any origin
 				'Content-Type': 'application/json',
 			},
 		};
 	} catch (error) {
-		console.error('Error fetching RSS feed:', error.message);
+		console.error('Error fetching API:', error);
 		return {
 			statusCode: 500,
-			body: JSON.stringify({ message: 'Failed to fetch RSS feed', error: error.message }),
+			body: JSON.stringify({ message: 'Failed to fetch API data', error: error.message }),
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 			},
