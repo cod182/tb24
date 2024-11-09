@@ -54,8 +54,8 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 				<AddImage handleSubmit={handleAddImage} setImage={setImage} />
 
 			</div>
-			<div className='flex flex-col items-center justify-center w-full h-full gap-2 cursor-pointer group bg-blue-950/80' onClick={() => setPopUpState(true)} >
-				<p className="text-3xl text-center text-white transition-all duration-200 ease group-hover:text-yellow-300">Add Photos</p>
+			<div className='flex flex-col items-center justify-center w-full h-full gap-2 cursor-pointer group' onClick={() => setPopUpState(true)} >
+				<p className="text-3xl text-center transition-all duration-200 ease group-hover:text-yellow-300">Add Photos</p>
 				<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
 			</div>
 		</div>

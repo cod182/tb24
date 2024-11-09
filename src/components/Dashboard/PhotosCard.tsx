@@ -28,20 +28,24 @@ const PhotosCard = () => {
 					: loading ? (
 						<Loader title='Loading Photos' subText='Please wait...' icon={BiPhotoAlbum} />
 					) : photos && photos.length > 0 ? (
-						<div className="grid grid-cols-2 grid-rows-2 gap-x-6 w-fit items-center h-[229px] mx-auto">
+						<div className="grid grid-cols-2 grid-rows-2 gap-4 mx-auto w-fit">
 							{photos.slice(0, 4).map((photo, index) => (
-								<div key={index} className="relative overflow-hidden h-[90px] max-w-full  rounded-lg border-black border-2 bg-gray-300/80">
-									<img
-										src={photo.imageUrl}
-										alt={`Photo ${index + 1}`}
-										className="object-cover w-full h-full"
-									/>
+								<div key={photo.$id} className="w-full max-w-[90px] mx-auto overflow-hidden rounded-lg border border-yellow-300">
+									<div className="aspect-square">
+										<img
+											src={photo.imageUrl}
+											alt={`Photo ${index + 1}`}
+											className="object-cover w-full h-full"
+										/>
+									</div>
 								</div>
 							))}
 							{photos.length < 4 && Array.from({ length: 4 - photos.length }).map((_, index) => (
-								<div key={index} className="relative overflow-hidden h-[90px] w-full rounded-lg border-black border-2 bg-gray-300/80" />
+								<div key={index} className="relative overflow-hidden h-[90px] w-full rounded-lg border-yellow-300 border-2 bg-gray-300/80" />
 							))}
 						</div>
+
+
 					) : (
 						<div className="h-[200px]">
 							<AddImagePopUp userId={user ? user.$id : ''} />

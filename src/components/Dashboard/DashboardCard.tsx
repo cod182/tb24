@@ -1,3 +1,5 @@
+import { BsLink45Deg } from "react-icons/bs";
+
 type Props = {
 	title: string;
 	children: React.ReactNode;
@@ -8,19 +10,26 @@ const DashboardCard = ({ title, children, link }: Props) => {
 	const Wrapper = link ? 'a' : 'div';
 
 	return (
-		<Wrapper
-			href={link}
-			className={`h-[280px] w-[400px] flex flex-col justify-start items-center border-2 border-yellow-300 bg-gray-300/60 overflow-hidden rounded-lg mx-auto ${link ? 'transition-all duration-200 ease hover:scale-105' : ''
-				}`}
+		<div
+			className={`h-[280px] w-[400px] flex flex-col justify-start items-center border-2 border-yellow-300 bg-gray-300/60 overflow-hidden rounded-lg mx-auto `}
 		>
-			<div className="w-full h-[60px] bg-yellow-300 flex items-center justify-center">
-				<p className="text-center text-black text-3xl capitalize">{title}</p>
-			</div>
+			<Wrapper href={link} className={`w-full h-[60px] bg-yellow-300 relative flex flex-col items-center justify-center transition-all duration-200 ease  ${link && ' hover:bg-yellow-400 group '}`}>
+				<p className={`text-3xl text-center text-black capitalize w-fit h-fit z-[2]`}>
+					{title}
+				</p>
 
-			<div className="w-full h-full flex flex-col items-center justify-start p-4 gap-4">
+				<div className="absolute top-0 flex flex-row items-center justify-center w-full h-full z-[-1] transition-all duration-300 ease group-hover:z-[1]">
+					<BsLink45Deg className="text-3xl text-black transition-all duration-200 group-hover:translate-x-20 ease" />
+				</div>
+
+
+			</Wrapper>
+
+
+			<div className="flex flex-col items-center justify-start w-full h-[210px] px-4 py-2">
 				{children}
 			</div>
-		</Wrapper>
+		</div>
 	);
 };
 
