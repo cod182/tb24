@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import LatestNewsArticle from './Routes/LatestNewsArticle';
 import Photos from './Routes/Photos';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import Tasks from './Routes/Tasks';
 
 function App() {
   return (
@@ -28,6 +29,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Photos />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <Tasks />
             </ProtectedRoute>
           }
         />
