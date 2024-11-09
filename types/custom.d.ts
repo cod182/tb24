@@ -20,9 +20,9 @@ export type PhotoProps = {
 }
 
 type TaskProps = {
-	$id: string;
+	$id?: string;
 	ownerId: string;
 	title: string;
-	description: string;
+	description?: string;
 	completed: boolean;
 }
