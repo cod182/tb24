@@ -17,10 +17,8 @@ const Photos = () => {
 
 	// USE EFFECTS
 	useEffect(() => {
-
-
 		getPhotos();
-	}, [user]);
+	}, []);
 
 
 
@@ -37,11 +35,11 @@ const Photos = () => {
 				<a href="/dashboard" className='group z-[1] px-4 py-2 bg-yellow-300/80 text-black hover:bg-yellow-300/90 rounded-lg flex flex-row items-center justify-center gap-2 w-fit transition-all duration-200 ease'> <BiArrowBack className='inline group-hover:translate-x-[-5px] group-hover:font-bold transition-all duration-200 ease' /> Back</a>
 			</div>
 
-			<div className='w-full h-full grow flex flex-row flex-wrap  items-center justify-center md:justify-start p-4 gap-4'>
+			<div className='flex flex-row flex-wrap items-center justify-center w-full h-full gap-4 p-4 grow md:justify-start'>
 				{error ? (
 					<Loader title='Error!' subText={error} icon={BiError} />
 				) : loading ? (
-					<div className='w-full h-full flex flex-col items-center justify-center'>
+					<div className='flex flex-col items-center justify-center w-full h-full'>
 						<Loader title='Loading Your Photos' subText='Please wait...' icon={BiPhotoAlbum} />
 					</div>
 				) : photos && photos.length > 0 ? (

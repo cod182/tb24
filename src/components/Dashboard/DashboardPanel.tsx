@@ -6,7 +6,7 @@ import WeatherCard from "./WeatherCard";
 
 const DashboardPanel = () => {
 	return (
-		<div className='w-full h-full flex flex-row flex-wrap items-center justify-around gap-10 mx-auto'>
+		<div className='flex flex-row flex-wrap items-center justify-around w-full h-full gap-10 mx-auto'>
 
 
 			{/* Weather Card */}

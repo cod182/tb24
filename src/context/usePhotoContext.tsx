@@ -18,7 +18,7 @@ type UserType = {
 type GlobalContextType = {
 	photos: PhotoProps[] | null;
 	setPhotos: React.Dispatch<React.SetStateAction<PhotoProps[] | null>>;
-	getPhotos: () => Promise<void>;
+	getPhotos: (suppliedId?: string) => Promise<void>;
 	loading: boolean;
 	error: string;
 };
@@ -44,11 +44,12 @@ const PhotoContext = ({ children }: { children: ReactNode }) => {
 	});
 
 	// Function to fetch photos based on userId
-	const getPhotos = async () => {
-		if (user) {
+	const getPhotos = async (suppliedId?: string) => {
+
+		if (user || suppliedId) {
 			setLoading(true);
 			try {
-				const res = await getUserPhotos(user.$id);
+				const res = await getUserPhotos(suppliedId ? suppliedId : user?.$id);
 				setPhotos(res);
 			} catch (error) {
 				setError(error as string)

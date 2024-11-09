@@ -12,12 +12,11 @@ const PhotosCard = () => {
 	const { photos, getPhotos, loading, error } = usePhotoContext();
 
 
+
 	// USE EFFECTS
 	useEffect(() => {
-
 		getPhotos();
 	}, [user]);
-
 
 	return (
 		<DashboardCard title='Photos' link={photos && photos.length > 0 ? '/photos' : undefined}>
@@ -35,7 +34,7 @@ const PhotosCard = () => {
 									<img
 										src={photo.imageUrl}
 										alt={`Photo ${index + 1}`}
-										className="h-full w-full object-cover"
+										className="object-cover w-full h-full"
 									/>
 								</div>
 							))}
