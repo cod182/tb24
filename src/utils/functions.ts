@@ -62,10 +62,10 @@ export const getWeatherIcon = (weatherType: string) => {
 
 export const fetchBBCRSSFeed = async () => {
 	try {
-		// Use the Netlify function as a proxy
+
 		const proxyUrl = process.env.NODE_ENV === 'production'
-			? `${window.location.origin}/.netlify/functions/fetch-bbc-rss` // Production (Netlify URL)
-			: `http://localhost:8888/.netlify/functions/fetch-bbc-rss`; // Local development (Netlify dev)
+			? `${window.location.origin}/.netlify/functions/fetch-bbc-rss` // Production 
+			: `http://localhost:8888/.netlify/functions/fetch-bbc-rss`; // Local 
 
 
 		const response = await fetch(proxyUrl);
@@ -135,9 +135,13 @@ export const formatDate = (dateString: string) => {
 };
 
 
-export const fetchJsonData = async (url: string) => {
+export const fetchJsonData = async () => {
+	const proxyUrl = process.env.NODE_ENV === 'production'
+		? `${window.location.origin}/.netlify/functions/fetch-tbox` // Production 
+		: `http://localhost:8888/.netlify/functions/fetch-tbox`; // Local 
 	try {
-		const res = await fetch(url);
+		const res = await fetch(proxyUrl);
+
 
 		const data = await res.json();
 
