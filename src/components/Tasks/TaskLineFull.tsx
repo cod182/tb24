@@ -44,8 +44,8 @@ const TaskLineFull = ({ task }: Props) => {
 				}
 			} catch (error) {
 				setLoading(false);
-				setError('Error Deleting Photo');
-				console.error('Failed to delete photo:', error);
+				setError('Error Deleting task');
+				console.error('Failed to delete task:', error);
 
 				setTimeout(() => {
 					setError('');
@@ -65,26 +65,26 @@ const TaskLineFull = ({ task }: Props) => {
 				<div className='relative w-full'>
 
 					{/* Close Editing */}
-					<IoIosArrowDropdown className={`${editing ? 'top-[-110%] right-[-45px] z-[3]' : 'top-0 right-0 z-[-10]'}  cursor-pointer absolute  right-0 h-full text-3xl transition-all duration-200 w-fit ease hover:text-yellow-300`} onClick={() => { setEditing(false); setCheckDelete(false); }} />
+					<IoIosArrowDropdown className={`${editing ? 'top-[-110%] right-[-45px] z-[3]' : 'top-0 right-0 z-[-10]'}  cursor-pointer absolute text-white right-0 h-full text-3xl transition-all duration-200 w-fit ease hover:text-yellow-300`} onClick={() => { setEditing(false); setCheckDelete(false); }} />
 
 					{/* DELETING */}
-					<div className={`${editing ? 'right-[-10%] z-[3]' : 'right-0 z-[-10]'} absolute  right-0 h-full transition-all duration-200 w-fit ease flex flex-row items-center justify-center`}>
+					<div className={`${editing ? 'right-[-100px] md:right-[-130px] z-[3] w-fit md:w-[80px] h-[80px] md:h-fit' : 'right-0 z-[-10] w-[0px] h-fit'} absolute  transition-all duration-200 ease flex flex-col md:flex-row items-start justify-start`}>
 						{error ? (
-							<MdError className="h-full text-red-600 w-fit animate-pulse" />
+							<MdError className="h-[40px] text-red-600 w-fit animate-pulse" />
 						) : checkDelete ? (
 
 							<>
-								<TiTick className='h-full text-green-400 transition-all duration-200 cursor-pointer w-fit hover:scale-110 hover:text-green-300 hover:animate-pulse ease' onClick={() => {
+								<IoClose className='h-[40px] text-red-400 transition-all duration-200 cursor-pointer w-fit hover:scale-110 hover:text-red-300 hover:animate-pulse ease' onClick={() => setCheckDelete(false)} />
+								<TiTick className='h-[40px] text-green-400 transition-all duration-200 cursor-pointer w-fit hover:scale-110 hover:text-green-300 hover:animate-pulse ease' onClick={() => {
 									handleDelete();
 								}} />
-								<IoClose className='h-full text-red-400 transition-all duration-200 cursor-pointer w-fit hover:scale-110 hover:text-red-300 hover:animate-pulse ease' onClick={() => setCheckDelete(false)} />
 							</>
 						) : loading ? (
-							<GiSandsOfTime className="h-full w-fit animate-spin" />
+							<GiSandsOfTime className="h-[40px] w-fit animate-spin" />
 						) : success ? (
-							<PiCheckBold className="h-full text-green-700 animate-pulse w-fit" />
+							<PiCheckBold className="h-[40px] text-green-700 animate-pulse w-fit" />
 						) :
-							<BiTrash className={`cursor-pointer absolute  right-0 h-full text-3xl transition-all duration-200 w-fit ease text-red-500 hover:text-red-600`} onClick={handleDelete} />
+							<BiTrash className={`cursor-pointer h-[40px] text-3xl transition-all duration-200 w-fit ease text-red-500 hover:text-red-600`} onClick={handleDelete} />
 						}
 					</div>
 

@@ -6,12 +6,10 @@ import { GrTask } from 'react-icons/gr';
 import Loader from '../Loader';
 import { TaskProps } from '../../../types/custom';
 import { createTask } from '../../lib/appwrite'
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTaskContext } from '../../context/useTaskContext';
 
 const AddTaskPopUp = ({ userId }: { userId: string }) => {
-	const navigate = useNavigate();
 	const { getAllTasks } = useTaskContext();
 
 	const taskInitial = {
@@ -23,9 +21,9 @@ const AddTaskPopUp = ({ userId }: { userId: string }) => {
 
 	// STATES
 	const [popUpState, setPopUpState] = useState(false);
-	const [task, setTask] = useState<TaskProps>(taskInitial)
-	const [loading, setLoading] = useState(false)
-	const [error, setError] = useState<string>()
+	const [task, setTask] = useState<TaskProps>(taskInitial);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string>();
 	// Functions
 	const handleAddTask = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -38,7 +36,6 @@ const AddTaskPopUp = ({ userId }: { userId: string }) => {
 				setPopUpState(false);
 				setTask(taskInitial);
 				setError('');
-				navigate('/tasks');
 			}
 		} catch {
 			setLoading(false);

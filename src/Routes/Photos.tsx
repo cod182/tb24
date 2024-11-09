@@ -13,16 +13,10 @@ const Photos = () => {
 	const { user } = useGlobalContext();
 	const { photos, getPhotos, loading, error } = usePhotoContext();
 
-
-
 	// USE EFFECTS
 	useEffect(() => {
 		getPhotos();
 	}, []);
-
-
-
-
 
 	if (!user) return <Navigate to="/" replace />
 
@@ -31,10 +25,7 @@ const Photos = () => {
 			{/* background */}
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
 
-
 			<PageTitleWithNav title='Photos' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-center' />
-
-
 
 			<div className='flex flex-row flex-wrap items-center justify-center w-full h-full gap-4 p-4 grow md:justify-start'>
 				{error ? (

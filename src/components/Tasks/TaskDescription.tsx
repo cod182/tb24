@@ -53,7 +53,7 @@ const TaskDescription = ({ task }: Props) => {
 	return (
 		<form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="relative w-full">
 			<textarea
-				className="pr-8 border-b-[2px] bg-transparent border-black w-full overflow-scroll text-xl text-ellipsis whitespace-nowrap placeholder:text-gray-500 placeholder:text-base placeholder:italic"
+				className="pr-[45px] border-b-[2px] bg-transparent border-white text-white w-full overflow-scroll text-xl text-ellipsis whitespace-nowrap placeholder:text-gray-500 placeholder:text-base placeholder:italic"
 				value={taskDescription}
 				onChange={(e) => setTaskDescription(e.target.value)}
 				onBlur={handleBlur}
@@ -63,10 +63,10 @@ const TaskDescription = ({ task }: Props) => {
 				{error ? (
 					<MdError className="h-[40px] text-red-600 w-fit animate-pulse" />
 				) : loading ? (
-					<GiSandsOfTime className="h-[40px] w-fit animate-spin" />
+					<GiSandsOfTime className="h-[40px] w-fit animate-spin text-white" />
 				) : success ? (
 					<PiCheckBold className="h-[40px] text-green-700 animate-pulse w-fit" />
-				) : <BiSave className="transition-all duration-200 cursor-pointer h-[40px] w-fit hover:text-gray-600 ease" onClick={handleUpdate} />
+				) : <BiSave className="transition-all duration-200 cursor-pointer text-white h-[40px] w-fit hover:text-gray-600 ease" onClick={handleUpdate} />
 				}
 			</div>
 		</form>

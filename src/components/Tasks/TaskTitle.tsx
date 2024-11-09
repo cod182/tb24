@@ -52,7 +52,7 @@ const TaskTitle = ({ task }: Props) => {
 	return (
 		<form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="relative w-full">
 			<input
-				className="text-3xl pr-8 border-b-[2px] bg-transparent border-black w-full overflow-hidden text-ellipsis whitespace-nowrap"
+				className="text-3xl pr-8 border-b-[2px] bg-transparent border-white text-white w-full overflow-hidden text-ellipsis whitespace-nowrap"
 				type="text"
 				value={taskTitle}
 				onChange={(e) => setTaskTitle(e.target.value)}
