@@ -19,10 +19,10 @@ const NewsCard = () => {
 	const [error, setError] = useState<string>();
 
 	useEffect(() => {
-		const fetchRSSFeed = async (RSSFeed: string) => {
+		const fetchRSSFeed = async () => {
 			setLoading(true);
 			try {
-				const response = await fetchBBCRSSFeed(RSSFeed);
+				const response = await fetchBBCRSSFeed();
 
 				if (!response) {
 					setError('Error Fetching News Feed');
@@ -39,13 +39,13 @@ const NewsCard = () => {
 			}
 		};
 
-		fetchRSSFeed('bbc/news/rss.xml');
+		fetchRSSFeed();
 	}, []);
 
 
 	return (
 		<DashboardCard title='News' link='/latestnews'>
-			<div className='flex flex-col items-center justify-center gap-2 w-full h-full'>
+			<div className='flex flex-col items-center justify-center w-full h-full gap-2'>
 				{error ?
 					(
 						<Loader title='Error!' subText={error} icon={BiError} />

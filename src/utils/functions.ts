@@ -60,16 +60,15 @@ export const getWeatherIcon = (weatherType: string) => {
 // 	}
 // };
 
-export const fetchBBCRSSFeed = async (rssFeed: string) => {
+export const fetchBBCRSSFeed = async () => {
 	try {
-		const response = await fetch(rssFeed, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'X-Requested-With': 'XMLHttpRequest',
-				'Access-Control-Allow-Origin': '*',
-			},
-		});
+
+		const proxyUrl = process.env.NODE_ENV === 'production'
+			? `${window.location.origin}/.netlify/functions/fetch-bbc-rss` // Production 
+			: `http://localhost:8888/.netlify/functions/fetch-bbc-rss`; // Local 
+
+
+		const response = await fetch(proxyUrl);
 
 		if (!response.ok) {
 			throw new Error(`Error Fetching RSS Feed: ${response.statusText}`);
@@ -82,12 +81,10 @@ export const fetchBBCRSSFeed = async (rssFeed: string) => {
 		const parser = new DOMParser();
 		const xmlDoc = parser.parseFromString(text, 'application/xml');
 
-
 		const errorNode = xmlDoc.querySelector('parsererror');
 		if (errorNode) {
 			throw new Error('Invalid XML response');
 		}
-
 
 		const items = Array.from(xmlDoc.querySelectorAll('item')).map((item) => {
 			const mediaThumbnail = item.getElementsByTagName('media:thumbnail')[0];
@@ -104,10 +101,11 @@ export const fetchBBCRSSFeed = async (rssFeed: string) => {
 		return items;
 
 	} catch (error: unknown) {
-		console.error(`Error fetching RSS feed from ${rssFeed}:`, error);
+		console.error(`Error fetching RSS feed from:`, error);
 		throw new Error(`Error fetching RSS feed: ${String(error)}`);
 	}
 };
+
 
 
 export const formatDate = (dateString: string) => {
@@ -137,9 +135,13 @@ export const formatDate = (dateString: string) => {
 };
 
 
-export const fetchJsonData = async (url: string) => {
+export const fetchJsonData = async () => {
+	const proxyUrl = process.env.NODE_ENV === 'production'
+		? `${window.location.origin}/.netlify/functions/fetch-tbox` // Production 
+		: `http://localhost:8888/.netlify/functions/fetch-tbox`; // Local 
 	try {
-		const res = await fetch(url);
+		const res = await fetch(proxyUrl);
+
 
 		const data = await res.json();
 

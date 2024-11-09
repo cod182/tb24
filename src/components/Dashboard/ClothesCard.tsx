@@ -39,10 +39,10 @@ const ClothesCard = () => {
 	const [pieData, setPieData] = useState<PieDataProps>();
 
 	useEffect(() => {
-		const getClothesData = async (RSSFeed: string) => {
+		const getClothesData = async () => {
 			setLoading(true);
 			try {
-				const response = await fetchJsonData(RSSFeed);
+				const response = await fetchJsonData();
 
 				if (!response) {
 					setError('Error Fetching Clothes Data');
@@ -62,7 +62,7 @@ const ClothesCard = () => {
 			}
 		};
 
-		getClothesData('https://tboxapps.therapy-box.co.uk/hackathon/clothing-api.php?username=swapnil');
+		getClothesData();
 	}, []);
 
 	useEffect(() => {
@@ -102,7 +102,7 @@ const ClothesCard = () => {
 
 	return (
 		<DashboardCard title='Clothes'>
-			<div className='flex flex-col items-center justify-center gap-2 w-full h-full'>
+			<div className='flex flex-col items-center justify-center w-full h-full gap-2'>
 				{error ? (
 					<Loader title='Error!' subText={error} icon={BiError} />
 				) : loading ? (
