@@ -1,5 +1,5 @@
-import { AddImagePopUp, Loader, Photo } from '../components';
-import { BiArrowBack, BiError, BiPhotoAlbum } from 'react-icons/bi';
+import { AddImagePopUp, Loader, PageTitleWithNav, Photo } from '../components';
+import { BiError, BiPhotoAlbum } from 'react-icons/bi';
 
 import { Navigate } from 'react-router-dom';
 // import { PhotoProps } from '../../types/custom';
@@ -31,9 +31,10 @@ const Photos = () => {
 			{/* background */}
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
 
-			<div className='w-full'>
-				<a href="/dashboard" className='group z-[1] px-4 py-2 bg-yellow-300/80 text-black hover:bg-yellow-300/90 rounded-lg flex flex-row items-center justify-center gap-2 w-fit transition-all duration-200 ease'> <BiArrowBack className='inline group-hover:translate-x-[-5px] group-hover:font-bold transition-all duration-200 ease' /> Back</a>
-			</div>
+
+			<PageTitleWithNav title='Photos' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-center' />
+
+
 
 			<div className='flex flex-row flex-wrap items-center justify-center w-full h-full gap-4 p-4 grow md:justify-start'>
 				{error ? (
@@ -44,23 +45,26 @@ const Photos = () => {
 					</div>
 				) : photos && photos.length > 0 ? (
 
-					<>
+					<div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:gap-12">
+
+						<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden">
+							<div className="flex items-center justify-center w-full aspect-square">
+								<AddImagePopUp userId={user?.$id} />
+							</div>
+						</div>
 
 						{photos.map((photo) => (
-							<div key={photo.$id} className='max-h-[280px] max-w-[280px]'>
-
-								<Photo photo={photo} />
+							<div key={photo.$id} className="w-full max-w-[280px] mx-auto overflow-hidden rounded-lg border border-gray-300">
+								<div className="aspect-square">
+									<Photo photo={photo} />
+								</div>
 							</div>
 						))}
 
-
-						<div className='h-[280px] w-[280px] flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300'>
-							<AddImagePopUp userId={user.$id} />
-						</div>
-					</>
+					</div>
 				) : (
 
-					<div className='h-[280px] max-w-[280px] w-[280px] flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300'>
+					<div className='h-[280px] max-w-[280px] w-[280px] flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden'>
 						<AddImagePopUp userId={user.$id} />
 					</div>
 

@@ -57,17 +57,17 @@ const Photo = ({ photo }: Props) => {
 
 
 	return (
-		<div className="relative group overflow-hidden h-full w-full rounded-lg border-black border-2 bg-gray-300/80">
+		<div className="relative object-cover w-full h-full overflow-hidden border-2 border-yellow-300 rounded-lg bg-blue-950/80 group">
 
 			{/* Delete Image */}
 			<div className={`transition-all duration-200 opacity-0 group-hover:opacity-100  ease  select-none absolute w-full h-full top flex-col items-center justify-center flex bg-gray-400/70`}
 			>
 				{error ? <Loader title='Error!' subText={error} icon={BiError} /> : checkDelete ?
 					(
-						<div className='flex flex-col item-center justify-center w-full h-full' onMouseLeave={() => setCheckDelete(false)}>
-							<p className='text-3xl text-center w-full'>Are you sure?</p>
+						<div className='flex flex-col justify-center w-full h-full item-center' onMouseLeave={() => setCheckDelete(false)}>
+							<p className='w-full text-3xl text-center'>Are you sure?</p>
 
-							<div className='w-full flex flex-row items-center justify-around'>
+							<div className='flex flex-row items-center justify-around w-full'>
 								<IoClose className='w-[40px] h-[40px] text-red-400 hover:scale-110 hover:text-red-300 cursor-pointer  hover:animate-pulse transition-all duration-200 ease' onClick={() => setCheckDelete(false)} />
 								<TiTick className='w-[40px] h-[40px] text-green-400 hover:scale-110 hover:text-green-300 cursor-pointer  hover:animate-pulse transition-all duration-200 ease' onClick={() => {
 									handleDeleteImage();
@@ -76,7 +76,7 @@ const Photo = ({ photo }: Props) => {
 						</div>
 					) :
 					(
-						<BiTrash className="cursor-pointer text-red-500 hover:text-red-600 hover:scale-105 hover:animate-pulse w-10 h-10 transition-all duration-200 ease" onClick={handleDeleteImage} />
+						<BiTrash className="w-10 h-10 text-red-500 transition-all duration-200 cursor-pointer hover:text-red-600 hover:scale-105 hover:animate-pulse ease" onClick={handleDeleteImage} />
 					)}
 			</div>
 
@@ -84,7 +84,7 @@ const Photo = ({ photo }: Props) => {
 			<img
 				src={photo.imageUrl}
 				alt={`Photo ${photo.$id + 1}`}
-				className="h-full w-full object-cover"
+				className="object-cover w-full h-full"
 			/>
 		</div>
 	)

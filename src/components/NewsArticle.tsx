@@ -8,33 +8,33 @@ type Props = {
 
 const NewsArticle = ({ article }: Props) => {
 	return (
-		<article className="max-w-2xl mx-auto p-4 flex-col items-start justify-start w-full h-full">
+		<article className="flex-col items-center justify-center w-full h-full max-w-4xl mx-auto">
 
-			{/* Title */}
-			<h1 className="text-3xl text-start font-semibold mb-4">{article.title}</h1>
+
 
 
 			{/* Image Container */}
-			<div className="mb-6 w-full flex flex-col items-start justify-center">
+			<div className="flex flex-col items-center justify-center mx-auto mb-6 w-fit">
 				<a
 					href={article.link}
 					target="_blank"
 					rel="noopener noreferrer"
-					className="w-full h-auto rounded-lg mb-4"
+					className="w-full h-auto mb-4 rounded-lg"
 				>
 					<img
 						src={article.media}
 						alt={article.title}
-						className="w-fit h-auto sm:h-60 object-contain rounded-lg hover:scale-105 transition-all ease-in-out duration-300"
+						className="object-contain w-full h-auto transition-all duration-300 ease-in-out rounded-lg sm:h-60 hover:scale-105"
 					/>
 				</a>
-				<p className="font-normal text-sm italic text-gray-700 text-start my-2">{formatDate(article.pubDate)}</p>
+				<p className="my-2 text-sm italic font-normal text-center text-gray-700">{formatDate(article.pubDate)}</p>
 			</div>
 
-
+			{/* Title */}
+			<h1 className="mb-6 text-3xl font-semibold text-center text-white sm:text-5xl">{article.title}</h1>
 
 			{/* Body */}
-			<p className="text-xl text-start text-gray-800">{article.description}</p>
+			<p className="text-xl text-center text-white sm:text-2xl">{article.description}</p>
 		</article>
 	);
 };
