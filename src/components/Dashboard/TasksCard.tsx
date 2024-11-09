@@ -4,8 +4,9 @@ import { useEffect } from 'react';
 import Loader from '../Loader';
 import { BiError } from 'react-icons/bi';
 import { GoTasklist } from 'react-icons/go';
-import AddTaskPopUp from '../Tasks/AddTaskPopUp';
+
 import { useGlobalContext } from '../../context/userAuthContext';
+import { TaskLine, AddTaskPopUp } from '../index';
 
 const TasksCard = () => {
 	const { tasks, getAllTasks, loading, error } = useTaskContext();
@@ -29,11 +30,10 @@ const TasksCard = () => {
 						:
 						(tasks && tasks.length > 0) ?
 							(
-								<div className="grid grid-cols-2 grid-rows-2 gap-4 mx-auto w-fit">
+								<div className="flex flex-col items-center justify-start w-full h-full gap-4 px-2 py-4">
 									{tasks.slice(0, 3).map((task) => (
 										<div key={task.$id} className="w-full ">
-											{/* Task Comp */}
-											Task Comp
+											<TaskLine task={task} />
 										</div>
 									))}
 								</div>
