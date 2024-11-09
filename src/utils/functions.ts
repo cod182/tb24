@@ -64,8 +64,8 @@ export const fetchBBCRSSFeed = async () => {
 	try {
 		// Use the Netlify function as a proxy
 		const proxyUrl = process.env.NODE_ENV === 'production'
-			? `${window.location.origin}/.netlify/functions/fetch-rss` // Production (Netlify URL)
-			: `http://localhost:8888/.netlify/functions/fetch-rss`; // Local development (Netlify dev)
+			? `${window.location.origin}/.netlify/functions/fetch-bbc-rss` // Production (Netlify URL)
+			: `http://localhost:8888/.netlify/functions/fetch-bbc-rss`; // Local development (Netlify dev)
 
 
 		const response = await fetch(proxyUrl);
