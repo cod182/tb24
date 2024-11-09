@@ -60,14 +60,14 @@ export const getWeatherIcon = (weatherType: string) => {
 // 	}
 // };
 
-export const fetchBBCRSSFeed = async (rssFeed: string) => {
+export const fetchBBCRSSFeed = async () => {
 	try {
 		// Use the Netlify function as a proxy
 		const proxyUrl = process.env.NODE_ENV === 'production'
 			? `${window.location.origin}/.netlify/functions/fetch-rss` // Production (Netlify URL)
 			: `http://localhost:8888/.netlify/functions/fetch-rss`; // Local development (Netlify dev)
 
-		// const proxyUrl = `http://localhost:8888/.netlify/functions/fetch-rss`
+
 		const response = await fetch(proxyUrl);
 
 		if (!response.ok) {
@@ -101,7 +101,7 @@ export const fetchBBCRSSFeed = async (rssFeed: string) => {
 		return items;
 
 	} catch (error: unknown) {
-		console.error(`Error fetching RSS feed from ${rssFeed}:`, error);
+		console.error(`Error fetching RSS feed from:`, error);
 		throw new Error(`Error fetching RSS feed: ${String(error)}`);
 	}
 };

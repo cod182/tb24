@@ -13,10 +13,10 @@ const LatestNewsArticle = () => {
 	const [error, setError] = useState<string>();
 
 	useEffect(() => {
-		const fetchRSSFeed = async (RSSFeed: string) => {
+		const fetchRSSFeed = async () => {
 			setLoading(true);
 			try {
-				const response = await fetchBBCRSSFeed(RSSFeed);
+				const response = await fetchBBCRSSFeed();
 
 				if (!response) {
 					setError('Error Fetching News Feed');
@@ -33,7 +33,7 @@ const LatestNewsArticle = () => {
 			}
 		};
 
-		fetchRSSFeed('/bbc/news/rss.xml');
+		fetchRSSFeed();
 	}, []);
 
 
@@ -49,7 +49,7 @@ const LatestNewsArticle = () => {
 			{error ? (
 				<Loader title='Error!' subText={error} icon={BiError} />
 			) : loading ? (
-				<div className='w-full h-full flex flex-col items-center justify-center'>
+				<div className='flex flex-col items-center justify-center w-full h-full'>
 					<Loader title='Loading Latest News!' subText='Please wait...' icon={BiWorld} />
 				</div>
 			) : (
