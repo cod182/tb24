@@ -18,3 +18,11 @@ export type PhotoProps = {
 	imageUrl: string;
 	imageId: string;
 }
+
+type TaskProps = {
+	$id: string;
+	ownerId: string;
+	title: string;
+	description: string;
+	completed: boolean;
+}
