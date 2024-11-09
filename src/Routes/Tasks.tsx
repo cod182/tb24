@@ -1,17 +1,13 @@
 import { BiError, BiWorld } from 'react-icons/bi';
 import { Loader, PageTitleWithNav } from '../components';
-import { useEffect, useState } from 'react';
 
 import AddTaskLineFull from '../components/Tasks/AddTaskLineFull';
 import TaskLineFull from '../components/Tasks/TaskLineFull';
-import { TaskProps } from '../../types/custom';
 import bgImage from '../assets/media/images/dash-bg.webp';
 import { useTaskContext } from '../context/useTaskContext';
 
 const Tasks = () => {
 	const { tasks, loading, error } = useTaskContext();
-
-
 
 	return (
 		<div className='w-full min-h-[100dvh] relative p-4 md:p-24'>

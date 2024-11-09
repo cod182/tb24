@@ -31,9 +31,9 @@ const AddTaskLineFull = () => {
 		try {
 			const response = await createTask(task)
 			if (response) {
-				// reassigns tasks
-				const currTasks: TaskProps[] = [];
 				if (tasks) {
+					// Create a new tasks array
+					const currTasks: TaskProps[] = [];
 					currTasks.push(...tasks)
 					// Create a new task object and attach it's ID form the response
 					const newTask = { ...task, $id: response.$id }
