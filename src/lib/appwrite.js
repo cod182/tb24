@@ -207,7 +207,7 @@ export const updateTask = async (taskId, task) => {
 			import.meta.env.VITE_APPWRITE_DATABASE_ID,
 			import.meta.env.VITE_APPWRITE_TASKS_COLLECTION,
 			taskId,
-			task
+			{ title: task.title, description: task?.description ? task?.description : '', completed: task.completed }
 		);
 		return updatedTask;
 	} catch (error) {
