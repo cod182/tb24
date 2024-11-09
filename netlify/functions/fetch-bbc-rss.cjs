@@ -1,6 +1,6 @@
-import fetch from 'node-fetch';
 
-export const handler = async (event, context) => {
+
+exports.handler = async (event, context) => {
 	const rssFeedUrl = 'https://feeds.bbci.co.uk/news/rss.xml';
 
 	try {
