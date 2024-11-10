@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<Auth />} />
         <Route path="*" element={<Auth />} />
 
-        <Route path="/latestnews" element={<LatestNewsArticle />} />
+        <Route path="/latest-news" element={<LatestNewsArticle />} />
 
         {/* Protected routes */}
         <Route
