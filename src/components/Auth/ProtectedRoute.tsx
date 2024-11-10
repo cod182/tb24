@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-	const { isLoggedIn, loading } = useGlobalContext();
+	const { user, isLoggedIn, loading } = useGlobalContext();
 
 	// Show loading indicator while checking auth status
 	if (loading) return (
@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 	)
 
 	// Redirect to "/" if the user is not logged in
-	return isLoggedIn ? children : <Navigate to="/" replace />;
+	return isLoggedIn && user ? children : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;
