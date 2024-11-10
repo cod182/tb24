@@ -17,10 +17,10 @@ const Tasks = () => {
 			<PageTitleWithNav title='Tasks' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-start' />
 
 			{error ? (
-				<Loader title='Error!' subText={error} icon={BiError} />
+				<Loader title='Error!' subText={error} icon={BiError} aria-label="Error icon" />
 			) : loading ? (
 				<div className='flex flex-col items-center justify-center w-full h-full'>
-					<Loader title='Loading Tasks!' subText='Please wait...' icon={BiWorld} />
+					<Loader title='Loading Tasks!' subText='Please wait...' icon={BiWorld} aria-label="Loading icon" />
 				</div>
 			) : (
 				<div className='flex flex-col items-center justify-center w-full h-full gap-20 py-4 mx-auto mt-20 pe-12 lg:px-24 grow'>
@@ -29,11 +29,10 @@ const Tasks = () => {
 					))}
 
 					<AddTaskLineFull />
-
 				</div>
 			)}
 		</div>
-	)
-}
+	);
+};
 
-export default Tasks
+export default Tasks;

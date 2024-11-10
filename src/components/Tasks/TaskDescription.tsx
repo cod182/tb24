@@ -20,30 +20,27 @@ const TaskDescription = ({ task }: Props) => {
 	const [error, setError] = useState('');
 
 	const handleUpdate = async () => {
-
 		setLoading(true);
 		try {
 			await updateTask(task.$id, { ...task, description: taskDescription });
 
-			// creates a new array with the updated task
+			// Update the local task state
 			const newTaskArray = tasks?.map((curr) =>
 				curr.$id === task.$id ? { ...curr, description: taskDescription } : curr
 			);
-			// Updates task context to save on api call
 			setTasks(newTaskArray ?? []);
 
 			setLoading(false);
 			setSuccess(true);
-			setTimeout(() => {
-				setSuccess(false);
-			}, 1000);
-		} catch (error) {
+			setTimeout(() => setSuccess(false), 1000);
+		} catch (error: unknown) {
 			setLoading(false);
-			setError(error as string);
+			setError('Error saving task');
+			console.log(error)
 		}
 	};
 
-	// start update when input loses focus and task description has changed
+	// Start update when input loses focus and task description has changed
 	const handleBlur = () => {
 		if (taskDescription !== task.description) {
 			handleUpdate();
@@ -53,21 +50,26 @@ const TaskDescription = ({ task }: Props) => {
 	return (
 		<form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="relative w-full">
 			<textarea
-				className="pr-[45px] border-b-[2px] bg-transparent border-white text-white w-full overflow-scroll text-xl text-ellipsis whitespace-nowrap placeholder:text-gray-500 placeholder:text-base placeholder:italic"
+				className="pr-[45px] border-b-[2px] bg-transparent border-white text-white w-full overflow-scroll text-xl placeholder:text-gray-500 placeholder:text-base placeholder:italic"
 				value={taskDescription}
 				onChange={(e) => setTaskDescription(e.target.value)}
 				onBlur={handleBlur}
-				placeholder="Task Description (Optional)"
+				placeholder="Edit task description"
 			/>
-			<div className="absolute top-0 right-0 h-full p-2 w-fit">
+			<div className="absolute top-0 right-0 h-full p-2 w-[40px] md:w-fit">
 				{error ? (
-					<MdError className="h-[40px] text-red-600 w-fit animate-pulse" />
+					<MdError className="h-[40px] text-red-600 w-fit animate-pulse" aria-label="Error saving task" />
 				) : loading ? (
-					<GiSandsOfTime className="h-[40px] w-fit animate-spin text-white" />
+					<GiSandsOfTime className="h-[40px] w-[40px] md:w-fit animate-spin text-white" aria-label="Saving task..." />
 				) : success ? (
-					<PiCheckBold className="h-[40px] text-green-700 animate-pulse w-fit" />
-				) : <BiSave className="transition-all duration-200 cursor-pointer text-white h-[40px] w-fit hover:text-gray-600 ease" onClick={handleUpdate} />
-				}
+					<PiCheckBold className="h-[40px] text-green-700 animate-pulse w-[40px] md:w-fit" aria-label="Task saved successfully" />
+				) : (
+					<BiSave
+						className="transition-all duration-200 cursor-pointer text-white h-[40px] w-[40px] md:w-fit hover:text-gray-600 ease"
+						onClick={handleUpdate}
+						aria-label="Save task"
+					/>
+				)}
 			</div>
 		</form>
 	);

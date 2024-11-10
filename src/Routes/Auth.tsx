@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
+
 import { AuthForm } from '../components';
 import { Navigate } from 'react-router-dom';
 import bbImage from '../assets/media/images/auth-bg.webp';
 import { useGlobalContext } from '../context/userAuthContext';
-import { useState } from 'react';
 
 const Auth = () => {
 
@@ -11,6 +12,23 @@ const Auth = () => {
 
 	// Functions
 	const { isLoggedIn } = useGlobalContext();
+
+	// clearing all cookies if not logged in
+	useEffect(() => {
+		const deleteCookie = (name: string) => {
+			document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+		}
+
+		if (!isLoggedIn) {
+			deleteCookie('a_session_console');
+			deleteCookie('a_session_console_legacy');
+			deleteCookie('a_session_672b37b90020abcae49f');
+			deleteCookie('__stripe_sid');
+			deleteCookie('__stripe_mid');
+
+		}
+	}, [])
+
 	if (isLoggedIn) return <Navigate to="/dashboard" replace />;
 
 	return (

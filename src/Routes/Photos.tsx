@@ -2,10 +2,8 @@ import { AddImagePopUp, Loader, PageTitleWithNav, Photo } from '../components';
 import { BiError, BiPhotoAlbum } from 'react-icons/bi';
 
 import { Navigate } from 'react-router-dom';
-// import { PhotoProps } from '../../types/custom';
 import bgImage from '../assets/media/images/dash-bg.webp';
-import { useEffect } from 'react'
-// import { getUserPhotos } from "../lib/appwrite";
+import { useEffect } from 'react';
 import { useGlobalContext } from '../context/userAuthContext';
 import { usePhotoContext } from '../context/usePhotoContext';
 
@@ -18,7 +16,7 @@ const Photos = () => {
 		getPhotos();
 	}, []);
 
-	if (!user) return <Navigate to="/" replace />
+	if (!user) return <Navigate to="/" replace />;
 
 	return (
 		<div className='w-full min-h-[100dvh] relative p-4 md:p-24'>
@@ -35,9 +33,7 @@ const Photos = () => {
 						<Loader title='Loading Your Photos' subText='Please wait...' icon={BiPhotoAlbum} />
 					</div>
 				) : photos && photos.length > 0 ? (
-
 					<div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:gap-12">
-
 						<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80">
 							<div className="flex items-center justify-center w-full aspect-square text-white-children">
 								<AddImagePopUp userId={user?.$id} />
@@ -51,20 +47,17 @@ const Photos = () => {
 								</div>
 							</div>
 						))}
-
 					</div>
 				) : (
-
-					<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80 t">
+					<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80">
 						<div className="flex items-center justify-center w-full aspect-square text-white-children">
 							<AddImagePopUp userId={user?.$id} />
 						</div>
 					</div>
-
 				)}
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export default Photos
+export default Photos;

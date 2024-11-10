@@ -1,7 +1,7 @@
 import { BiError, BiWorld } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 
-import DashboardCard from './DashboardCard'
+import DashboardCard from './DashboardCard';
 import Loader from '../Loader';
 import { fetchBBCRSSFeed } from '../../utils/functions';
 
@@ -44,23 +44,32 @@ const NewsCard = () => {
 
 
 	return (
-		<DashboardCard title='News' link='/latestnews'>
+		<DashboardCard title='News' link='/latestnews' ariaLabel='Read more'>
 			<div className='flex flex-col items-center justify-center w-full h-full gap-2'>
 				{error ?
 					(
-						<Loader title='Error!' subText={error} icon={BiError} />
+						<Loader title='Error!' subText={error} icon={BiError} aria-live="assertive" />
 					)
 					: loading ? (
-						<Loader title='Loading News' subText='Please wait...' icon={BiWorld} />
+						<Loader title='Loading News' subText='Please wait...' icon={BiWorld} aria-live="polite" />
 					) : (
 						<>
-							<p className='text-3xl text-center'>{feedItems[0].title.length > 25
-								? `${feedItems[0].title.slice(0, 25)}...`
-								: feedItems[0].title}</p>
-							<p className='text-xl text-center'>{feedItems[0].description.length > 125
-								? `${feedItems[0].description.slice(0, 125)}...`
-								: feedItems[0].description}</p>
-
+							<p
+								className='text-3xl text-center'
+								aria-live="polite"
+							>
+								{feedItems[0].title.length > 25
+									? `${feedItems[0].title.slice(0, 25)}...`
+									: feedItems[0].title}
+							</p>
+							<p
+								className='text-xl text-center'
+								aria-live="polite"
+							>
+								{feedItems[0].description.length > 125
+									? `${feedItems[0].description.slice(0, 125)}...`
+									: feedItems[0].description}
+							</p>
 						</>
 					)
 				}
@@ -69,4 +78,4 @@ const NewsCard = () => {
 	)
 }
 
-export default NewsCard
+export default NewsCard;

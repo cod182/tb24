@@ -7,9 +7,8 @@ import bgImage from '../assets/media/images/dash-bg.webp';
 import { fetchBBCRSSFeed } from '../utils/functions';
 
 const LatestNewsArticle = () => {
-
 	const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string>();
 
 	useEffect(() => {
@@ -25,7 +24,6 @@ const LatestNewsArticle = () => {
 				}
 				setFeedItems(response);
 				setLoading(false);
-
 			} catch (error) {
 				setLoading(false);
 				setError('Error Fetching News Feed');
@@ -36,14 +34,12 @@ const LatestNewsArticle = () => {
 		fetchRSSFeed();
 	}, []);
 
-
 	return (
-		<div className='w-full min-h-[100dvh] relative p-4 sm:p-24'>
+		<div className='w-full min-h-[100dvh] relative p-4 sm:p-24 flex flex-col items-center justify-start gap-5'>
 			{/* background */}
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
 
 			<PageTitleWithNav title='News' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-start' />
-
 
 			{error ? (
 				<Loader title='Error!' subText={error} icon={BiError} />
@@ -51,12 +47,15 @@ const LatestNewsArticle = () => {
 				<div className='flex flex-col items-center justify-center w-full h-full'>
 					<Loader title='Loading Latest News!' subText='Please wait...' icon={BiWorld} />
 				</div>
-			) : (
+			) : feedItems.length > 0 ? (
 				<NewsArticle article={feedItems[0]} />
+			) : (
+				<div className="w-full max-w-md text-center text-white">
+					<Loader title='No News Found!' subText='Please wait...' icon={BiWorld} />
+				</div>
 			)}
 		</div>
-	)
+	);
+};
 
-}
-
-export default LatestNewsArticle
+export default LatestNewsArticle;

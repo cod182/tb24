@@ -2,8 +2,8 @@ import { DashboardPanel, Nav } from '../components/index.js';
 
 import bgImage from '../assets/media/images/dash-bg.webp';
 import { getGreeting } from '../utils/functions.js';
-import { useGlobalContext } from '../context/userAuthContext';
 import { useEffect } from 'react';
+import { useGlobalContext } from '../context/userAuthContext';
 import { usePhotoContext } from '../context/usePhotoContext';
 import { useTaskContext } from '../context/useTaskContext';
 
@@ -29,7 +29,6 @@ const Dashboard = () => {
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
 
 			<header className='flex flex-row items-center justify-center w-full px-6 py-6 mb-6 h-fit sm:px-12'>
-				{/* <div className='absolute left-[30px] top-[20px]'> */}
 				{/* Navigation */}
 				<Nav />
 				{/* </div> */}

@@ -19,30 +19,30 @@ const TaskTitle = ({ task }: Props) => {
 	const [error, setError] = useState('');
 
 	const handleUpdate = async () => {
+		if (!taskTitle.trim()) {
+			setError('Title cannot be empty');
+			return;
+		}
 
 		setLoading(true);
 		try {
 			await updateTask(task.$id, { ...task, title: taskTitle });
 
-			// creates a new array with the updated task
 			const newTaskArray = tasks?.map((curr) =>
 				curr.$id === task.$id ? { ...curr, title: taskTitle } : curr
 			);
-			// Updates task context to save on api call
-			setTasks(newTaskArray ?? []);
 
+			setTasks(newTaskArray ?? []);
 			setLoading(false);
 			setSuccess(true);
-			setTimeout(() => {
-				setSuccess(false);
-			}, 1000);
-		} catch (error) {
+			setTimeout(() => setSuccess(false), 1000);
+		} catch (error: unknown) {
 			setLoading(false);
-			setError(error as string);
+			setError('An error occurred while updating the task');
+			console.log(error)
 		}
 	};
 
-	// start update when input loses focus and task title has changed
 	const handleBlur = () => {
 		if (taskTitle !== task.title) {
 			handleUpdate();
@@ -58,15 +58,20 @@ const TaskTitle = ({ task }: Props) => {
 				value={taskTitle}
 				onChange={(e) => setTaskTitle(e.target.value)}
 				onBlur={handleBlur}
+				aria-describedby={error ? "error-message" : undefined}
 			/>
 			<div className="absolute top-0 right-0 h-full p-2 w-fit">
-				{error ? (
-					<MdError className="h-full text-red-600 w-fit animate-pulse" />
-				) : loading ? (
-					<GiSandsOfTime className="h-full w-fit animate-spin" />
-				) : success ? (
-					<PiCheckBold className="h-full text-green-700 animate-pulse w-fit" />
-				) : null}
+				{error && (
+					<div id="error-message" className="text-red-600">
+						<MdError className="h-full w-[40px] md:w-fit animate-pulse" aria-live="assertive" />
+					</div>
+				)}
+				{loading && (
+					<GiSandsOfTime className="h-full w-[40px] md:w-fit animate-spin" aria-live="polite" />
+				)}
+				{success && (
+					<PiCheckBold className="h-full text-green-700 animate-pulse w-[40px] md:w-fit" aria-live="polite" />
+				)}
 			</div>
 		</form>
 	);

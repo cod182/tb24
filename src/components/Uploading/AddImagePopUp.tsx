@@ -28,7 +28,7 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 					const currPhotos: PhotoProps[] = [];
 
 					currPhotos.push(...photos)
-					// Create a new photo object and attach it's ID form the response
+					// Create a new photo object and attach its ID from the response
 					const newPhoto = {
 						$id: response.$id,
 						ownerId: response.ownerId,
@@ -37,7 +37,7 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 					}
 					// Pushes new task into array
 					currPhotos.push(newPhoto);
-					// Sets photos array in context to save on api calls
+					// Sets photos array in context to save on API calls
 					setPhotos(currPhotos);
 				}
 				setLoading(false);
@@ -59,20 +59,31 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 		<div className="relative flex flex-col items-center justify-center w-full h-full gap-2">
 
 			{/* PopUp Modal */}
-			<div className={`${popUpState ? 'h-[100%] py-2 pt-9' : 'h-[0%] py-0 pt-0'} p-x-2 overflow-hidden flex w-full absolute top-0 bg-gray-200/80 rounded-lg transition-all duration-200 ease flex-col items-center justify-center z-[2]`} >
+			<div className={`${popUpState ? 'h-[100%] py-2 pt-9' : 'h-[0%] py-0 pt-0'} p-x-2 overflow-hidden flex w-full absolute top-0 bg-gray-200/80 rounded-lg transition-all duration-200 ease flex-col items-center justify-center z-[2]`} aria-live="assertive" role="dialog" aria-labelledby="addImagePopUpTitle">
 
 				{/* Close Button */}
-				<button className='absolute p-2 transition-all duration-200 rounded-full top-2 right-2 bg-yellow-300/70 hover:bg-yellow-400/90 hover:text-white ease' onClick={() => setPopUpState(false)}> <CgClose /></button>
+				<button
+					className='absolute p-2 transition-all duration-200 rounded-full top-2 right-2 bg-yellow-300/70 hover:bg-yellow-400/90 hover:text-white ease'
+					onClick={() => setPopUpState(false)}
+					aria-label="Close Image Upload"
+				>
+					<CgClose />
+				</button>
 
 				<AddImage handleSubmit={handleAddImage} setImage={setImage} />
 
 			</div>
-			<div className='flex flex-col items-center justify-center w-full h-full gap-2 cursor-pointer group' onClick={() => setPopUpState(true)} >
-				<p className="text-3xl text-center transition-all duration-200 ease group-hover:text-yellow-300">Add Photos</p>
-				<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
+
+
+			<div className='flex flex-col items-center justify-center w-full h-full gap-2 cursor-pointer group' onClick={() => setPopUpState(true)} aria-expanded={popUpState ? 'true' : 'false'}>
+				<p className="text-3xl text-center transition-all duration-200 ease group-hover:text-yellow-300" id="addImagePopUpTitle">Add Photos</p>
+				<FcAddImage
+					className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease"
+					aria-label="Add Image Icon"
+				/>
 			</div>
 		</div>
 	)
 }
 
-export default AddImagePopUp
+export default AddImagePopUp;

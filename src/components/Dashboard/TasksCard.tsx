@@ -17,7 +17,7 @@ const TasksCard = () => {
 	}, [])
 
 	return (
-		<DashboardCard title='Tasks' link='/tasks'>
+		<DashboardCard title='Tasks' link='/tasks' ariaLabel='View all your tasks'>
 
 			<div className='flex flex-col items-center justify-center w-full h-full gap-2'>
 				{error ?

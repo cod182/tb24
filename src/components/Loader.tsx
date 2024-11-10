@@ -3,7 +3,7 @@ import React from "react";
 
 const Loader = ({ title, subText, icon }: { title: string; subText?: string; icon?: IconType | string; }) => {
 	return (
-		<div className='w-full h-full flex flex-col items-center justify-center gap-2 text-center'>
+		<div className='flex flex-col items-center justify-center w-full h-full gap-2 text-center' aria-live="assertive">
 			{icon && (
 				typeof icon === 'string' ? (
 					<img src={icon} alt="Loading icon" className='w-24 h-24 sm:w-16 sm:h-16 animate-pulse' />
@@ -20,5 +20,6 @@ const Loader = ({ title, subText, icon }: { title: string; subText?: string; ico
 		</div>
 	);
 };
+
 
 export default Loader;

@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 import { BiWorld } from 'react-icons/bi';
 import DashboardCard from './DashboardCard';
@@ -50,25 +50,23 @@ type WeatherDataProps = {
 };
 
 const WeatherCard = () => {
-
-	const [location, setLocation] = useState<{ latitude: number, longitude: number }>();
-	const [locationLoading, setLocationLoading] = useState(false)
-	const [error, setError] = useState<string>();
-	const [weatherData, setWeatherData] = useState<WeatherDataProps>()
-	const [weatherIcon, setWeatherIcon] = useState<string | undefined>()
+	const [location, setLocation] = useState<{ latitude: number | undefined; longitude: number | undefined }>();
+	const [locationLoading, setLocationLoading] = useState(false);
+	const [error, setError] = useState<string | undefined>();
+	const [weatherData, setWeatherData] = useState<WeatherDataProps | undefined>();
+	const [weatherIcon, setWeatherIcon] = useState<string | undefined>();
 
 	// USE EFFECTS
 	useEffect(() => {
-		// Requests then gets current coordinates
+		// Requests and gets current coordinates
 		function getCurrentLocation() {
 			setLocationLoading(true);
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(
 					(position) => {
 						const { latitude, longitude } = position.coords;
-
 						setLocation({ latitude, longitude });
-						setLocationLoading(position.coords && false);
+						setLocationLoading(false);
 					},
 					(err) => {
 						setLocationLoading(false);
@@ -83,69 +81,65 @@ const WeatherCard = () => {
 		}
 
 		getCurrentLocation();
-
 	}, []);
 
 	useEffect(() => {
-		// Gets local weather using coordinates from openweatherapi
+		// Gets local weather using coordinates from OpenWeatherAPI
 		const fetchCurrentWeather = async () => {
+			if (!location?.latitude || !location?.longitude) return;
+
 			try {
-				const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location?.latitude}&lon=${location?.longitude}&appid=${import.meta.env.VITE_OPENWEATHER_API}&units=metric`);
+				const res = await fetch(
+					`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${import.meta.env.VITE_OPENWEATHER_API}&units=metric`
+				);
 				const data = await res.json();
 				if (!res.ok) setError(data.message);
 
-				setWeatherData(data)
-				const icon = getWeatherIcon(data.weather[0].main)
+				setWeatherData(data);
+				const icon = getWeatherIcon(data.weather[0].main);
 
 				setWeatherIcon(icon);
 			} catch (error: unknown) {
-				setError((error as Error)?.message)
+				setError((error as Error)?.message);
 			}
-		}
-		if (location?.latitude && location?.longitude) fetchCurrentWeather()
-
-	}, [location])
-
-
+		};
+		fetchCurrentWeather();
+	}, [location]);
 
 	return (
-		<DashboardCard title='Weather'>
-			{error ? <p>{error}</p> : locationLoading ? (
-				<div className="w-full h-full flex flex-col items-center justify-center">
+		<DashboardCard title="Weather">
+			{error ? (
+				<p>{error}</p>
+			) : locationLoading ? (
+				<div className="flex flex-col items-center justify-center w-full h-full">
 					<BiWorld className="animate-spin w-[50px] h-[50px]" />
-					<p>
-						Loading...
-					</p>
+					<p>Loading...</p>
 				</div>
 			) : (
-				<div className='flex flex-col items-center justify-center h-full w-full'>
-
-					<div className='flex flex-row items-center justify-between gap-2 w-full mb-4'>
+				<div className="flex flex-col items-center justify-center w-full h-full">
+					<div className="flex flex-row items-center justify-between w-full gap-2 mb-4">
 						{/* Icon */}
-						<div className='w-[50%] h-auto flex flex-col items-center'>
-							<img src={weatherIcon ? weatherIcon : weatherData && `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`} alt="" className='w-full h-full max-w-[140px]' />
+						<div className="w-[50%] h-auto flex flex-col items-center">
+							<img
+								src={weatherIcon ? weatherIcon : weatherData && `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
+								alt="Weather Icon"
+								className="w-full h-full max-w-[140px]"
+							/>
 						</div>
 
 						{/* Temp */}
-						<div className='flex flex-col items-center justify-center w-[50%]'>
-							<p className='text-5xl'>
-								{weatherData && weatherData.main.temp.toFixed(0)}°C
-							</p>
-
+						<div className="flex flex-col items-center justify-center w-[50%]">
+							<p className="text-5xl">{weatherData && weatherData.main.temp.toFixed(0)}°C</p>
 						</div>
 					</div>
 
-					<div className='flex flex-col items-center justify-center'>
-						<p className='text-5xl'>
-							{weatherData && weatherData.name}
-						</p>
+					<div className="flex flex-col items-center justify-center">
+						<p className="text-5xl">{weatherData && weatherData.name}</p>
 					</div>
-
 				</div>
 			)}
-
 		</DashboardCard>
-	)
-}
+	);
+};
 
-export default WeatherCard
+export default WeatherCard;
