@@ -10,8 +10,9 @@ function App() {
   return (
     <div className='w-[100vw] h-[100dvh]'>
       <Routes>
-        {/* Public route */}
+        {/* Public routes */}
         <Route path="/" element={<Auth />} />
+        <Route path="*" element={<Auth />} />
 
         <Route path="/latestnews" element={<LatestNewsArticle />} />
 

@@ -49,7 +49,6 @@ export const createNewUser = async (email, password, username, image) => {
 			image: fileUrl
 		});
 
-
 		return newUser;
 	} catch (err) {
 		throw new Error(err.message)

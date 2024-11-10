@@ -8,7 +8,7 @@ import TaskContext from './context/useTaskContext';
 import UserContext from './context/userAuthContext';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <BrowserRouter>
+  <BrowserRouter >
     <TaskContext>
       <PhotoContext>
         <UserContext>
