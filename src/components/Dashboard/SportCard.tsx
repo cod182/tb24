@@ -46,7 +46,7 @@ const SportCard = () => {
 
 
 	return (
-		<DashboardCard title='News' link='/sport-results' ariaLabel='Read more'>
+		<DashboardCard title='Sport' link='/sport-results' ariaLabel='Read more'>
 			<div className="flex flex-col items-center justify-start w-full h-full gap-2 py-2">
 				{error ? (
 					<Loader title="Error!" subText={error} icon={BiError} />
@@ -58,10 +58,16 @@ const SportCard = () => {
 							<h2 className="text-3xl">{randomMatch.homeTeam} vs {randomMatch.awayTeam}</h2>
 							<p className="text-sm italic text-gray-700">{randomMatch.date}</p>
 						</div>
-						<p className="w-full text-2xl text-center">Congratulations to <span className="font-semibold">{randomMatch.homeTeam}</span> for {(randomMatch.fullTimeHomeGoals < 1) ? (randomMatch.fullTimeAwayGoals === randomMatch.fullTimeHomeGoals) ? 'drawing with' : 'their game against' : `scoring ${randomMatch.fullTimeHomeGoals} goal${randomMatch.fullTimeHomeGoals > 1 ? 's' : ''} against`} {randomMatch.awayTeam}</p>
+						<div className="flex flex-col items-center justify-center gap-2">
+							<p className="w-full text-2xl text-center">Congratulations to <span className="font-semibold">{randomMatch.homeTeam}</span> for
+								{(randomMatch.fullTimeAwayGoals === randomMatch.fullTimeHomeGoals) ? (randomMatch.fullTimeHomeGoals < 1) ? 'drawing with' : `their win against` : 'their game against'}
+								{randomMatch.awayTeam}</p>
+							<p className="w-full text-xl font-bold text-center">Result: <span className="font-bold">{randomMatch.fullTimeHomeGoals} - {randomMatch.fullTimeAwayGoals}</span></p>
+						</div>
+
 					</>
 				) : (
-					<p>No data available</p> // Display message when no data is present
+					<p>No data available</p>
 				)}
 			</div>
 		</DashboardCard>
