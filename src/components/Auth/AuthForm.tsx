@@ -289,6 +289,7 @@ import { BiErrorCircle } from 'react-icons/bi';
 import { GiSandsOfTime } from 'react-icons/gi';
 import Loader from '../Loader.js';
 import { getCurrentUser } from '../../lib/appwrite.js';
+import { resizeImage } from '../../utils/functions.js';
 import { useGlobalContext } from '../../context/userAuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -387,15 +388,22 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 		}
 	};
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
+
 		if (file && file.type.startsWith('image/')) {
-			setImage(file);
+
 			const reader = new FileReader();
+			const resizedFile = await resizeImage(file, 280, 280);
+
 			reader.onloadend = () => {
-				if (reader.result) setImagePreview(reader.result as string);
+				if (reader.result) {
+					setImagePreview(reader.result as string);
+					setImage(resizedFile);
+				}
 			};
-			reader.readAsDataURL(file);
+			reader.readAsDataURL(resizedFile);
+
 		} else {
 			setErrorWithTimeout('Please upload a valid image');
 		}
@@ -441,7 +449,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 
 						{/* Image upload */}
 						<div className='relative flex flex-row flex-wrap items-center justify-around w-full gap-4 px-6 sm:px-24'>
-							<label htmlFor="image" className="mt-4 h-[200px] w-full sm:max-w-[300px] sm:min-w-[300px] flex flex-col items-center justify-center">
+							<label htmlFor="image" className="mt-4 w-[280px] h-[280px] overflow-hidden flex flex-col items-center justify-center">
 								<input
 									type="file"
 									id="image"
@@ -449,12 +457,12 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 									onChange={handleImageChange}
 									className="hidden"
 								/>
-								<div className="relative w-full sm:min-w-[300px] h-[200px] p-4 border-2 flex flex-col items-center justify-center border-yellow-300 transition-all duration-200 ease bg-gray-400/70 text-center rounded-lg cursor-pointer hover:bg-gray-400/90 group">
+								<div className="relative w-[280px] h-[280px] overflow-hidden border-2 flex flex-col items-center justify-center border-yellow-300 transition-all duration-200 ease bg-gray-400/70 text-center rounded-lg cursor-pointer hover:bg-gray-400/90 group">
 									{imagePreview ? (
 										<img
 											src={imagePreview}
 											alt="Image preview"
-											className="absolute top-0 left-0 object-contain w-full h-full rounded-lg cursor-pointer"
+											className="absolute top-0 left-0 object-contain w-[280px] h-[280px] rounded-lg cursor-pointer"
 											onClick={handleRemoveImage}
 										/>
 									) : (
