@@ -64,9 +64,9 @@ const AddTaskLineFull = () => {
 			<div className={`flex flex-row items-start justify-start h-full gap-2 mt-2 sm:mt-0 ${popOutState ? 'w-[100%]' : 'w-[0%]'} overflow-hidden transition-all duration-200 ease `}>
 				<form onSubmit={handleAddTask} className="flex flex-col items-start justify-start w-full h-full gap-2 mt-2 md:flex-row grow sm:mt-0" >
 
-					<input onChange={(e) => setTask({ ...task, title: e.target.value })} value={task.title} className="w-full h-full p-4 text-2xl font-semibold text-black rounded-lg text-start" placeholder="Enter Task Title" />
+					<input id='title' onChange={(e) => setTask({ ...task, title: e.target.value })} value={task.title} className="w-full h-full p-4 text-2xl font-semibold text-black rounded-lg text-start" placeholder="Enter Task Title" />
 
-					<textarea onChange={(e) => setTask({ ...task, description: e.target.value })} value={task.description} className="w-full p-4 overflow-scroll text-lg font-semibold text-black rounded-lg resize-none h-fit text-start" placeholder="Enter Task Description (Optional)" />
+					<textarea id='description' onChange={(e) => setTask({ ...task, description: e.target.value })} value={task.description} className="w-full p-4 overflow-scroll text-lg font-semibold text-black rounded-lg resize-none h-fit text-start" placeholder="Enter Task Description (Optional)" />
 
 					<button disabled={!task.title} className={`w-fit h-fit`}>
 						{error ? (

@@ -37,16 +37,16 @@ const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEven
 	};
 
 	return (
-		<div className="w-full h-full relative">
+		<div className="relative w-full h-full">
 			<div className={`absolute flex flex-col items-center justify-center w-full top z-[3] transition-all duration-200 ease  ${error ? 'max-h-[300px] overflow-scroll' : 'max-h-[0px] overflow-hidden'}`}>
-				<div className=" bg-red-500/90 w-fit rounded-full px-4 py-2">
+				<div className="px-4 py-2 rounded-full  bg-red-500/90 w-fit">
 					<p className="text-black font-xl">
 						{error}
 					</p>
 				</div>
 			</div>
 
-			<form onSubmit={handleSubmit} className="w-full h-full grow flex flex-col items-center justify-center p-2 gap-2">
+			<form onSubmit={handleSubmit} className="flex flex-col items-center justify-center w-full h-full gap-2 p-2 grow">
 				<label htmlFor="image" className="h-[100px] w-full flex flex-col items-center justify-center gap-2">
 					<input
 						type="file"
@@ -63,7 +63,7 @@ const AddImage = ({ handleSubmit, setImage }: { handleSubmit: (e: React.FormEven
 							<img
 								src={imagePreview}
 								alt="Image preview"
-								className="absolute top-0 left-0 w-full h-full object-contain rounded-lg cursor-pointer"
+								className="absolute top-0 left-0 object-contain w-full h-full rounded-lg cursor-pointer"
 								onClick={handleRemoveImage}
 							/>
 						) : (
