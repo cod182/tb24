@@ -4,14 +4,13 @@ import { CgClose } from 'react-icons/cg';
 import { FaUpload } from 'react-icons/fa';
 import { FcAddImage } from 'react-icons/fc'
 import Loader from '../Loader';
+import { PhotoProps } from '../../../types/custom';
 import { uploadUserImage } from '../../lib/appwrite'
-import { useNavigate } from 'react-router-dom';
 import { usePhotoContext } from '../../context/usePhotoContext';
 import { useState } from 'react';
 
 const AddImagePopUp = ({ userId }: { userId: string }) => {
-	const navigate = useNavigate();
-	const { getPhotos } = usePhotoContext();
+	const { photos, setPhotos } = usePhotoContext();
 
 	// STATES
 	const [popUpState, setPopUpState] = useState(false);
@@ -23,14 +22,28 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 		e.preventDefault();
 		setLoading(true)
 		try {
-			const response = await uploadUserImage(image, userId)
+			const response = await uploadUserImage(image, userId);
 			if (response) {
-				getPhotos();
+				if (photos) {
+					const currPhotos: PhotoProps[] = [];
+
+					currPhotos.push(...photos)
+					// Create a new photo object and attach it's ID form the response
+					const newPhoto = {
+						$id: response.$id,
+						ownerId: response.ownerId,
+						imageUrl: response.imageUrl,
+						imageId: response.imageId
+					}
+					// Pushes new task into array
+					currPhotos.push(newPhoto);
+					// Sets photos array in context to save on api calls
+					setPhotos(currPhotos);
+				}
 				setLoading(false);
 				setPopUpState(false);
 				setImage(null);
 				setError('');
-				navigate('/photos');
 			}
 		} catch {
 			setLoading(false);
@@ -54,8 +67,8 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 				<AddImage handleSubmit={handleAddImage} setImage={setImage} />
 
 			</div>
-			<div className='flex flex-col items-center justify-center w-full h-full gap-2 cursor-pointer group bg-blue-950/80' onClick={() => setPopUpState(true)} >
-				<p className="text-3xl text-center text-white transition-all duration-200 ease group-hover:text-yellow-300">Add Photos</p>
+			<div className='flex flex-col items-center justify-center w-full h-full gap-2 cursor-pointer group' onClick={() => setPopUpState(true)} >
+				<p className="text-3xl text-center transition-all duration-200 ease group-hover:text-yellow-300">Add Photos</p>
 				<FcAddImage className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease" />
 			</div>
 		</div>

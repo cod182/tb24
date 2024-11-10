@@ -1,7 +1,9 @@
+
 import ClothesCard from "./ClothesCard";
 import DashboardCard from "./DashboardCard"
 import NewsCard from "./NewsCard";
 import PhotosCard from "./PhotosCard";
+import TasksCard from "./TasksCard";
 import WeatherCard from "./WeatherCard";
 
 const DashboardPanel = () => {
@@ -21,10 +23,9 @@ const DashboardPanel = () => {
 			{/* Photos Card */}
 			<PhotosCard />
 
-			<DashboardCard title='Tasks'>
-				<p className='text-3xl'>Headline</p>
-				<p className='text-2xl'>Body</p>
-			</DashboardCard>
+			{/* Tasks Card */}
+			<TasksCard />
+
 			{/* Clothes Card */}
 			<ClothesCard />
 

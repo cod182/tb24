@@ -4,13 +4,15 @@ import { Route, Routes } from 'react-router-dom';
 import LatestNewsArticle from './Routes/LatestNewsArticle';
 import Photos from './Routes/Photos';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import Tasks from './Routes/Tasks';
 
 function App() {
   return (
     <div className='w-[100vw] h-[100dvh]'>
       <Routes>
-        {/* Public route */}
+        {/* Public routes */}
         <Route path="/" element={<Auth />} />
+        <Route path="*" element={<Auth />} />
 
         <Route path="/latestnews" element={<LatestNewsArticle />} />
 
@@ -28,6 +30,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Photos />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <Tasks />
             </ProtectedRoute>
           }
         />

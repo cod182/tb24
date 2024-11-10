@@ -5,17 +5,20 @@ import { getGreeting } from '../utils/functions.js';
 import { useGlobalContext } from '../context/userAuthContext';
 import { useEffect } from 'react';
 import { usePhotoContext } from '../context/usePhotoContext';
+import { useTaskContext } from '../context/useTaskContext';
 
 const Dashboard = () => {
 
 	const { user } = useGlobalContext();
 	const { getPhotos } = usePhotoContext();
+	const { getAllTasks } = useTaskContext();
 
 
 
 	// USE EFFECTS
 	useEffect(() => {
 		getPhotos(user?.$id);
+		getAllTasks(user?.$id);
 	}, []);
 
 

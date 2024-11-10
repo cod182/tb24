@@ -49,7 +49,6 @@ export const createNewUser = async (email, password, username, image) => {
 			image: fileUrl
 		});
 
-
 		return newUser;
 	} catch (err) {
 		throw new Error(err.message)
@@ -163,3 +162,54 @@ export const deleteImage = async (imageId, documentId) => {
 		throw new Error(`Failed to delete image with ID ${imageId}`);
 	}
 };
+
+
+export const createTask = async (task) => {
+
+	try {
+		const newTask = await databases.createDocument(
+			import.meta.env.VITE_APPWRITE_DATABASE_ID,
+			import.meta.env.VITE_APPWRITE_TASKS_COLLECTION,
+			ID.unique(), task
+		);
+		return newTask;
+	} catch (error) {
+		throw new Error(error);
+	}
+}
+
+export const getTasks = async (userId) => {
+	try {
+		const tasks = await databases.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, import.meta.env.VITE_APPWRITE_TASKS_COLLECTION, [Query.equal('ownerId', userId)]);
+		return tasks.documents;
+	} catch (error) {
+		throw new Error(error);
+	}
+}
+
+export const deleteTask = async (taskId) => {
+	try {
+		const deletedTask = await databases.deleteDocument(
+			import.meta.env.VITE_APPWRITE_DATABASE_ID,
+			import.meta.env.VITE_APPWRITE_TASKS_COLLECTION,
+			taskId
+		);
+		return deletedTask;
+	} catch (error) {
+		throw new Error(error);
+	}
+}
+
+export const updateTask = async (taskId, task) => {
+	try {
+		const updatedTask = await databases.updateDocument(
+			import.meta.env.VITE_APPWRITE_DATABASE_ID,
+			import.meta.env.VITE_APPWRITE_TASKS_COLLECTION,
+			taskId,
+			{ title: task.title, description: task?.description ? task?.description : '', completed: task.completed }
+		);
+		return updatedTask;
+	} catch (error) {
+		throw new Error(error);
+	}
+}

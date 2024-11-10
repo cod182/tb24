@@ -17,7 +17,7 @@ type Props = {
 }
 
 const Photo = ({ photo }: Props) => {
-	const { photos, setPhotos, getPhotos } = usePhotoContext();
+	const { photos, setPhotos } = usePhotoContext();
 
 	const [checkDelete, setCheckDelete] = useState(false);
 	const [error, setError] = useState<string>();
@@ -27,11 +27,10 @@ const Photo = ({ photo }: Props) => {
 
 		if (checkDelete) {
 			try {
-				// Calls the fucntion to delete from appwrite storage and collection
+				// Calls the function to delete from appwrite storage and collection
 				await deleteImage(photo.imageId, photo.$id);
-				getPhotos();
 				if (photos) {
-					// Saving from making another API call, just updating the locall state when deleting from db
+					// Saving from making another API call, just updating the local state when deleting from db
 					const newPhotoArray = photos.filter(
 						(img) => img.imageId != photo.imageId
 					)

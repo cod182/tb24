@@ -35,9 +35,9 @@ const DropdownNav = () => {
 
 	const { isLoggedIn, setIsLoggedIn, setUser } = useGlobalContext();
 	return (
-		<nav className="relative w-fit h-full">
+		<nav className="relative z-30 h-full w-fit">
 			<button
-				className=" w-full h-full bg-gray-400/70 p-0 m-0t text-white rounded-md border-yellow-300/80 border-2  hover:bg-gray-500/90 focus:outline-none transition-al duration-200 ease"
+				className="w-full h-full p-0 text-white duration-200 border-2 rounded-md  bg-gray-400/70 m-0t border-yellow-300/80 hover:bg-gray-500/90 focus:outline-none transition-al ease"
 				onClick={toggleDropdown}
 			>
 				<MdShowChart className={`${isOpen ? 'text-blue-300' : 'text-yellow-300'} transition-all duration-200 ease w-[70px] h-[45px] sm:w-[130px] sm:h-[85px] md:w-[230px] md:h-[155px] p-0 m-0`} />
@@ -50,10 +50,10 @@ const DropdownNav = () => {
 					<li>
 						<a
 							href={`${isLoggedIn ? '/dashboard' : '/'}`}
-							className='block px-4 py-2 transition-all ease duration-200 text-gray-700 hover:bg-gray-100 w-full text-start'
+							className='block w-full px-4 py-2 text-gray-700 transition-all duration-200 ease hover:bg-gray-100 text-start'
 							onClick={() => setIsOpen(false)}
 						>
-							<p className='w-full flex flex-row justify-start items-center gap-2'>
+							<p className='flex flex-row items-center justify-start w-full gap-2'>
 								<span>
 									<GrHomeRounded />
 								</span>
@@ -67,10 +67,10 @@ const DropdownNav = () => {
 						<li key={index}>
 							<a
 								href={link}
-								className='block px-4 py-2 transition-all ease duration-200 text-gray-700 hover:bg-gray-100 w-full text-start'
+								className='block w-full px-4 py-2 text-gray-700 transition-all duration-200 ease hover:bg-gray-100 text-start'
 								onClick={() => setIsOpen(false)}
 							>
-								<p className='w-full flex flex-row justify-start items-center gap-2'>
+								<p className='flex flex-row items-center justify-start w-full gap-2'>
 									<span>
 										{icon}
 									</span>
@@ -82,11 +82,11 @@ const DropdownNav = () => {
 
 					<li>
 						<button
-							className='block px-4 py-2 transition-all ease duration-200 text-gray-700 hover:bg-gray-100 w-full text-start'
+							className='block w-full px-4 py-2 text-gray-700 transition-all duration-200 ease hover:bg-gray-100 text-start'
 							type="button"
 							onClick={logout}
 						>
-							<p className='w-full flex flex-row justify-start items-center gap-2'>
+							<p className='flex flex-row items-center justify-start w-full gap-2'>
 								<span>
 									<GrLogout />
 								</span>

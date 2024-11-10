@@ -13,16 +13,10 @@ const Photos = () => {
 	const { user } = useGlobalContext();
 	const { photos, getPhotos, loading, error } = usePhotoContext();
 
-
-
 	// USE EFFECTS
 	useEffect(() => {
 		getPhotos();
 	}, []);
-
-
-
-
 
 	if (!user) return <Navigate to="/" replace />
 
@@ -31,10 +25,7 @@ const Photos = () => {
 			{/* background */}
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
 
-
 			<PageTitleWithNav title='Photos' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-center' />
-
-
 
 			<div className='flex flex-row flex-wrap items-center justify-center w-full h-full gap-4 p-4 grow md:justify-start'>
 				{error ? (
@@ -47,8 +38,8 @@ const Photos = () => {
 
 					<div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:gap-12">
 
-						<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden">
-							<div className="flex items-center justify-center w-full aspect-square">
+						<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80">
+							<div className="flex items-center justify-center w-full aspect-square text-white-children">
 								<AddImagePopUp userId={user?.$id} />
 							</div>
 						</div>
@@ -64,8 +55,10 @@ const Photos = () => {
 					</div>
 				) : (
 
-					<div className='h-[280px] max-w-[280px] w-[280px] flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden'>
-						<AddImagePopUp userId={user.$id} />
+					<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80 t">
+						<div className="flex items-center justify-center w-full aspect-square text-white-children">
+							<AddImagePopUp userId={user?.$id} />
+						</div>
 					</div>
 
 				)}
