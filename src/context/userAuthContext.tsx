@@ -39,6 +39,8 @@ const UserContext = ({ children }: { children: ReactNode }) => {
 		return storedUser ? JSON.parse(storedUser) : null;
 	});
 
+
+
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
 		const storedLoggedIn = localStorage.getItem('isLoggedIn');
 		return storedLoggedIn === 'true' ? true : false;
