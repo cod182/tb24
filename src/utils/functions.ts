@@ -10,6 +10,7 @@ export const getGreeting = () => {
 	}
 }
 
+import Papa from 'papaparse';
 import cloud from '../assets/media/icons/Clouds_icon.webp';
 import rain from '../assets/media/icons/Rain_icon.webp';
 import sun from '../assets/media/icons/Sun_icon.webp';
@@ -153,6 +154,58 @@ export const fetchJsonData = async () => {
 		throw new Error(String(error))
 	}
 }
+
+
+
+
+
+
+export const fetchSportData = async () => {
+	const proxyUrl = process.env.NODE_ENV === 'production'
+		? `${window.location.origin}/.netlify/functions/fetch-sport` // Production
+		: `http://localhost:8888/.netlify/functions/fetch-sport`; // Local
+
+	try {
+		const response = await fetch(proxyUrl);
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! Status: ${response.status}`);
+		}
+
+		const csvData = await response.text();
+
+		// Parse the CSV data using Papa.parse asynchronously
+		const teamsJson = await new Promise((resolve, reject) => {
+			Papa.parse(csvData, {
+				complete: function (results) {
+
+
+					const matchData = results.data;
+					const teamsJson = matchData.map((match) => {
+
+						return {
+							homeTeam: match.HomeTeam,
+							awayTeam: match.AwayTeam,
+							result: match.FTR,
+						};
+					});
+					resolve(teamsJson);
+				},
+				error: function (error) {
+					reject(new Error('Error parsing CSV: ' + error.message));
+				},
+				header: true,
+			});
+		});
+
+		return teamsJson; // Return the parsed teamsJson
+
+	} catch (error: unknown) {
+		console.error("Error fetching or parsing CSV:", error);
+		throw new Error(String(error));  // Rethrow the error
+	}
+};
+
 
 
 

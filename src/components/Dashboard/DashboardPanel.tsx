@@ -1,7 +1,7 @@
 import ClothesCard from "./ClothesCard";
-import DashboardCard from "./DashboardCard"
 import NewsCard from "./NewsCard";
 import PhotosCard from "./PhotosCard";
+import SportCard from "./SportCard";
 import TasksCard from "./TasksCard";
 import WeatherCard from "./WeatherCard";
 
@@ -15,10 +15,9 @@ const DashboardPanel = () => {
 			{/* News Card */}
 			<NewsCard />
 
-			<DashboardCard title='Sport' link='/sport'>
-				<p className='text-3xl'>Team Name</p>
-				<p className='text-2xl'>Thumpnail</p>
-			</DashboardCard>
+			{/* Sport Card */}
+			<SportCard />
+
 			{/* Photos Card */}
 			<PhotosCard />
 

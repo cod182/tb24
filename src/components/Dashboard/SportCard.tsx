@@ -3,21 +3,22 @@ import { useEffect, useState } from "react";
 
 import DashboardCard from "./DashboardCard"
 import Loader from "../Loader";
+import { fetchSportData } from "../../utils/functions";
 
 const SportCard = () => {
 
-	const [sportItems, setSportItems] = useState<SportItems[]>([]);
+	const [sportItems, setSportItems] = useState([]);
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<string>();
 
 	useEffect(() => {
-		const fetchRSSFeed = async () => {
+		const fetchSportsData = async () => {
 			setLoading(true);
 			try {
-				const response = await fetchSport();
+				const response = await fetchSportData();
 
 				if (!response) {
-					setError('Error Fetching News Feed');
+					setError('Error Fetching Sport Items');
 					setLoading(false);
 					return;
 				}
@@ -26,12 +27,12 @@ const SportCard = () => {
 
 			} catch (error) {
 				setLoading(false);
-				setError('Error Fetching News Feed');
-				console.error('Failed to fetch RSS feed:', error);
+				setError('Error Fetching Sport Items');
+				console.error('Failed to fetch Sport Items:', error);
 			}
 		};
 
-		fetchRSSFeed();
+		fetchSportsData();
 	}, []);
 
 	return (

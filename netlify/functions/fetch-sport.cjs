@@ -1,5 +1,5 @@
 exports.handler = async (event, context) => {
-	const csvUrl = 'http://www.football-data.co.uk/mmz4281/1718/I1.csv';
+	const csvUrl = 'https://www.football-data.co.uk/mmz4281/1718/I1.csv';
 
 	try {
 		const response = await fetch(csvUrl);
