@@ -44,9 +44,9 @@ const SearchInput = ({ sportItems, setSelectedTeam }: Props) => {
 				onChange={handleInputChange}
 				placeholder="Input team name..."
 				className="w-full p-2 h-fit py-2 px-4 text-start text-white placeholder:text-white text-5xl font-semibold z-[4] bg-white/0 border-b-white border-b-2"
-			// onBlur={() => setIsDropdownOpen(false)}
+				aria-label="Search for a team to view its won games"
 			/>
-			<ul className={`absolute top-[100%]  overflow-y-auto bg-white rounded left-0 w-fit min-w-[150px]  transition-all duration-200 ease ${isDropdownOpen && filteredTeams.length > 0 ? 'max-h-60 mt-1 border' : 'max-h-0 mt-0 border-none'}`}>
+			<ul className={`absolute top-[100%]  overflow-y-auto bg-white rounded left-0 w-fit min-w-[150px]  z-10 transition-all duration-200 ease ${isDropdownOpen && filteredTeams.length > 0 ? 'max-h-60 mt-1 border' : 'max-h-0 mt-0 border-none'}`}>
 				{filteredTeams.map((team, index) => (
 					<li
 						key={index}
