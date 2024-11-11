@@ -4,6 +4,15 @@
 
 [Site is deployed on Netlify here](https://bejewelled-raindrop-29e6af.netlify.app/)
 
+
+#### Cloning
+Terminal commands:
+-	git clone https://github.com/cod182/tb24.git
+-	cd tb24
+-	npm install
+-	Launch command: netlify dev
+Runs on: localhost:8888
+
  ## Individual Tasks
 ### Registration/Login
   #### Requirement
