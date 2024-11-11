@@ -1,21 +1,7 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { TaskProps, UserType } from '../../types/custom';
 
-import { TaskProps } from '../../types/custom';
 import { getTasks } from '../lib/appwrite';
-
-type UserType = {
-	$collectionId: string;
-	$createdAt: string;
-	$databaseId: string;
-	$id: string;
-	$updatedAt: string;
-	accountId: string;
-	email: string;
-	image: string;
-	username: string;
-};
-
-
 
 type GlobalContextType = {
 	tasks: TaskProps[] | null;

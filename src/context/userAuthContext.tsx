@@ -1,23 +1,11 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
+import { UserType } from '../../types/custom';
 import { getCurrentUser } from '../lib/appwrite';
 
-type User = {
-	// Define the properties of the User type here
-	$collectionId: string;
-	$createdAt: string;
-	$databaseId: string;
-	$id: string;
-	$updatedAt: string;
-	accountId: string;
-	email: string;
-	image: string;
-	username: string;
-}
-
 interface GlobalContextType {
-	user: User | null;
-	setUser: React.Dispatch<React.SetStateAction<User | null>>;
+	user: UserType | null;
+	setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
 	isLoggedIn: boolean;
 	setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 	loading: boolean;
@@ -34,7 +22,7 @@ const globalContext = createContext<GlobalContextType>({
 export const useGlobalContext = () => useContext(globalContext);
 
 const UserContext = ({ children }: { children: ReactNode }) => {
-	const [user, setUser] = useState<User | null>(() => {
+	const [user, setUser] = useState<UserType | null>(() => {
 		const storedUser = localStorage.getItem('user');
 		return storedUser ? JSON.parse(storedUser) : null;
 	});

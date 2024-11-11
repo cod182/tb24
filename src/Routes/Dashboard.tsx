@@ -37,7 +37,7 @@ const Dashboard = () => {
 				{/* Heading */}
 				<div className='w-full h-full flex items-center justify-center pr-[45px] sm:pr-[130px] md:pr-[230px]'>
 					<Slide direction='down' className='flex items-center justify-center w-full h-full'>
-						<h1 className='text-4xl text-center text-white capitalize md:text-6xl lg:text-8xl xl:text-9xl'>Good {getGreeting()} {user && user.username}</h1>
+						<h1 className='text-4xl text-center text-white capitalize md:text-6xl lg:text-8xl xl:text-8xl'>Good {getGreeting()} {user && user.username}</h1>
 					</Slide>
 				</div>
 

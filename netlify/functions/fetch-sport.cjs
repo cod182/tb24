@@ -1,4 +1,4 @@
-exports.handler = async (event, context) => {
+exports.handler = async () => {
 	const csvUrl = 'https://www.football-data.co.uk/mmz4281/1718/I1.csv';
 
 	try {

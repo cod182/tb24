@@ -1,3 +1,16 @@
+type UserType = {
+	$collectionId: string;
+	$createdAt: string;
+	$databaseId: string;
+	$id: string;
+	$updatedAt: string;
+	accountId: string;
+	email: string;
+	image: string;
+	username: string;
+	realEmail: string
+};
+
 export type FeedItem = {
 	title: string;
 	link: string;

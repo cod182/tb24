@@ -1,19 +1,7 @@
+import { PhotoProps, UserType } from '../../types/custom';
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
-import { PhotoProps } from '../../types/custom';
 import { getUserPhotos } from '../lib/appwrite';
-
-type UserType = {
-	$collectionId: string;
-	$createdAt: string;
-	$databaseId: string;
-	$id: string;
-	$updatedAt: string;
-	accountId: string;
-	email: string;
-	image: string;
-	username: string;
-};
 
 type GlobalContextType = {
 	photos: PhotoProps[] | null;

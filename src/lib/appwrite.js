@@ -10,7 +10,9 @@ const storage = new Storage(client);
 export const account = new Account(client);
 export { ID } from 'appwrite';
 
-export const login = async (email, password) => {
+export const login = async (username, password) => {
+	const email = username.toLowerCase() + '@appwrite.io';
+
 	try {
 		const session = await account.createEmailPasswordSession(email, password);
 
@@ -31,11 +33,15 @@ export const signOut = async () => {
 
 
 export const createNewUser = async (email, password, username, image) => {
+	const emailCheck = await doesEmailExist(email);
+
+	if (emailCheck) throw new Error('Email is in use');
+
 	try {
-		const newAccount = await account.create(ID.unique(), email, password, username);
+		const newAccount = await account.create(ID.unique(), username.toLowerCase() + '@appwrite.io', password, username);
 		if (!newAccount) throw Error;
 
-		await login(email, password);
+		await login(username, password);
 
 		const { fileUrl } = await uploadFile(image, "image")
 
@@ -44,20 +50,44 @@ export const createNewUser = async (email, password, username, image) => {
 			import.meta.env.VITE_APPWRITE_USER_COLLECTION,
 			ID.unique(), {
 			accountId: newAccount.$id,
-			email: email,
+			email: username + '@appwrite.io',
+			realEmail: email,
 			username: username,
 			image: fileUrl
 		});
 
 		return newUser;
 	} catch (err) {
-		throw new Error(err.message)
+		if (err.message === 'Email already exists') {
+			throw new Error('Username already exists')
+
+		} else if (err.message === 'Invalid `email` param: Value must be a valid email address') {
+			throw new Error('Username is not valid');
+
+		} else {
+			throw new Error(err.message)
+		}
 	}
 }
 
 export const getCurrentSession = async () => {
 	const session = await account.getSession('current');
 	return session;
+}
+
+
+export const doesEmailExist = async (email) => {
+	try {
+		// Query to find documents where `realEmail` matches the provided email
+		const response = await databases.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, import.meta.env.VITE_APPWRITE_USER_COLLECTION, [Query.equal('realEmail', email)]);
+
+		const answer = response.documents.length > 0 ? true : false;
+
+		return answer
+	} catch (error) {
+		console.error('Error checking email existence:', error);
+		return false;
+	}
 }
 
 export const getCurrentUser = async () => {

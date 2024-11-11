@@ -33,11 +33,11 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 		setTimeout(() => setError(''), 1500);
 	};
 
-	const handleOnLogin = async (email: string, password: string) => {
+	const handleOnLogin = async (username: string, password: string) => {
 		setLoading(true);
 		setError('');
 		try {
-			const loginResponse = await login(email, password);
+			const loginResponse = await login(username, password);
 			if (loginResponse.userId) {
 				const result = await getCurrentUser();
 				if (result.$id) {
@@ -132,9 +132,9 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 
 	const handleLogin = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!email || !password) {
+		if (!username || !password) {
 			const missingFields: string[] = [];
-			if (!email) missingFields.push('Email');
+			if (!username) missingFields.push('Username');
 			if (!password) missingFields.push('Password');
 			setErrorWithTimeout(`${missingFields.join(', ')} is required.`);
 			return;
@@ -145,7 +145,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 			return;
 		}
 
-		handleOnLogin(email, password);
+		handleOnLogin(username, password);
 	};
 
 	return (
@@ -191,7 +191,7 @@ const AuthForm = ({ isRegistering, setIsRegistering }: Props) => {
 				) : (
 					<>
 						<div className='flex flex-row flex-wrap items-center justify-around w-full gap-4 px-6 sm:px-24'>
-							<input type="email" name="email" id="email" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
+							<input type="text" name="username" id="username" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Username' onChange={(e) => setUsername(e.target.value)} />
 							<input type="password" name="password" id="password" className='min-h-[50px] bg-white/0 border-b-2 border-white text-white placeholder-white text:3xl placeholder-font-3xl sm:text-3xl w-full sm:w-fit ' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
 						</div>
 					</>
