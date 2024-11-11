@@ -1,8 +1,9 @@
 /// <reference types="vite/client" />
+import { BiError, BiWorld } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 
-import { BiWorld } from 'react-icons/bi';
 import DashboardCard from './DashboardCard';
+import Loader from '../Loader';
 import { getWeatherIcon } from '../../utils/functions';
 
 type WeatherDataProps = {
@@ -85,36 +86,39 @@ const WeatherCard = () => {
 
 	useEffect(() => {
 		// Gets local weather using coordinates from OpenWeatherAPI
-		const fetchCurrentWeather = async () => {
-			if (!location?.latitude || !location?.longitude) return;
 
-			try {
-				const res = await fetch(
-					`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${import.meta.env.VITE_OPENWEATHER_API}&units=metric`
-				);
-				const data = await res.json();
-				if (!res.ok) setError(data.message);
-
-				setWeatherData(data);
-				const icon = getWeatherIcon(data.weather[0].main);
-
-				setWeatherIcon(icon);
-			} catch (error: unknown) {
-				setError((error as Error)?.message);
-			}
-		};
 		fetchCurrentWeather();
 	}, [location]);
+
+
+	// FUNCTIONS
+
+	const fetchCurrentWeather = async () => {
+		if (!location?.latitude || !location?.longitude) return;
+
+		try {
+			const res = await fetch(
+				`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${import.meta.env.VITE_OPENWEATHER_API}&units=metric`
+			);
+			const data = await res.json();
+			if (!res.ok) setError(data.message);
+
+			setWeatherData(data);
+			const icon = getWeatherIcon(data.weather[0].main);
+
+			setWeatherIcon(icon);
+		} catch (error: unknown) {
+			setError((error as Error)?.message);
+		}
+	};
 
 	return (
 		<DashboardCard title="Weather">
 			{error ? (
-				<p>{error}</p>
+				<Loader title="Error!" subText={error} icon={BiError} refresh={fetchCurrentWeather} />
 			) : locationLoading ? (
-				<div className="flex flex-col items-center justify-center w-full h-full">
-					<BiWorld className="animate-spin w-[50px] h-[50px]" />
-					<p>Loading...</p>
-				</div>
+				<Loader title="Loading Weather" subText={'Please allow location access'} icon={BiWorld} />
+
 			) : (
 				<div className="flex flex-col items-center justify-center w-full h-full">
 					<div className="flex flex-row items-center justify-between w-full gap-2 mb-4">

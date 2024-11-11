@@ -39,29 +39,6 @@ const ClothesCard = () => {
 	const [pieData, setPieData] = useState<PieDataProps>();
 
 	useEffect(() => {
-		const getClothesData = async () => {
-			setLoading(true);
-			try {
-				const response = await fetchJsonData();
-
-				if (!response) {
-					setError('Error Fetching Clothes Data');
-					setLoading(false);
-					return;
-				}
-
-				const clothes = response.payload;
-				const clothesFrequency = getClothingWearFreq(clothes);
-
-				setClothesData(clothesFrequency);
-				setLoading(false);
-			} catch (error) {
-				setLoading(false);
-				setError('Error Fetching Clothes Data');
-				console.error('Failed to fetch clothes data:', error);
-			}
-		};
-
 		getClothesData();
 	}, []);
 
@@ -85,6 +62,31 @@ const ClothesCard = () => {
 		}
 	}, [clothesData]); // This effect runs when clothesData changes
 
+	// FUNCTIONS
+
+	const getClothesData = async () => {
+		setLoading(true);
+		try {
+			const response = await fetchJsonData();
+
+			if (!response) {
+				setError('Error Fetching Clothes Data');
+				setLoading(false);
+				return;
+			}
+
+			const clothes = response.payload;
+			const clothesFrequency = getClothingWearFreq(clothes);
+
+			setClothesData(clothesFrequency);
+			setLoading(false);
+		} catch (error) {
+			setLoading(false);
+			setError('Error Fetching Clothes Data');
+			console.error('Failed to fetch clothes data:', error);
+		}
+	};
+
 	// Function to calculate the clothing frequency
 	const getClothingWearFreq = (clothes: ClothesItem[]) => {
 		const clothingCounts = clothes.reduce((acc: { [x: string]: number }, item: ClothesItem) => {
@@ -104,7 +106,7 @@ const ClothesCard = () => {
 		<DashboardCard title='Clothes'>
 			<div className='flex flex-col items-center justify-center w-full h-full gap-2'>
 				{error ? (
-					<Loader title='Error!' subText={error} icon={BiError} />
+					<Loader title='Error!' subText={error} icon={BiError} refresh={getClothesData} />
 				) : loading ? (
 					<Loader title='Loading Clothes Info' subText='Please wait...' icon={GiClothesline} />
 				) : pieData ? (

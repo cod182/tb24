@@ -7,32 +7,35 @@ import bgImage from '../assets/media/images/dash-bg.webp';
 import { fetchBBCRSSFeed } from '../utils/functions';
 
 const LatestNewsArticle = () => {
+	// USE STATES
 	const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string>();
 
+	// USE EFFECTS
 	useEffect(() => {
-		const fetchRSSFeed = async () => {
-			setLoading(true);
-			try {
-				const response = await fetchBBCRSSFeed();
-
-				if (!response) {
-					setError('Error Fetching News Feed');
-					setLoading(false);
-					return;
-				}
-				setFeedItems(response);
-				setLoading(false);
-			} catch (error) {
-				setLoading(false);
-				setError('Error Fetching News Feed');
-				console.error('Failed to fetch RSS feed:', error);
-			}
-		};
-
 		fetchRSSFeed();
 	}, []);
+
+	// Functions
+	const fetchRSSFeed = async () => {
+		setLoading(true);
+		try {
+			const response = await fetchBBCRSSFeed();
+
+			if (!response) {
+				setError('Error Fetching News Feed');
+				setLoading(false);
+				return;
+			}
+			setFeedItems(response);
+			setLoading(false);
+		} catch (error) {
+			setLoading(false);
+			setError('Error Fetching News Feed');
+			console.error('Failed to fetch RSS feed:', error);
+		}
+	};
 
 	return (
 		<div className='w-full min-h-[100dvh] relative p-4 sm:p-24 flex flex-col items-center justify-start gap-5'>
@@ -43,7 +46,7 @@ const LatestNewsArticle = () => {
 
 			{error ? (
 				<div className='flex flex-col items-center justify-center w-full h-full grow'>
-					<Loader title='Error!' subText={error} icon={BiError} />
+					<Loader title='Error!' subText={error} icon={BiError} refresh={fetchRSSFeed} />
 				</div>
 			) : loading ? (
 				<div className='flex flex-col items-center justify-center w-full h-full grow'>

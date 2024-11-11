@@ -18,29 +18,32 @@ const NewsCard = () => {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<string>();
 
+	// USE EFFECTS
 	useEffect(() => {
-		const fetchRSSFeed = async () => {
-			setLoading(true);
-			try {
-				const response = await fetchBBCRSSFeed();
-
-				if (!response) {
-					setError('Error Fetching News Feed');
-					setLoading(false);
-					return;
-				}
-				setFeedItems(response);
-				setLoading(false);
-
-			} catch (error) {
-				setLoading(false);
-				setError('Error Fetching News Feed');
-				console.error('Failed to fetch RSS feed:', error);
-			}
-		};
 
 		fetchRSSFeed();
 	}, []);
+
+	// FUNCTIONS
+	const fetchRSSFeed = async () => {
+		setLoading(true);
+		try {
+			const response = await fetchBBCRSSFeed();
+
+			if (!response) {
+				setError('Error Fetching News Feed');
+				setLoading(false);
+				return;
+			}
+			setFeedItems(response);
+			setLoading(false);
+
+		} catch (error) {
+			setLoading(false);
+			setError('Error Fetching News Feed');
+			console.error('Failed to fetch RSS feed:', error);
+		}
+	};
 
 
 	return (
@@ -48,7 +51,7 @@ const NewsCard = () => {
 			<div className='flex flex-col items-center justify-start w-full h-full gap-2 py-2'>
 				{error ?
 					(
-						<Loader title='Error!' subText={error} icon={BiError} aria-live="assertive" />
+						<Loader title='Error!' subText={error} icon={BiError} refresh={fetchRSSFeed} />
 					)
 					: loading ? (
 						<Loader title='Loading News' subText='Please wait...' icon={BiWorld} aria-live="polite" />

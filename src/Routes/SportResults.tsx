@@ -14,29 +14,29 @@ const SportResults = () => {
 
 	// UseEffects
 	useEffect(() => {
-		const fetchSportsData = async () => {
-			setLoading(true);
-			try {
-				const response: SportType[] = await fetchSportData();
-
-				if (!response) {
-					setError('Error Fetching Sport Items');
-					setLoading(false);
-					return;
-				}
-				setLoading(false);
-				setSportItems(response);
-
-			} catch (error) {
-				setLoading(false);
-				setError('Error Fetching Sport Items');
-				console.error('Failed to fetch Sport Items:', error);
-			}
-		};
-
-
 		fetchSportsData();
 	}, []);
+
+	// Functions
+	const fetchSportsData = async () => {
+		setLoading(true);
+		try {
+			const response: SportType[] = await fetchSportData();
+
+			if (!response) {
+				setError('Error Fetching Sport Items');
+				setLoading(false);
+				return;
+			}
+			setLoading(false);
+			setSportItems(response);
+
+		} catch (error) {
+			setLoading(false);
+			setError('Error Fetching Sport Items');
+			console.error('Failed to fetch Sport Items:', error);
+		}
+	};
 
 	return (
 		<div className='w-full min-h-[100dvh] relative p-4 sm:p-24 flex flex-col items-center justify-start gap-5'>
@@ -47,7 +47,7 @@ const SportResults = () => {
 
 			{error ? (
 				<div className='flex flex-col items-center justify-center w-full h-full grow'>
-					<Loader title='Error!' subText={error} icon={BiError} />
+					<Loader title='Error!' subText={error} icon={BiError} refresh={fetchSportsData} />
 				</div>
 			) : loading ? (
 				<div className='flex flex-col items-center justify-center w-full h-full grow'>
