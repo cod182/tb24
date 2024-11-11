@@ -1,5 +1,6 @@
 import { DashboardPanel, Nav } from '../components/index.js';
 
+import { Slide } from 'react-awesome-reveal';
 import bgImage from '../assets/media/images/dash-bg.webp';
 import { getGreeting } from '../utils/functions.js';
 import { useEffect } from 'react';
@@ -35,7 +36,9 @@ const Dashboard = () => {
 
 				{/* Heading */}
 				<div className='w-full h-full flex items-center justify-center pr-[45px] sm:pr-[130px] md:pr-[230px]'>
-					<h1 className='text-4xl text-center text-white capitalize md:text-6xl lg:text-8xl xl:text-9xl'>Good {getGreeting()} {user && user.username}</h1>
+					<Slide direction='down' className='flex items-center justify-center w-full h-full'>
+						<h1 className='text-4xl text-center text-white capitalize md:text-6xl lg:text-8xl xl:text-9xl'>Good {getGreeting()} {user && user.username}</h1>
+					</Slide>
 				</div>
 
 				<div></div>
