@@ -26,6 +26,7 @@ const NewsCard = () => {
 
 	// FUNCTIONS
 	const fetchRSSFeed = async () => {
+		setError('');
 		setLoading(true);
 		try {
 			const response = await fetchBBCRSSFeed();

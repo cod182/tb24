@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import DashboardCard from './DashboardCard';
 import Loader from '../Loader';
 import { getWeatherIcon } from '../../utils/functions';
+import { useLocation } from '../../context/useWeatherContext';
 
 type WeatherDataProps = {
 	base: string;
@@ -51,54 +52,48 @@ type WeatherDataProps = {
 };
 
 const WeatherCard = () => {
-	const [location, setLocation] = useState<{ latitude: number | undefined; longitude: number | undefined }>();
+
+	const { latitude, longitude, updateLocation, error, setError } = useLocation();
+
+
+
+
 	const [locationLoading, setLocationLoading] = useState(false);
-	const [error, setError] = useState<string | undefined>();
 	const [weatherData, setWeatherData] = useState<WeatherDataProps | undefined>();
 	const [weatherIcon, setWeatherIcon] = useState<string | undefined>();
 
 	// USE EFFECTS
 	useEffect(() => {
-		// Requests and gets current coordinates
-		function getCurrentLocation() {
-			setLocationLoading(true);
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(
-					(position) => {
-						const { latitude, longitude } = position.coords;
-						setLocation({ latitude, longitude });
-						setLocationLoading(false);
-					},
-					(err) => {
-						setLocationLoading(false);
-						setError('Error getting location');
-						console.error(err);
-					}
-				);
-			} else {
-				setLocationLoading(false);
-				setError('Geolocation is not supported by this browser.');
-			}
-		}
-
-		getCurrentLocation();
+		getWeather()
 	}, []);
 
 	useEffect(() => {
-		// Gets local weather using coordinates from OpenWeatherAPI
-
-		fetchCurrentWeather();
-	}, [location]);
-
+		fetchCurrentWeather()
+	}, [latitude, longitude]);
 
 	// FUNCTIONS
 
-	const fetchCurrentWeather = async () => {
-		if (!location?.latitude || !location?.longitude) return;
+	const getWeather = async () => {
+		setLocationLoading(true);
+		setError('');
+		if (!latitude && !longitude) {
+			updateLocation();
+			if (latitude && longitude) {
+				await fetchCurrentWeather();
+			}
+		} else {
+			fetchCurrentWeather();
+		}
+		setLocationLoading(false);
+	}
 
+	// Gets local weather using coordinates from OpenWeatherAPI
+	const fetchCurrentWeather = async () => {
+		if (!latitude || !longitude) return;
+		setError('');
 		try {
 			const res = await fetch(
-				`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${import.meta.env.VITE_OPENWEATHER_API}&units=metric`
+				`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${import.meta.env.VITE_OPENWEATHER_API}&units=metric`
 			);
 			const data = await res.json();
 			if (!res.ok) setError(data.message);
@@ -115,7 +110,7 @@ const WeatherCard = () => {
 	return (
 		<DashboardCard title="Weather">
 			{error ? (
-				<Loader title="Error!" subText={error} icon={BiError} refresh={fetchCurrentWeather} />
+				<Loader title="Error!" subText={error} icon={BiError} refresh={getWeather} />
 			) : locationLoading ? (
 				<Loader title="Loading Weather" subText={'Please allow location access'} icon={BiWorld} />
 

@@ -13,7 +13,7 @@ const ResultSingle = ({ game, selectedTeam }: Props) => {
 	return (
 		<>
 			<div
-				className="flex flex-row items-center justify-start gap-4 transition-all duration-200 cursor-pointer ease w-fit hover:text-yellow-300"
+				className="flex flex-row items-center justify-start transition-all duration-200 cursor-pointer sm:gap-4 ease w-fit hover:text-yellow-300"
 				onClick={() => setDetailStatus(!detailStatus)}
 				aria-expanded={detailStatus}
 				aria-controls="match-details"
@@ -22,7 +22,7 @@ const ResultSingle = ({ game, selectedTeam }: Props) => {
 					{game.awayTeam === selectedTeam ? game.homeTeam : game.awayTeam}
 				</h3>
 				<FaArrowCircleDown
-					className={`w-[25px] h-[25px] transition-all duration-200 ease hidden sm:inline ${detailStatus ? "rotate-180" : "rotate-0"
+					className={`w-[25px] h-[25px] transition-all duration-200 ease  ${detailStatus ? "rotate-180" : "rotate-0"
 						}`}
 					aria-hidden="true"
 				/>

@@ -22,6 +22,7 @@ const SportCard = () => {
 
 
 	const fetchSportsData = async () => {
+		setError('');
 		setLoading(true);
 		try {
 			const response: SportType[] = await fetchSportData();

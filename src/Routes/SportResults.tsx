@@ -19,6 +19,7 @@ const SportResults = () => {
 
 	// Functions
 	const fetchSportsData = async () => {
+		setError('');
 		setLoading(true);
 		try {
 			const response: SportType[] = await fetchSportData();
@@ -51,7 +52,7 @@ const SportResults = () => {
 				</div>
 			) : loading ? (
 				<div className='flex flex-col items-center justify-center w-full h-full grow'>
-					<Loader title='Loading Latest News!' subText='Please wait...' icon={BiWorld} />
+					<Loader title='Loading Results!' subText='Please wait...' icon={BiWorld} />
 				</div>
 			) : sportItems.length > 0 ? (
 
