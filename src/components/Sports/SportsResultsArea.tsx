@@ -74,7 +74,7 @@ const SportsResultsArea = ({ sportItems }: Props) => {
 			/>
 
 			<div
-				className={`px-4 flex flex-col items-start justify-start w-full overflow-hidden transition-all duration-300 ease ${selectedTeam ? "max-h-[100dvh] py-4 " : "max-h-[0dvh] py-0"
+				className={`px-4 flex flex-col items-start justify-start w-full overflow-hidden transition-all duration-300 ease ${selectedTeam ? "max-h-[100%] opacity-100 py-4 " : "max-h-[0%] opacity-0 py-0"
 					}`}
 			>
 				{/* Heading */}
