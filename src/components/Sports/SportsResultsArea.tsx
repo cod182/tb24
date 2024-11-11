@@ -80,16 +80,16 @@ const SportsResultsArea = ({ sportItems }: Props) => {
 
 			{/* Input Area */}
 			<SearchInput sportItems={sportItems} setSelectedTeam={setSelectedTeam} />
-			<div className={`px-4 flex gap-4 flex-col items-start justify-start w-full overflow-hidden transition-all duration-300 ease ${selectedTeam ? 'max-h-[1000px] py-4 ' : 'max-h-[0px] py-0'}`}>
+			<div className={`px-4 flex gap-4 flex-col items-start justify-start w-full overflow-hidden transition-all duration-300 ease ${selectedTeam ? 'max-h-[100dvh] py-4 ' : 'max-h-[0dvh] py-0'}`}>
 
 				{/* Heading */}
 				<h2 className="w-full text-3xl text-white text-start"><span className="font-semibold capitalize">{selectedTeam}</span> has had wins against:</h2>
 
 				{/* Results */}
-				<div className="flex flex-col items-start justify-start w-full h-full grow">
+				<div className="flex flex-col items-start justify-start w-full h-full gap-4 overflow-y-scroll grow">
 					{winData && winData.length > 0 && selectedTeam ?
 						(
-							<ul className="flex flex-col items-start justify-start w-full h-full">
+							<ul className="flex flex-col items-start justify-start w-full h-full gap-6">
 								{winData.map((game, index) => {
 									if ('matches' in game && Array.isArray(game.matches)) {
 										return ((
@@ -99,7 +99,9 @@ const SportsResultsArea = ({ sportItems }: Props) => {
 										))
 									} else {
 										return (
-											<div key={index}></div>
+											<div key={index}>
+												1 win
+											</div>
 										)
 									}
 								})}
