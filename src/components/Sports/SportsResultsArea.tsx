@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { Fade } from "react-awesome-reveal";
 import ResultMultiple from "./ResultMultiple";
 import ResultSingle from "./ResultSingle";
 import SearchInput from "./SearchInput";
@@ -68,10 +69,13 @@ const SportsResultsArea = ({ sportItems }: Props) => {
 	return (
 		<section className="flex flex-col items-center justify-center w-full h-full gap-4 py-4 lg:px-24">
 			{/* Input Area */}
-			<SearchInput
-				sportItems={sportItems}
-				setSelectedTeam={setSelectedTeam}
-			/>
+			<Fade>
+
+				<SearchInput
+					sportItems={sportItems}
+					setSelectedTeam={setSelectedTeam}
+				/>
+			</Fade>
 
 			<div
 				className={`px-4 flex flex-col items-start justify-start w-full overflow-hidden transition-all duration-300 ease ${selectedTeam ? "max-h-[100%] opacity-100 py-4 " : "max-h-[0%] opacity-0 py-0"
@@ -98,23 +102,26 @@ const SportsResultsArea = ({ sportItems }: Props) => {
 							{winData.map((game, index) => {
 								if ("matches" in game && Array.isArray(game.matches)) {
 									return (
-										<li
-											key={index}
-											className="w-full text-white"
-											aria-label={`Multiple matches won by ${selectedTeam} against ${game.matches[0]?.homeTeam === selectedTeam ? game.matches[0]?.awayTeam : game.matches[0]?.homeTeam}`}
-										>
-											<ResultMultiple game={game} selectedTeam={selectedTeam} />
-										</li>
+										<Fade key={index} cascade delay={100 * index}>
+											<li
+												className="w-full text-white"
+												aria-label={`Multiple matches won by ${selectedTeam} against ${game.matches[0]?.homeTeam === selectedTeam ? game.matches[0]?.awayTeam : game.matches[0]?.homeTeam}`}
+											>
+												<ResultMultiple game={game} selectedTeam={selectedTeam} />
+											</li>
+										</Fade>
 									);
 								} else
 									return (
-										<li
-											key={index}
-											className="w-full text-white"
-											aria-label={`Single match won by ${selectedTeam} against ${(game as SportType).homeTeam === selectedTeam ? (game as SportType).awayTeam : (game as SportType).homeTeam}`}
-										>
-											<ResultSingle game={game as SportType} selectedTeam={selectedTeam} />
-										</li>
+										<Fade key={index} cascade delay={100 * index}>
+											<li
+												key={index}
+												className="w-full text-white"
+												aria-label={`Single match won by ${selectedTeam} against ${(game as SportType).homeTeam === selectedTeam ? (game as SportType).awayTeam : (game as SportType).homeTeam}`}
+											>
+												<ResultSingle game={game as SportType} selectedTeam={selectedTeam} />
+											</li>
+										</Fade>
 									);
 							})}
 						</ul>
