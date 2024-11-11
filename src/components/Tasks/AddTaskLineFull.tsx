@@ -67,13 +67,13 @@ const AddTaskLineFull = () => {
 			<div
 				className={`flex flex-row items-start justify-start h-full gap-2 mt-2 sm:mt-0 ${popOutState ? 'w-[100%]' : 'w-[0%]'} overflow-hidden transition-all duration-200 ease`}
 			>
-				<form onSubmit={handleAddTask} className="flex flex-col items-start justify-start w-full h-full gap-2 mt-2 md:flex-row grow sm:mt-0">
+				<form onSubmit={handleAddTask} className="flex flex-col items-end justify-start w-full gap-3 mt-2 h-fit md:flex-row grow sm:mt-0">
 					{/* Task Title */}
 					<input
 						id='title'
 						onChange={(e) => setTask({ ...task, title: e.target.value })}
 						value={task.title}
-						className="w-full h-full p-4 text-2xl font-semibold text-black rounded-lg text-start"
+						className="w-full h-full py-4 pr-4 text-2xl font-semibold text-white bg-transparent border-b-2 border-white placeholder:text-gray-200 placeholder:italic text-start"
 						placeholder="Enter Task Title"
 						disabled={loading}
 					/>
@@ -83,7 +83,7 @@ const AddTaskLineFull = () => {
 						id='description'
 						onChange={(e) => setTask({ ...task, description: e.target.value })}
 						value={task.description}
-						className="w-full p-4 overflow-scroll text-lg font-semibold text-black rounded-lg resize-none h-fit text-start"
+						className="w-full py-4 pr-4 overflow-scroll text-lg font-semibold text-white bg-transparent border-b-2 border-white resize-none h-fit text-start placeholder:text-gray-200 placeholder:italic"
 						placeholder="Enter Task Description (Optional)"
 						disabled={loading}
 					/>

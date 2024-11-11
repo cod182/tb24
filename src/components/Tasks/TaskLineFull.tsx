@@ -55,13 +55,13 @@ const TaskLineFull = ({ task }: Props) => {
 			<div className="flex flex-row items-center justify-center w-full h-full gap-2 flex-nowrap">
 				<div className='relative w-full'>
 					<IoIosArrowDropdown
-						className={`${editing ? 'top-[-110%] right-[-45px] z-[3]' : 'top-0 right-0 z-[-10]'} cursor-pointer absolute text-white right-0 h-full text-3xl transition-all duration-200 w-fit ease hover:text-yellow-300`}
+						className={`${editing ? 'top-[-110%] right-[-45px] z-[3] w-[40px]' : 'w-[0px] top-0 right-0 z-[-10]'} cursor-pointer absolute text-white right-0 h-full text-3xl transition-all duration-200  ease hover:text-yellow-300`}
 						onClick={() => { setEditing(false); setCheckDelete(false); }}
 						aria-label="Close editing"
 					/>
 
 					{/* DELETING */}
-					<div className={`${editing ? 'right-[-100px] md:right-[-130px] z-[3] w-[40px] md:w-[80px] h-[80px] md:h-fit' : 'right-0 z-[-10] w-[0px] h-fit'} absolute  transition-all duration-200 ease flex flex-col md:flex-row items-start justify-start`}>
+					<div className={`${editing ? 'right-[-100px] md:right-[-130px] z-[3] w-[40px] md:w-[80px] h-[80px] md:h-fit' : 'right-0 z-[-10] w-[0px] h-fit'} absolute overflow-hidden transition-all duration-200 ease flex flex-col md:flex-row items-start justify-start`}>
 						{error ? (
 							<MdError className="h-[40px] text-red-600 w-fit animate-pulse" aria-live="assertive" />
 						) : checkDelete ? (
@@ -83,7 +83,7 @@ const TaskLineFull = ({ task }: Props) => {
 							<PiCheckBold className="h-[40px] w-[40px] sm:w-fit text-green-700 animate-pulse" aria-live="polite" />
 						) : (
 							<BiTrash
-								className={`cursor-pointer w-[40px] sm:w-fit h-[40px] text-3xl transition-all duration-200 ease text-red-500 hover:text-red-600`}
+								className={`cursor-pointer w-[40px] h-[40px] text-3xl transition-all duration-200 ease text-red-500 hover:text-red-600`}
 								onClick={handleDelete}
 								aria-label="Delete task"
 							/>
