@@ -23,13 +23,13 @@ const Tasks = () => {
 					<Loader title='Loading Tasks!' subText='Please wait...' icon={BiWorld} aria-label="Loading icon" />
 				</div>
 			) : (
-				<div className='flex flex-col items-center justify-center w-full h-full gap-20 py-4 mx-auto mt-20 pe-12 lg:px-24 grow'>
+				<section className='flex flex-col items-center justify-center w-full h-full gap-20 py-4 mx-auto mt-20 pe-12 lg:px-24 grow'>
 					{tasks?.map((task) => (
 						<TaskLineFull task={task} key={task.$id} />
 					))}
 
 					<AddTaskLineFull />
-				</div>
+				</section>
 			)}
 		</div>
 	);

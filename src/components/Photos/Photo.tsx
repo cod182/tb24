@@ -48,7 +48,7 @@ const Photo = ({ photo }: Props) => {
 	};
 
 	return (
-		<div className="relative object-cover w-full h-full overflow-hidden border-2 border-yellow-300 rounded-lg bg-blue-950/80 group">
+		<section className="relative object-cover w-full h-full overflow-hidden border-2 border-yellow-300 rounded-lg bg-blue-950/80 group">
 			{/* Delete Image */}
 			<div className={`transition-all duration-200 opacity-0 group-hover:opacity-100 ease select-none absolute w-full h-full top flex-col items-center justify-center flex bg-gray-400/70`}>
 				{error ? (
@@ -89,7 +89,7 @@ const Photo = ({ photo }: Props) => {
 				className="object-cover w-full h-full"
 				aria-label={`Image of ${photo.$id}`}
 			/>
-		</div>
+		</section>
 	);
 }
 

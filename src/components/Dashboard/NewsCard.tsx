@@ -44,8 +44,8 @@ const NewsCard = () => {
 
 
 	return (
-		<DashboardCard title='News' link='/latestnews' ariaLabel='Read more'>
-			<div className='flex flex-col items-center justify-center w-full h-full gap-2'>
+		<DashboardCard title='News' link='/latest-news' ariaLabel='Read more'>
+			<div className='flex flex-col items-center justify-start w-full h-full gap-2 py-2'>
 				{error ?
 					(
 						<Loader title='Error!' subText={error} icon={BiError} aria-live="assertive" />

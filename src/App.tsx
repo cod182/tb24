@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import LatestNewsArticle from './Routes/LatestNewsArticle';
 import Photos from './Routes/Photos';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import SportResults from './Routes/SportResults';
 import Tasks from './Routes/Tasks';
 
 function App() {
@@ -14,7 +15,6 @@ function App() {
         <Route path="/" element={<Auth />} />
         <Route path="*" element={<Auth />} />
 
-        <Route path="/latestnews" element={<LatestNewsArticle />} />
 
         {/* Protected routes */}
         <Route
@@ -25,6 +25,13 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/latest-news"
+          element={<LatestNewsArticle />}
+        />
+
+
         <Route
           path="/photos"
           element={
@@ -42,8 +49,20 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/sports-results"
+          element={
+            <ProtectedRoute>
+              <SportResults />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
-    </div>
+
+
+    </div >
   );
 }
 

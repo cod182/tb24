@@ -18,8 +18,8 @@ const DropdownNav = () => {
 	const navigate = useNavigate();
 
 	const navLinks: { title: string, link: string, icon: React.ReactElement }[] = [
-		{ title: 'News', link: '/latestnews', icon: <BsNewspaper /> },
-		{ title: 'Sport', link: '/sport', icon: <PiSoccerBall /> },
+		{ title: 'News', link: '/latest-news', icon: <BsNewspaper /> },
+		{ title: 'Sport', link: '/sports-results', icon: <PiSoccerBall /> },
 		{ title: 'Photos', link: '/photos', icon: <BiPhotoAlbum /> },
 		{ title: 'Tasks', link: '/tasks', icon: <GoTasklist /> },
 	];
