@@ -15,30 +15,33 @@ const SportCard = () => {
 
 
 	useEffect(() => {
-		const fetchSportsData = async () => {
-			setLoading(true);
-			try {
-				const response: SportType[] = await fetchSportData();
-
-				if (!response) {
-					setError('Error Fetching Sport Items');
-					setLoading(false);
-					return;
-				}
-				setLoading(false);
-				getRandomMatch(response);
-
-			} catch (error) {
-				setLoading(false);
-				setError('Error Fetching Sport Items');
-				console.error('Failed to fetch Sport Items:', error);
-			}
-		};
-
 		fetchSportsData();
 	}, []);
 
 	// functions
+
+
+	const fetchSportsData = async () => {
+		setLoading(true);
+		try {
+			const response: SportType[] = await fetchSportData();
+
+			if (!response) {
+				setError('Error Fetching Sport Items');
+				setLoading(false);
+				return;
+			}
+			setLoading(false);
+			getRandomMatch(response);
+
+		} catch (error) {
+			setLoading(false);
+			setError('Error Fetching Sport Items');
+			console.error('Failed to fetch Sport Items:', error);
+		}
+	};
+
+
 	const getRandomMatch = (items: SportType[]) => {
 		const randomIndex = Math.floor(Math.random() * items.length);
 		setRandomMatch(items[randomIndex]);
@@ -49,7 +52,7 @@ const SportCard = () => {
 		<DashboardCard title='Sport' link='/sports-results' ariaLabel='Read more'>
 			<div className="flex flex-col items-center justify-start w-full h-full gap-2 py-2">
 				{error ? (
-					<Loader title="Error!" subText={error} icon={BiError} />
+					<Loader title="Error!" subText={error} icon={BiError} refresh={fetchSportsData} />
 				) : loading ? (
 					<Loader title="Loading Results" subText="Please wait..." icon={GiSoccerBall} />
 				) : randomMatch ? (

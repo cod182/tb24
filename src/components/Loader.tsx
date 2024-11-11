@@ -1,7 +1,8 @@
+import { BiRefresh } from "react-icons/bi";
 import { IconType } from "react-icons";
 import React from "react";
 
-const Loader = ({ title, subText, icon }: { title: string; subText?: string; icon?: IconType | string; }) => {
+const Loader = ({ title, subText, icon, refresh }: { title: string; subText?: string; icon?: IconType | string; refresh?: () => void }) => {
 	return (
 		<div className='flex flex-col items-center justify-center w-full h-full gap-2 text-center' aria-live="assertive">
 			{icon && (
@@ -16,6 +17,10 @@ const Loader = ({ title, subText, icon }: { title: string; subText?: string; ico
 				{subText && (
 					<p className='text-xl sm:text-lg'>{subText}</p>
 				)}
+				{refresh && (
+					<BiRefresh className="w-[40px] h-[40px] cursor-pointer hover:text-yellow-300 transition-color hover:animate-spin duration-200 ease" onClick={refresh} />
+				)
+				}
 			</div>
 		</div>
 	);
