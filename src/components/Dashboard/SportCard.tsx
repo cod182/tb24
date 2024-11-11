@@ -13,7 +13,6 @@ const SportCard = () => {
 	const [error, setError] = useState<string>();
 	const [randomMatch, setRandomMatch] = useState<SportType>()
 
-	console.log(randomMatch);
 
 	useEffect(() => {
 		const fetchSportsData = async () => {

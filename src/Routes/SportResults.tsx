@@ -43,7 +43,7 @@ const SportResults = () => {
 			{/* background */}
 			<img src={bgImage} alt="background" className='absolute top-0 left-0 select-none h-full w-full z-[-1] blur-sm object-cover' />
 
-			<PageTitleWithNav title='Sport Results' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-start' />
+			<PageTitleWithNav title='Champions League Challenge' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-start' />
 
 			{error ? (
 				<div className='flex flex-col items-center justify-center w-full h-full grow'>
