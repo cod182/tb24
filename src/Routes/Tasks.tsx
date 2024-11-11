@@ -26,7 +26,7 @@ const Tasks = () => {
 			) : (
 				<section className='flex flex-col items-center justify-center w-full h-full gap-20 py-4 mx-auto mt-20 pe-12 lg:px-24 grow'>
 
-					<Slide direction='left' className='relative w-full' cascade>
+					<Slide triggerOnce direction='left' className='relative w-full' cascade>
 						{tasks?.map((task) => (
 							<TaskLineFull task={task} key={task.$id} />
 						))}

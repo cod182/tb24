@@ -24,7 +24,7 @@ const ResultsContainer = ({ selectedTeam, winData }) => {
 						{winData.map((game, index: number) => {
 							if ("matches" in game && Array.isArray(game.matches)) {
 								return (
-									<Fade key={index} cascade delay={100 * index}>
+									<Fade triggerOnce key={index} cascade delay={100 * index}>
 										<li
 											className="w-full text-white"
 											aria-label={`Multiple matches won by ${selectedTeam} against ${game.matches[0]?.homeTeam === selectedTeam ? game.matches[0]?.awayTeam : game.matches[0]?.homeTeam}`}
@@ -35,7 +35,7 @@ const ResultsContainer = ({ selectedTeam, winData }) => {
 								);
 							} else
 								return (
-									<Fade key={index} cascade delay={100 * index}>
+									<Fade triggerOnce key={index} cascade delay={100 * index}>
 										<li
 											key={index}
 											className="w-full text-white"

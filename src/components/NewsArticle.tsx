@@ -12,7 +12,7 @@ const NewsArticle = ({ article }: Props) => {
 		<article className="flex-col items-center justify-center w-full h-full max-w-4xl mx-auto">
 
 			{/* Image Container */}
-			<Fade cascade>
+			<Fade triggerOnce cascade>
 				<div className="flex flex-col items-center justify-center mx-auto mb-6 w-fit">
 					<a
 						href={article.link}

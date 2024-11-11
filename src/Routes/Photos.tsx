@@ -36,7 +36,7 @@ const Photos = () => {
 				) : photos && (
 
 					<div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:gap-12">
-						<Fade cascade>
+						<Fade triggerOnce cascade>
 							<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80">
 								<div className="flex items-center justify-center w-full aspect-square text-white-children">
 									<AddImagePopUp userId={user?.$id} />

@@ -70,7 +70,7 @@ const SportsResultsArea = ({ sportItems }: Props) => {
 		<section className="flex flex-col items-center justify-center w-full h-full gap-4 py-4 lg:px-24">
 
 			{/* Input Area */}
-			<Fade className="z-[999]">
+			<Fade triggerOnce className="z-[999]">
 				<SearchInput
 					sportItems={sportItems}
 					setSelectedTeam={setSelectedTeam}

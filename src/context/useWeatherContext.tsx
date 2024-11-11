@@ -50,7 +50,6 @@ export const LocationProvider: React.FC<{ children: ReactNode }> = ({ children }
 export const useLocation = (): LocationContextType => {
 	const context = useContext(LocationContext);
 	if (!context) {
-		setError('')
 		throw new Error("useLocation must be used within a LocationProvider");
 	}
 	return context;
