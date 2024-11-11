@@ -29,22 +29,22 @@ export type TaskProps = {
 
 export type SportType = {
 	date: string;
-	time: string;
+	time?: string;
 	homeTeam: string;
 	awayTeam: string;
 	fullTimeHomeGoals: number;
 	fullTimeAwayGoals: number;
-	fullTimeResult: 'H' | 'D' | 'A' | 'N/A';
+	fullTimeResult: string;
 	halfTimeHomeGoals: number;
 	halfTimeAwayGoals: number;
-	halfTimeResult: 'H' | 'D' | 'A' | 'N/A';
+	halfTimeResult: string;
 	division: string;
 	attendance?: string | number;
 	referee?: string;
 	homeShots?: number;
 	awayShots?: number;
 	homeShotsOnTarget?: number;
-	awayShotsOnTarge?: number;
+	awayShotsOnTarget?: number;
 	homeHitWoodwork?: number;
 	awayHitWoodwork?: number;
 	homeCorners?: number;
@@ -67,7 +67,7 @@ export type SportType = {
 export type MatchType = {
 	Div: string; // League Division
 	Date: string; // Match Date (dd/mm/yy)
-	Time: string; // Time of match kick off
+	Time?: string; // Time of match kick off
 	HomeTeam: string; // Home Team
 	AwayTeam: string; // Away Team
 	FTHG: string; // Full Time Home Team Goals

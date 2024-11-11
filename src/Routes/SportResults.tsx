@@ -1,5 +1,5 @@
 import { BiError, BiWorld } from 'react-icons/bi';
-import { Loader, PageTitleWithNav } from '../components';
+import { Loader, PageTitleWithNav, SportsResultsArea } from '../components';
 import { useEffect, useState } from 'react';
 
 import { SportType } from '../../types/custom';
@@ -7,10 +7,12 @@ import bgImage from '../assets/media/images/dash-bg.webp';
 import { fetchSportData } from '../utils/functions';
 
 const SportResults = () => {
+	// STATES
 	const [sportItems, setSportItems] = useState<SportType[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string>();
 
+	// UseEffects
 	useEffect(() => {
 		const fetchSportsData = async () => {
 			setLoading(true);
@@ -44,16 +46,18 @@ const SportResults = () => {
 			<PageTitleWithNav title='Sport Results' navLink='/dashboard' titleStyles='text-5xl text-white capitalize md:text-7xl text-start' />
 
 			{error ? (
-				<Loader title='Error!' subText={error} icon={BiError} />
+				<div className='flex flex-col items-center justify-center w-full h-full grow'>
+					<Loader title='Error!' subText={error} icon={BiError} />
+				</div>
 			) : loading ? (
-				<div className='flex flex-col items-center justify-center w-full h-full'>
+				<div className='flex flex-col items-center justify-center w-full h-full grow'>
 					<Loader title='Loading Latest News!' subText='Please wait...' icon={BiWorld} />
 				</div>
 			) : sportItems.length > 0 ? (
 
-				<div>
-					{/* COMPONENT FOR SPORT SEARCH */}
-				</div>
+
+				<SportsResultsArea sportItems={sportItems} />
+
 
 			) : (
 				<div className="w-full max-w-md text-center text-white">

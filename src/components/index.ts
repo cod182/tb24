@@ -1,4 +1,3 @@
-
 export { default as AuthForm } from './Auth/AuthForm';
 export { default as ProtectedRoute } from './Auth/ProtectedRoute';
 export { default as DashboardPanel } from './Dashboard/DashboardPanel';
@@ -14,3 +13,4 @@ export { default as Photo } from './Photos/Photo'
 export { default as PageTitleWithNav } from './PageTitleWithNav'
 export { default as AddTaskPopUp } from './Tasks/AddTaskPopUp'
 export { default as TaskLine } from './Tasks/TaskLine'
+export { default as SportsResultsArea } from './Sports/SportsResultsArea'
