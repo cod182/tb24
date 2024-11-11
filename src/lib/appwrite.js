@@ -17,8 +17,14 @@ export const login = async (username, password) => {
 		const session = await account.createEmailPasswordSession(email, password);
 
 		return session;
-	} catch (error) {
-		throw new Error(error);
+	} catch (err) {
+
+
+		if (err.message === 'Invalid `email` param: Value must be a valid email address') {
+			throw new Error('Username must not contain spaces or special charachters')
+
+		}
+		throw new Error(err.message)
 	}
 }
 
@@ -58,15 +64,18 @@ export const createNewUser = async (email, password, username, image) => {
 
 		return newUser;
 	} catch (err) {
+		if (err.message === 'AppwriteException: Invalid `email` param: Value must be a valid email address') {
+			throw new Error('Username must not contain spaces or special charachters')
+		}
 		if (err.message === 'Email already exists') {
 			throw new Error('Username already exists')
-
-		} else if (err.message === 'Invalid `email` param: Value must be a valid email address') {
+		}
+		if (err.message === 'Invalid `email` param: Value must be a valid email address') {
 			throw new Error('Username is not valid');
 
-		} else {
-			throw new Error(err.message)
 		}
+		throw new Error(err.message)
+
 	}
 }
 
