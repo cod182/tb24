@@ -1,6 +1,7 @@
 import { AddImagePopUp, Loader, PageTitleWithNav, Photo } from '../components';
 import { BiError, BiPhotoAlbum } from 'react-icons/bi';
 
+import { Fade } from 'react-awesome-reveal';
 import { Navigate } from 'react-router-dom';
 import bgImage from '../assets/media/images/dash-bg.webp';
 import { useEffect } from 'react';
@@ -32,28 +33,26 @@ const Photos = () => {
 					<div className='flex flex-col items-center justify-center w-full h-full'>
 						<Loader title='Loading Your Photos' subText='Please wait...' icon={BiPhotoAlbum} />
 					</div>
-				) : photos && photos.length > 0 ? (
-					<div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:gap-12">
-						<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80">
-							<div className="flex items-center justify-center w-full aspect-square text-white-children">
-								<AddImagePopUp userId={user?.$id} />
-							</div>
-						</div>
+				) : photos && (
 
-						{photos.map((photo) => (
-							<div key={photo.$id} className="w-full max-w-[280px] mx-auto overflow-hidden rounded-lg border border-gray-300">
-								<div className="aspect-square">
-									<Photo photo={photo} />
+					<div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:gap-12">
+						<Fade cascade>
+							<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80">
+								<div className="flex items-center justify-center w-full aspect-square text-white-children">
+									<AddImagePopUp userId={user?.$id} />
 								</div>
 							</div>
-						))}
+
+							{photos.length > 0 && photos.map((photo) => (
+								<div key={photo.$id} className="w-full max-w-[280px] mx-auto overflow-hidden rounded-lg border border-gray-300">
+									<div className="aspect-square">
+										<Photo photo={photo} />
+									</div>
+								</div>
+							))}
+						</Fade>
 					</div>
-				) : (
-					<div className="w-full max-w-[280px] mx-auto h-auto flex flex-col items-start justify-center border-2 rounded-lg border-yellow-300 overflow-hidden bg-blue-950/80">
-						<div className="flex items-center justify-center w-full aspect-square text-white-children">
-							<AddImagePopUp userId={user?.$id} />
-						</div>
-					</div>
+
 				)}
 			</div>
 		</div>
