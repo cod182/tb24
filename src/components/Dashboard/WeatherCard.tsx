@@ -90,6 +90,7 @@ const WeatherCard = () => {
 	// Gets local weather using coordinates from OpenWeatherAPI
 	const fetchCurrentWeather = async () => {
 		if (!latitude || !longitude) return;
+		setLocationLoading(true);
 		setError('');
 		try {
 			const res = await fetch(
@@ -102,8 +103,10 @@ const WeatherCard = () => {
 			const icon = getWeatherIcon(data.weather[0].main);
 
 			setWeatherIcon(icon);
+			setLocationLoading(false);
 		} catch (error: unknown) {
 			setError((error as Error)?.message);
+			setLocationLoading(false);
 		}
 	};
 
