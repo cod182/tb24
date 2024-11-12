@@ -76,7 +76,7 @@ const AddImagePopUp = ({ userId }: { userId: string }) => {
 
 
 			<div className='flex flex-col items-center justify-center w-full h-full gap-2 cursor-pointer group' onClick={() => setPopUpState(true)} aria-expanded={popUpState ? 'true' : 'false'}>
-				<p className="text-3xl text-center transition-all duration-200 ease group-hover:text-yellow-300" id="addImagePopUpTitle">Add Photos</p>
+				<p className="text-3xl text-center transition-all duration-200 ease group-hover:text-yellow-300" id="addImagePopUpTitle">Add Photo</p>
 				<FcAddImage
 					className="w-16 h-16 group-hover:rotate-[10deg] transition-all duration-200 ease"
 					aria-label="Add Image Icon"

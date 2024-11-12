@@ -4,7 +4,7 @@ import React, { ReactNode, createContext, useContext, useEffect, useState } from
 interface LocationContextType {
 	latitude: number | null;
 	longitude: number | null;
-	updateLocation: () => void;
+	updateLocation: () => boolean;
 	error: string;
 	setError: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -27,10 +27,13 @@ export const LocationProvider: React.FC<{ children: ReactNode }> = ({ children }
 				},
 				(error) => {
 					setError(`Error fetching location: ${error.message}`)
+					return false;
 				}
 			);
+			return true
 		} else {
 			console.error("Geolocation is not supported by this browser.");
+			return false
 		}
 	};
 

@@ -55,12 +55,10 @@ const WeatherCard = () => {
 
 	const { latitude, longitude, updateLocation, error, setError } = useLocation();
 
-
-
-
 	const [locationLoading, setLocationLoading] = useState(false);
 	const [weatherData, setWeatherData] = useState<WeatherDataProps | undefined>();
 	const [weatherIcon, setWeatherIcon] = useState<string | undefined>();
+
 
 	// USE EFFECTS
 	useEffect(() => {
@@ -68,29 +66,32 @@ const WeatherCard = () => {
 	}, []);
 
 	useEffect(() => {
-		fetchCurrentWeather()
+		if (latitude && longitude) {
+			fetchCurrentWeather();
+		}
 	}, [latitude, longitude]);
 
 	// FUNCTIONS
 
 	const getWeather = async () => {
-		setLocationLoading(true);
 		setError('');
 		if (!latitude && !longitude) {
-			updateLocation();
-			if (latitude && longitude) {
+			setLocationLoading(true);
+			const location = updateLocation();
+			if (location) {
 				await fetchCurrentWeather();
 			}
 		} else {
 			fetchCurrentWeather();
 		}
-		setLocationLoading(false);
 	}
 
 	// Gets local weather using coordinates from OpenWeatherAPI
 	const fetchCurrentWeather = async () => {
-		if (!latitude || !longitude) return;
 		setLocationLoading(true);
+
+		if (!latitude || !longitude) return;
+
 		setError('');
 		try {
 			const res = await fetch(
@@ -116,7 +117,6 @@ const WeatherCard = () => {
 				<Loader title="Error!" subText={error} icon={BiError} refresh={getWeather} />
 			) : locationLoading ? (
 				<Loader title="Loading Weather" subText={'Please allow location access'} icon={BiWorld} />
-
 			) : (
 				<div className="flex flex-col items-center justify-center w-full h-full">
 					<div className="flex flex-row items-center justify-between w-full gap-2 mb-4">
