@@ -25,7 +25,7 @@ const TasksCard = () => {
 						<Loader title='Error!' subText={error} icon={BiError} />
 					)
 					: loading ? (
-						<Loader title='Loading News' subText='Please wait...' icon={GoTasklist} />
+						<Loader title='Loading Tasks' subText='Please wait...' icon={GoTasklist} />
 					)
 						:
 						(tasks && tasks.length > 0) ?

@@ -57,7 +57,7 @@ const LatestNewsArticle = () => {
 				<NewsArticle article={feedItems[0]} />
 			) : (
 				<div className="w-full max-w-md text-center text-white">
-					<Loader title='No News Found!' subText='Please wait...' icon={BiWorld} />
+					<Loader title='No News Found!' icon={BiWorld} refresh={fetchRSSFeed} />
 				</div>
 			)}
 		</div>
